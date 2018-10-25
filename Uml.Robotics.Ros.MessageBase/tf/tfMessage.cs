@@ -8,7 +8,9 @@ namespace Messages.tf
 {
     public class tfMessage : RosMessage
     {
+
         public Messages.geometry_msgs.TransformStamped[] transforms;
+
 
         public override string MD5Sum() { return "94810edda583a504dfda3829e70d7eec"; }
         public override bool HasHeader() { return false; }
@@ -19,6 +21,7 @@ namespace Messages.tf
 
         public tfMessage()
         {
+
         }
 
         public tfMessage(byte[] serializedMessage)
@@ -30,6 +33,8 @@ namespace Messages.tf
         {
             Deserialize(serializedMessage, ref currentIndex);
         }
+
+
 
         public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
         {
@@ -44,7 +49,8 @@ namespace Messages.tf
                 transforms = new Messages.geometry_msgs.TransformStamped[arraylength];
             else
                 Array.Resize(ref transforms, arraylength);
-            for (int i=0;i<transforms.Length; i++) {
+            for (int i = 0; i < transforms.Length; i++)
+            {
                 //transforms[i]
                 transforms[i] = new Messages.geometry_msgs.TransformStamped(serializedMessage, ref currentIndex);
             }
@@ -60,19 +66,20 @@ namespace Messages.tf
             if (transforms == null)
                 transforms = new Messages.geometry_msgs.TransformStamped[0];
             pieces.Add(BitConverter.GetBytes(transforms.Length));
-            for (int i=0;i<transforms.Length; i++) {
+            for (int i = 0; i < transforms.Length; i++)
+            {
                 //transforms[i]
                 if (transforms[i] == null)
                     transforms[i] = new Messages.geometry_msgs.TransformStamped();
                 pieces.Add(transforms[i].Serialize(true));
             }
             // combine every array in pieces into one array and return it
-            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
-            int __a_b__e=0;
+            int __a_b__f = pieces.Sum((__a_b__c) => __a_b__c.Length);
+            int __a_b__e = 0;
             byte[] __a_b__d = new byte[__a_b__f];
-            foreach(var __p__ in pieces)
+            foreach (var __p__ in pieces)
             {
-                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                Array.Copy(__p__, 0, __a_b__d, __a_b__e, __p__.Length);
                 __a_b__e += __p__.Length;
             }
             return __a_b__d;
@@ -89,7 +96,8 @@ namespace Messages.tf
                 transforms = new Messages.geometry_msgs.TransformStamped[arraylength];
             else
                 Array.Resize(ref transforms, arraylength);
-            for (int i=0;i<transforms.Length; i++) {
+            for (int i = 0; i < transforms.Length; i++)
+            {
                 //transforms[i]
                 transforms[i] = new Messages.geometry_msgs.TransformStamped();
                 transforms[i].Randomize();
@@ -98,16 +106,15 @@ namespace Messages.tf
 
         public override bool Equals(RosMessage ____other)
         {
+            if (____other == null)
+                return false;
+            bool ret = true;
             var other = ____other as Messages.tf.tfMessage;
             if (other == null)
                 return false;
-
             if (transforms.Length != other.transforms.Length)
                 return false;
-
-            bool ret = true;
-
-            for (int __i__=0; __i__ < transforms.Length; __i__++)
+            for (int __i__ = 0; __i__ < transforms.Length; __i__++)
             {
                 ret &= transforms[__i__].Equals(other.transforms[__i__]);
             }

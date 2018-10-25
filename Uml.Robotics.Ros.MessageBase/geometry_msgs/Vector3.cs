@@ -4,14 +4,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Uml.Robotics.Ros;
 
-
 namespace Messages.geometry_msgs
 {
     public class Vector3 : RosMessage
     {
+
         public double x;
         public double y;
         public double z;
+
 
         public override string MD5Sum() { return "4a842b65f413084dc2b10fb484ea7f17"; }
         public override bool HasHeader() { return false; }
@@ -24,6 +25,7 @@ float64 z"; }
 
         public Vector3()
         {
+
         }
 
         public Vector3(byte[] serializedMessage)
@@ -35,6 +37,8 @@ float64 z"; }
         {
             Deserialize(serializedMessage, ref currentIndex);
         }
+
+
 
         public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
         {
@@ -52,7 +56,7 @@ float64 z"; }
             if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
             x = (double)Marshal.PtrToStructure(h, typeof(double));
             Marshal.FreeHGlobal(h);
-            currentIndex+= piecesize;
+            currentIndex += piecesize;
             //y
             piecesize = Marshal.SizeOf(typeof(double));
             h = IntPtr.Zero;
@@ -64,7 +68,7 @@ float64 z"; }
             if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
             y = (double)Marshal.PtrToStructure(h, typeof(double));
             Marshal.FreeHGlobal(h);
-            currentIndex+= piecesize;
+            currentIndex += piecesize;
             //z
             piecesize = Marshal.SizeOf(typeof(double));
             h = IntPtr.Zero;
@@ -76,7 +80,7 @@ float64 z"; }
             if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
             z = (double)Marshal.PtrToStructure(h, typeof(double));
             Marshal.FreeHGlobal(h);
-            currentIndex+= piecesize;
+            currentIndex += piecesize;
         }
 
         public override byte[] Serialize(bool partofsomethingelse)
@@ -104,12 +108,12 @@ float64 z"; }
             h.Free();
             pieces.Add(scratch1);
             // combine every array in pieces into one array and return it
-            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
-            int __a_b__e=0;
+            int __a_b__f = pieces.Sum((__a_b__c) => __a_b__c.Length);
+            int __a_b__e = 0;
             byte[] __a_b__d = new byte[__a_b__f];
-            foreach(var __p__ in pieces)
+            foreach (var __p__ in pieces)
             {
-                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                Array.Copy(__p__, 0, __a_b__d, __a_b__e, __p__.Length);
                 __a_b__e += __p__.Length;
             }
             return __a_b__d;
@@ -129,12 +133,12 @@ float64 z"; }
 
         public override bool Equals(RosMessage ____other)
         {
+            if (____other == null)
+                return false;
+            bool ret = true;
             var other = ____other as Messages.geometry_msgs.Vector3;
             if (other == null)
                 return false;
-
-            bool ret = true;
-
             ret &= x == other.x;
             ret &= y == other.y;
             ret &= z == other.z;

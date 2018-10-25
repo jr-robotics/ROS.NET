@@ -5,14 +5,15 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Uml.Robotics.Ros;
 
-
 namespace Messages.std_msgs
 {
     public class Header : RosMessage
     {
-        public uint seq = new uint();
+
+        public uint seq;
         public Time stamp = new Time();
         public string frame_id = "";
+
 
         public override string MD5Sum() { return "2176decaecbce78abc3b96ef049fabed"; }
         public override bool HasHeader() { return false; }
@@ -25,6 +26,7 @@ string frame_id"; }
 
         public Header()
         {
+
         }
 
         public Header(byte[] serializedMessage)
@@ -37,9 +39,11 @@ string frame_id"; }
             Deserialize(serializedMessage, ref currentIndex);
         }
 
+
+
         public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
         {
-            int piecesize;
+            int piecesize = 0;
             IntPtr h;
 
             //seq
@@ -50,16 +54,15 @@ string frame_id"; }
                 h = Marshal.AllocHGlobal(piecesize);
                 Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
             }
-            if (h == IntPtr.Zero)
-                throw new Exception("Memory allocation failed");
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
             seq = (uint)Marshal.PtrToStructure(h, typeof(uint));
             Marshal.FreeHGlobal(h);
-            currentIndex+= piecesize;
+            currentIndex += piecesize;
             //stamp
             stamp = new Time(new TimeData(
-                    BitConverter.ToUInt32(serializedMessage, currentIndex),
-                    BitConverter.ToUInt32(serializedMessage, currentIndex+Marshal.SizeOf(typeof(System.Int32)))));
-            currentIndex += 2*Marshal.SizeOf(typeof(System.Int32));
+                    BitConverter.ToInt32(serializedMessage, currentIndex),
+                    BitConverter.ToInt32(serializedMessage, currentIndex + Marshal.SizeOf(typeof(System.Int32)))));
+            currentIndex += 2 * Marshal.SizeOf(typeof(System.Int32));
             //frame_id
             frame_id = "";
             piecesize = BitConverter.ToInt32(serializedMessage, currentIndex);
@@ -93,12 +96,12 @@ string frame_id"; }
             Array.Copy(scratch2, thischunk, 4);
             pieces.Add(thischunk);
             // combine every array in pieces into one array and return it
-            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
-            int __a_b__e=0;
+            int __a_b__f = pieces.Sum((__a_b__c) => __a_b__c.Length);
+            int __a_b__e = 0;
             byte[] __a_b__d = new byte[__a_b__f];
-            foreach(var __p__ in pieces)
+            foreach (var __p__ in pieces)
             {
-                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                Array.Copy(__p__, 0, __a_b__d, __a_b__e, __p__.Length);
                 __a_b__e += __p__.Length;
             }
             return __a_b__d;
@@ -114,8 +117,8 @@ string frame_id"; }
             seq = (uint)rand.Next();
             //stamp
             stamp = new Time(new TimeData(
-                    Convert.ToUInt32(rand.Next()),
-                    Convert.ToUInt32(rand.Next())));
+                    Convert.ToInt32(rand.Next()),
+                    Convert.ToInt32(rand.Next())));
             //frame_id
             strlength = rand.Next(100) + 1;
             strbuf = new byte[strlength];
@@ -129,11 +132,12 @@ string frame_id"; }
 
         public override bool Equals(RosMessage ____other)
         {
+            if (____other == null)
+                return false;
+            bool ret = true;
             var other = ____other as Messages.std_msgs.Header;
             if (other == null)
                 return false;
-
-            bool ret = true;
             ret &= seq == other.seq;
             ret &= stamp.data.Equals(other.stamp.data);
             ret &= frame_id == other.frame_id;

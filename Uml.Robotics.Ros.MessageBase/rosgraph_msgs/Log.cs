@@ -5,26 +5,25 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Uml.Robotics.Ros;
 
-using Messages.std_msgs;
-
 namespace Messages.rosgraph_msgs
 {
     public class Log : RosMessage
     {
+
         public const byte DEBUG = 1;
         public const byte INFO = 2;
         public const byte WARN = 4;
         public const byte ERROR = 8;
         public const byte FATAL = 16;
-
-        public Header header = new Header();
-        public byte level = new byte();
+        public Messages.std_msgs.Header header = new Messages.std_msgs.Header();
+        public byte level;
         public string name = "";
         public string msg = "";
         public string file = "";
         public string function = "";
-        public uint line = new uint();
+        public uint line;
         public string[] topics;
+
 
         public override string MD5Sum() { return "acffd30cd6b6de30f120938c17c593fb"; }
         public override bool HasHeader() { return true; }
@@ -47,6 +46,7 @@ string[] topics"; }
 
         public Log()
         {
+
         }
 
         public Log(byte[] serializedMessage)
@@ -59,6 +59,8 @@ string[] topics"; }
             Deserialize(serializedMessage, ref currentIndex);
         }
 
+
+
         public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
         {
             int arraylength = -1;
@@ -67,9 +69,9 @@ string[] topics"; }
             IntPtr h;
 
             //header
-            header = new Header(serializedMessage, ref currentIndex);
+            header = new Messages.std_msgs.Header(serializedMessage, ref currentIndex);
             //level
-            level=serializedMessage[currentIndex++];
+            level = serializedMessage[currentIndex++];
             //name
             name = "";
             piecesize = BitConverter.ToInt32(serializedMessage, currentIndex);
@@ -102,11 +104,10 @@ string[] topics"; }
                 h = Marshal.AllocHGlobal(piecesize);
                 Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
             }
-            if (h == IntPtr.Zero)
-                throw new Exception("Memory allocation failed");
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
             line = (uint)Marshal.PtrToStructure(h, typeof(uint));
             Marshal.FreeHGlobal(h);
-            currentIndex+= piecesize;
+            currentIndex += piecesize;
             //topics
             hasmetacomponents |= false;
             arraylength = BitConverter.ToInt32(serializedMessage, currentIndex);
@@ -115,7 +116,8 @@ string[] topics"; }
                 topics = new string[arraylength];
             else
                 Array.Resize(ref topics, arraylength);
-            for (int i=0;i<topics.Length; i++) {
+            for (int i = 0; i < topics.Length; i++)
+            {
                 //topics[i]
                 topics[i] = "";
                 piecesize = BitConverter.ToInt32(serializedMessage, currentIndex);
@@ -134,7 +136,7 @@ string[] topics"; }
 
             //header
             if (header == null)
-                header = new Header();
+                header = new Messages.std_msgs.Header();
             pieces.Add(header.Serialize(true));
             //level
             pieces.Add(new[] { (byte)level });
@@ -185,7 +187,8 @@ string[] topics"; }
             if (topics == null)
                 topics = new string[0];
             pieces.Add(BitConverter.GetBytes(topics.Length));
-            for (int i=0;i<topics.Length; i++) {
+            for (int i = 0; i < topics.Length; i++)
+            {
                 //topics[i]
                 if (topics[i] == null)
                     topics[i] = "";
@@ -197,12 +200,12 @@ string[] topics"; }
                 pieces.Add(thischunk);
             }
             // combine every array in pieces into one array and return it
-            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
-            int __a_b__e=0;
+            int __a_b__f = pieces.Sum((__a_b__c) => __a_b__c.Length);
+            int __a_b__e = 0;
             byte[] __a_b__d = new byte[__a_b__f];
-            foreach(var __p__ in pieces)
+            foreach (var __p__ in pieces)
             {
-                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                Array.Copy(__p__, 0, __a_b__d, __a_b__e, __p__.Length);
                 __a_b__e += __p__.Length;
             }
             return __a_b__d;
@@ -216,12 +219,12 @@ string[] topics"; }
             byte[] strbuf, myByte;
 
             //header
-            header = new Header();
+            header = new Messages.std_msgs.Header();
             header.Randomize();
             //level
             myByte = new byte[1];
             rand.NextBytes(myByte);
-            level= myByte[0];
+            level = myByte[0];
             //name
             strlength = rand.Next(100) + 1;
             strbuf = new byte[strlength];
@@ -266,7 +269,8 @@ string[] topics"; }
                 topics = new string[arraylength];
             else
                 Array.Resize(ref topics, arraylength);
-            for (int i=0;i<topics.Length; i++) {
+            for (int i = 0; i < topics.Length; i++)
+            {
                 //topics[i]
                 strlength = rand.Next(100) + 1;
                 strbuf = new byte[strlength];
@@ -281,12 +285,12 @@ string[] topics"; }
 
         public override bool Equals(RosMessage ____other)
         {
+            if (____other == null)
+                return false;
+            bool ret = true;
             var other = ____other as Messages.rosgraph_msgs.Log;
             if (other == null)
                 return false;
-
-            bool ret = true;
-
             ret &= header.Equals(other.header);
             ret &= level == other.level;
             ret &= name == other.name;
@@ -296,7 +300,7 @@ string[] topics"; }
             ret &= line == other.line;
             if (topics.Length != other.topics.Length)
                 return false;
-            for (int __i__=0; __i__ < topics.Length; __i__++)
+            for (int __i__ = 0; __i__ < topics.Length; __i__++)
             {
                 ret &= topics[__i__] == other.topics[__i__];
             }

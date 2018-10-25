@@ -705,16 +705,16 @@ namespace FauxMessages
                 return string.Format(@"
 {0}//{1}
 {0}{1} = new {2}(new TimeData(
-{0}        BitConverter.ToUInt32(serializedMessage, currentIndex),
-{0}        BitConverter.ToUInt32(serializedMessage, currentIndex+Marshal.SizeOf(typeof(System.Int32)))));
+{0}        BitConverter.ToInt32(serializedMessage, currentIndex),
+{0}        BitConverter.ToInt32(serializedMessage, currentIndex+Marshal.SizeOf(typeof(System.Int32)))));
 {0}currentIndex += 2*Marshal.SizeOf(typeof(System.Int32));", leadingWhitespace, name, pt);
             }
             else if (type == "TimeData")
                 return string.Format(@"
 {0}//{1}
-{0}{1}.sec = BitConverter.ToUInt32(serializedMessage, currentIndex);
+{0}{1}.sec = BitConverter.ToInt32(serializedMessage, currentIndex);
 {0}currentIndex += Marshal.SizeOf(typeof(System.Int32));
-{0}{1}.nsec  = BitConverter.ToUInt32(serializedMessage, currentIndex);
+{0}{1}.nsec  = BitConverter.ToInt32(serializedMessage, currentIndex);
 {0}currentIndex += Marshal.SizeOf(typeof(System.Int32));", leadingWhitespace, name);
             else if (type == "byte")
             {
@@ -840,14 +840,14 @@ namespace FauxMessages
                 return string.Format(@"
 {0}//{1}
 {0}{1} = new {2}(new TimeData(
-{0}        Convert.ToUInt32(rand.Next()),
-{0}        Convert.ToUInt32(rand.Next())));", leadingWhitespace, name, pt);
+{0}        Convert.ToInt32(rand.Next()),
+{0}        Convert.ToInt32(rand.Next())));", leadingWhitespace, name, pt);
             }
             else if (type == "TimeData")
                 return string.Format(@"
 {0}//{1}
-{0}{1}.sec = Convert.ToUInt32(rand.Next());
-{0}{1}.nsec  = Convert.ToUInt32(rand.Next());", leadingWhitespace, name);
+{0}{1}.sec = Convert.ToInt32(rand.Next());
+{0}{1}.nsec  = Convert.ToInt32(rand.Next());", leadingWhitespace, name);
             else if (type == "byte")
             {
                 return string.Format(@"
