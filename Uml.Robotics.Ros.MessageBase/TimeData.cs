@@ -32,7 +32,7 @@ namespace Uml.Robotics.Ros
 
         public static TimeData FromTicks(long ticks)
         {
-            long seconds = (((long)Math.Floor(1.0 * ticks / TimeSpan.TicksPerSecond)));
+            long seconds = (long)Math.Floor(ticks / (double)TimeSpan.TicksPerSecond);
             long nanoseconds = 100 * (ticks % TimeSpan.TicksPerSecond);
             return new TimeData((int)seconds, (int)nanoseconds);
         }
