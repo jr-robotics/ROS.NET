@@ -6,10 +6,10 @@ namespace Uml.Robotics.Ros
     {
         public static readonly TimeData Zero = new TimeData(0, 0);
 
-        public uint sec;
-        public uint nsec;
+        public int sec;
+        public int nsec;
 
-        public TimeData(uint s, uint ns)
+        public TimeData(int s, int ns)
         {
             sec = s;
             nsec = ns;
@@ -32,14 +32,9 @@ namespace Uml.Robotics.Ros
 
         public static TimeData FromTicks(long ticks)
         {
-            return FromTicks((ulong)ticks);
-        }
-
-        public static TimeData FromTicks(ulong ticks)
-        {
-            ulong seconds = (((ulong)Math.Floor(1.0 * ticks / TimeSpan.TicksPerSecond)));
-            ulong nanoseconds = 100 * (ticks % TimeSpan.TicksPerSecond);
-            return new TimeData((uint)seconds, (uint)nanoseconds);
+            long seconds = (long)Math.Floor(ticks / (double)TimeSpan.TicksPerSecond);
+            long nanoseconds = 100 * (ticks % TimeSpan.TicksPerSecond);
+            return new TimeData((int)seconds, (int)nanoseconds);
         }
 
         public static TimeData FromTimeSpan(TimeSpan value)

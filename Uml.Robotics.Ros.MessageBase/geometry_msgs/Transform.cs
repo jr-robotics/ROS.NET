@@ -4,13 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Uml.Robotics.Ros;
 
-
 namespace Messages.geometry_msgs
 {
     public class Transform : RosMessage
     {
-		public Messages.geometry_msgs.Vector3 translation = new Messages.geometry_msgs.Vector3();
-		public Messages.geometry_msgs.Quaternion rotation = new Messages.geometry_msgs.Quaternion();
+
+        public Messages.geometry_msgs.Vector3 translation = new Messages.geometry_msgs.Vector3();
+        public Messages.geometry_msgs.Quaternion rotation = new Messages.geometry_msgs.Quaternion();
+
 
         public override string MD5Sum() { return "ac9eff44abf714214112b05d54a3cf9b"; }
         public override bool HasHeader() { return false; }
@@ -22,6 +23,7 @@ Quaternion rotation"; }
 
         public Transform()
         {
+
         }
 
         public Transform(byte[] serializedMessage)
@@ -34,8 +36,11 @@ Quaternion rotation"; }
             Deserialize(serializedMessage, ref currentIndex);
         }
 
+
+
         public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
         {
+
             //translation
             translation = new Messages.geometry_msgs.Vector3(serializedMessage, ref currentIndex);
             //rotation
@@ -55,12 +60,12 @@ Quaternion rotation"; }
                 rotation = new Messages.geometry_msgs.Quaternion();
             pieces.Add(rotation.Serialize(true));
             // combine every array in pieces into one array and return it
-            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
-            int __a_b__e=0;
+            int __a_b__f = pieces.Sum((__a_b__c) => __a_b__c.Length);
+            int __a_b__e = 0;
             byte[] __a_b__d = new byte[__a_b__f];
-            foreach(var __p__ in pieces)
+            foreach (var __p__ in pieces)
             {
-                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                Array.Copy(__p__, 0, __a_b__d, __a_b__e, __p__.Length);
                 __a_b__e += __p__.Length;
             }
             return __a_b__d;
@@ -80,12 +85,12 @@ Quaternion rotation"; }
 
         public override bool Equals(RosMessage ____other)
         {
+            if (____other == null)
+                return false;
+            bool ret = true;
             var other = ____other as Messages.geometry_msgs.Transform;
             if (other == null)
                 return false;
-
-            bool ret = true;
-
             ret &= translation.Equals(other.translation);
             ret &= rotation.Equals(other.rotation);
             // for each SingleType st:

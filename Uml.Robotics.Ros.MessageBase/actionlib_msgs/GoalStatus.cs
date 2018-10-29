@@ -9,20 +9,21 @@ namespace Messages.actionlib_msgs
 {
     public class GoalStatus : RosMessage
     {
-        public const byte PENDING         = 0;
-        public const byte ACTIVE          = 1;
-        public const byte PREEMPTED       = 2;
-        public const byte SUCCEEDED       = 3;
-        public const byte ABORTED         = 4;
-        public const byte REJECTED        = 5;
-        public const byte PREEMPTING      = 6;
-        public const byte RECALLING       = 7;
-        public const byte RECALLED        = 8;
-        public const byte LOST            = 9;
 
+        public const byte PENDING = 0;
+        public const byte ACTIVE = 1;
+        public const byte PREEMPTED = 2;
+        public const byte SUCCEEDED = 3;
+        public const byte ABORTED = 4;
+        public const byte REJECTED = 5;
+        public const byte PREEMPTING = 6;
+        public const byte RECALLING = 7;
+        public const byte RECALLED = 8;
+        public const byte LOST = 9;
         public Messages.actionlib_msgs.GoalID goal_id = new Messages.actionlib_msgs.GoalID();
-        public byte status = new byte();
+        public byte status;
         public string text = "";
+
 
         public override string MD5Sum() { return "d388f9b87b3c471f784434d671988d4a"; }
         public override bool HasHeader() { return false; }
@@ -45,6 +46,7 @@ string text"; }
 
         public GoalStatus()
         {
+
         }
 
         public GoalStatus(byte[] serializedMessage)
@@ -57,6 +59,8 @@ string text"; }
             Deserialize(serializedMessage, ref currentIndex);
         }
 
+
+
         public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
         {
             int piecesize = 0;
@@ -64,7 +68,7 @@ string text"; }
             //goal_id
             goal_id = new Messages.actionlib_msgs.GoalID(serializedMessage, ref currentIndex);
             //status
-            status=serializedMessage[currentIndex++];
+            status = serializedMessage[currentIndex++];
             //text
             text = "";
             piecesize = BitConverter.ToInt32(serializedMessage, currentIndex);
@@ -94,12 +98,12 @@ string text"; }
             Array.Copy(scratch2, thischunk, 4);
             pieces.Add(thischunk);
             // combine every array in pieces into one array and return it
-            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
-            int __a_b__e=0;
+            int __a_b__f = pieces.Sum((__a_b__c) => __a_b__c.Length);
+            int __a_b__e = 0;
             byte[] __a_b__d = new byte[__a_b__f];
-            foreach(var __p__ in pieces)
+            foreach (var __p__ in pieces)
             {
-                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                Array.Copy(__p__, 0, __a_b__d, __a_b__e, __p__.Length);
                 __a_b__e += __p__.Length;
             }
             return __a_b__d;
@@ -117,7 +121,7 @@ string text"; }
             //status
             myByte = new byte[1];
             rand.NextBytes(myByte);
-            status= myByte[0];
+            status = myByte[0];
             //text
             strlength = rand.Next(100) + 1;
             strbuf = new byte[strlength];
@@ -131,12 +135,12 @@ string text"; }
 
         public override bool Equals(RosMessage ____other)
         {
+            if (____other == null)
+                return false;
+            bool ret = true;
             var other = ____other as Messages.actionlib_msgs.GoalStatus;
             if (other == null)
                 return false;
-
-            bool ret = true;
-
             ret &= goal_id.Equals(other.goal_id);
             ret &= status == other.status;
             ret &= text == other.text;

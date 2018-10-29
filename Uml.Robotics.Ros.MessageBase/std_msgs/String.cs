@@ -5,12 +5,13 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Uml.Robotics.Ros;
 
-
 namespace Messages.std_msgs
 {
     public class String : RosMessage
     {
+
         public string data = "";
+
 
         public override string MD5Sum() { return "992ce8a1687cec8c8bd883ec73ca41d1"; }
         public override bool HasHeader() { return false; }
@@ -21,6 +22,9 @@ namespace Messages.std_msgs
 
         public String()
         {
+            if (data == null)
+                data = "";
+
         }
 
         public String(byte[] serializedMessage)
@@ -33,10 +37,12 @@ namespace Messages.std_msgs
             Deserialize(serializedMessage, ref currentIndex);
         }
 
+
         public String(string d)
         {
             data = d;
         }
+
 
         public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
         {
@@ -65,12 +71,12 @@ namespace Messages.std_msgs
             Array.Copy(scratch2, thischunk, 4);
             pieces.Add(thischunk);
             // combine every array in pieces into one array and return it
-            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
-            int __a_b__e=0;
+            int __a_b__f = pieces.Sum((__a_b__c) => __a_b__c.Length);
+            int __a_b__e = 0;
             byte[] __a_b__d = new byte[__a_b__f];
-            foreach(var __p__ in pieces)
+            foreach (var __p__ in pieces)
             {
-                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                Array.Copy(__p__, 0, __a_b__d, __a_b__e, __p__.Length);
                 __a_b__e += __p__.Length;
             }
             return __a_b__d;
@@ -95,12 +101,12 @@ namespace Messages.std_msgs
 
         public override bool Equals(RosMessage ____other)
         {
+            if (____other == null)
+                return false;
+            bool ret = true;
             var other = ____other as Messages.std_msgs.String;
             if (other == null)
                 return false;
-
-            bool ret = true;
-
             ret &= data == other.data;
             // for each SingleType st:
             //    ret &= {st.Name} == other.{st.Name};
