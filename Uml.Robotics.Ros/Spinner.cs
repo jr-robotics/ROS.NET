@@ -33,14 +33,14 @@ namespace Uml.Robotics.Ros
             Logger.LogCritical("CallbackQueue thread broke out! This only can happen if ROS.ok is false.");
         }
 
-        public void Spin(CancellationToken token)
+        public void Spin(CancellationToken cancel = default(CancellationToken))
         {
             Logger.LogInformation("Start spinning");
             while (ROS.OK)
             {
                 callbackQueue.CallAvailable(ROS.WallDuration);
 
-                if (token.IsCancellationRequested)
+                if (cancel.IsCancellationRequested)
                     break;
 
                 Thread.Yield();
