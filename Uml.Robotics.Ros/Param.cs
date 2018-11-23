@@ -163,11 +163,16 @@ namespace Uml.Robotics.Ros
             return payload;
         }
 
-        private static bool SafeGet<T>(string key, out T dest, T def = default(T))
+        private static bool SafeGet<T>(string key, out T dest, bool useCache = false)
+        {
+            return SafeGetDefault(key, out dest, default(T), useCache);
+        }
+
+        private static bool SafeGetDefault<T>(string key, out T dest, T def = default(T), bool useCache = false)
         {
             try
             {
-                XmlRpcValue v = GetParam(key);
+                XmlRpcValue v = GetParam(key, useCache);
                 if (v == null || !v.IsEmpty)
                 {
                     if (def == null)
@@ -271,53 +276,53 @@ namespace Uml.Robotics.Ros
             return result;
         }
 
-        public static int GetInt(string key) =>
-            GetParamChecked(key).GetInt();
+        public static int GetInt(string key, bool useCache = true) =>
+            GetParamChecked(key, useCache).GetInt();
 
-        public static bool GetBool(string key) =>
-            GetParamChecked(key).GetBool();
+        public static bool GetBool(string key, bool useCache = true) =>
+            GetParamChecked(key, useCache).GetBool();
 
-        public static double GetDouble(string key) =>
-            GetParamChecked(key).GetDouble();
+        public static double GetDouble(string key, bool useCache = true) =>
+            GetParamChecked(key, useCache).GetDouble();
 
-        public static string GetString(string key) =>
-            GetParamChecked(key).GetString();
+        public static string GetString(string key, bool useCache = true) =>
+            GetParamChecked(key, useCache).GetString();
 
-        public static DateTime GetDateTime(string key)
+        public static DateTime GetDateTime(string key, bool useCache = true)
         {
-            var rpcResult = GetParamTypeChecked(key, XmlRpcType.DateTime);
+            var rpcResult = GetParamTypeChecked(key, XmlRpcType.DateTime, useCache);
             return rpcResult.GetDateTime();
         }
 
-        public static byte[] GetBinary(string key)
+        public static byte[] GetBinary(string key, bool useCache = true)
         {
-            var rpcResult = GetParamTypeChecked(key, XmlRpcType.Base64);
+            var rpcResult = GetParamTypeChecked(key, XmlRpcType.Base64, useCache);
             return rpcResult.GetBinary();
         }
 
-        public static bool Get(string key, out XmlRpcValue dest) =>
-            SafeGet(key, out dest);
+        public static bool Get(string key, out XmlRpcValue dest, bool useCache = true) =>
+            SafeGet(key, out dest, useCache);
 
-        public static bool Get(string key, out bool dest) =>
-            SafeGet(key, out dest);
+        public static bool Get(string key, out bool dest, bool useCache = true) =>
+            SafeGet(key, out dest, useCache);
 
-        public static bool Get(string key, out bool dest, bool def) =>
-            SafeGet(key, out dest, def);
+        public static bool Get(string key, out bool dest, bool def, bool useCache = true) =>
+            SafeGetDefault(key, out dest, def, useCache);
 
-        public static bool Get(string key, out int dest) =>
-            SafeGet(key, out dest);
+        public static bool Get(string key, out int dest, bool useCache = true) =>
+            SafeGet(key, out dest, useCache);
 
-        public static bool Get(string key, out int dest, int def) =>
-            SafeGet(key, out dest, def);
+        public static bool Get(string key, out int dest, int def, bool useCache = true) =>
+            SafeGetDefault(key, out dest, def, useCache);
 
-        public static bool Get(string key, out double dest) =>
-            SafeGet(key, out dest);
+        public static bool Get(string key, out double dest, bool useCache = true) =>
+            SafeGet(key, out dest, useCache);
 
-        public static bool Get(string key, out double dest, double def) =>
-            SafeGet(key, out dest, def);
+        public static bool Get(string key, out double dest, double def, bool useCache = true) =>
+            SafeGetDefault(key, out dest, def, useCache);
 
-        public static bool Get(string key, out string dest, string def = null) =>
-            SafeGet(key, out dest, def);
+        public static bool Get(string key, out string dest, string def = null, bool useCache = true) =>
+            SafeGetDefault(key, out dest, def, useCache);
 
         public static async Task<IList<string>> List()
         {
@@ -433,11 +438,7 @@ namespace Uml.Robotics.Ros
 
             lock (gate)
             {
-                if (!cachedValues.ContainsKey(key))
-                    cachedValues.Add(key, value);
-                else
-                    cachedValues[key] = value;
-
+                cachedValues[key] = value;
                 if (!subscriptions.TryGetValue(key, out callbacks))
                     return;
 
@@ -461,8 +462,6 @@ namespace Uml.Robotics.Ros
             val.Set(0, 1);
             val.Set(1, "");
             val.Set(2, 0);
-            //update(XmlRpcValue.LookUp(parm)[1].Get<string>(), XmlRpcValue.LookUp(parm)[2]);
-            /// TODO: check carefully this stuff. It looks strange
             Update(val[1].GetString(), val[2]);
         }
 
@@ -493,7 +492,7 @@ namespace Uml.Robotics.Ros
             {
                 lock (gate)
                 {
-                    cachedValues.Add(mappepKey, resultValue.Clone());
+                    cachedValues[mappepKey] = resultValue.Clone();
                 }
             }
 
@@ -527,7 +526,7 @@ namespace Uml.Robotics.Ros
             {
                 lock (gate)
                 {
-                    cachedValues.Add(mappepKey, value);
+                    cachedValues[mappepKey] = value;
                 }
             }
 
