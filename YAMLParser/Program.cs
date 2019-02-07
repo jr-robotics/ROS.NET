@@ -164,7 +164,7 @@ namespace YAMLParser
             actionFiles = actionFileParser.GenerateRosMessageClasses();
             //var actionFiles = new List<ActionFile>();
 
-            if (paths.Count + pathssrv.Count > 0)
+            if (paths.Count + pathssrv.Count+actionFiles.Count > 0)
             {
                 MakeTempDir(outputdir);
                 GenerateFiles(msgsFiles, srvFiles, actionFiles, outputdir);

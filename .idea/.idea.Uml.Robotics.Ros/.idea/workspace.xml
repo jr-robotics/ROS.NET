@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3455cacc-c971-469e-8a52-f9d96b10cc06" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Samples/ActionClientSample/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Samples/ActionClientSample/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Samples/ActionServerSample/ActionServerSample.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Samples/ActionServerSample/ActionServerSample.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Samples/ActionServerSample/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Samples/ActionServerSample/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/Uml.Robotics.Ros.MessageBase.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/Uml.Robotics.Ros.MessageBase.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uml.Robotics.Ros.Transforms/Uml.Robotics.Ros.Transforms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Uml.Robotics.Ros.Transforms/Uml.Robotics.Ros.Transforms.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uml.Robotics.Ros.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Uml.Robotics.Ros.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionServer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionServer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uml.Robotics.Ros/Uml.Robotics.Ros.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Uml.Robotics.Ros/Uml.Robotics.Ros.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uml.Robotics.XmlRpc/Uml.Robotics.XmlRpc.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Uml.Robotics.XmlRpc/Uml.Robotics.XmlRpc.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YAMLParser/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YAMLParser/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YAMLParser/TemplateProject/Messages._csproj" beforeDir="false" afterPath="$PROJECT_DIR$/YAMLParser/TemplateProject/Messages._csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YAMLParser/YAMLParser.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/YAMLParser/YAMLParser.csproj" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="542206670">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="cs" value="25" />
+          <entry key="csproj" value="4" />
+          <entry key="lua" value="1" />
+          <entry key="sh" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="C#" value="25" />
+          <entry key="Csproj" value="4" />
+          <entry key="PLAIN_TEXT" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="cs" value="295" />
+          <entry key="csproj" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="C#" value="295" />
+          <entry key="Csproj" value="4" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Samples/ActionServerSample/Program.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="57" column="28" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
+              <folding>
+                <marker date="1549477576278" expanded="false" signature="6:240" ph="..." />
+                <marker date="1549477576278" expanded="true" signature="270:3675" ph="{...}" />
+                <marker date="1549477576278" expanded="true" signature="290:3673" ph="{...}" />
+                <marker date="1549477576278" expanded="true" signature="297:1841" ph="/* static void Main(string[] args) ... */" />
+                <marker date="1549477576278" expanded="true" signature="1882:3667" ph="{...}" />
+                <marker date="1549477576278" expanded="true" signature="2002:2272" ph="/* ApplicationLogging.LoggerFactory.AddProvider( ... */" />
+                <marker date="1549477576278" expanded="true" signature="2882:3411" ph="{...}" />
+                <marker date="1549477576278" expanded="true" signature="3489:3550" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Uml.Robotics.XmlRpc/Uml.Robotics.XmlRpc.csproj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="208">
+              <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.Transforms/Uml.Robotics.Ros.Transforms.csproj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Ros.Actionlib/actionlib_tutorials/AveragingActionMessages.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="608">
+              <caret line="48" column="57" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
+              <folding>
+                <marker date="1549473932080" expanded="false" signature="6:251" ph="..." />
+                <marker date="1549473932080" expanded="true" signature="292:16380" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="371:4163" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="890:923" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="979:1043" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1121:1203" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1290:1368" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1458:2297" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1873:2047" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="2365:3394" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3217:3355" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3436:3671" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3728:4157" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3771:3829" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3907:3983" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4014:4059" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4275:9191" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4599:4642" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4839:4872" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4930:4994" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5074:5156" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5243:5321" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5411:6858" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5826:6000" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="6428:6602" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="6926:8258" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8081:8219" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8300:8652" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8709:9185" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8752:8810" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8890:8968" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8999:9044" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="9310:16344" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="9679:9748" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="9949:9982" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10042:10106" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10188:10270" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10357:10435" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10525:13165" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10939:11113" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="11534:11708" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="12133:12307" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="12735:12909" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="13233:15166" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="14989:15127" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="15208:15711" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="15768:16338" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="15811:15869" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="15951:16031" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="16049:16107" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Ros.Actionlib/actionlib_tutorials/FibonacciActionMessages.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <marker date="1549473932080" expanded="false" signature="6:251" ph="..." />
+                <marker date="1549473932080" expanded="true" signature="292:14158" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="371:4143" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="886:919" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="975:1039" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1117:1199" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1286:1364" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1454:2289" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="1867:2041" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="2357:3382" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3205:3343" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3424:3655" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3712:4137" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3755:3813" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3891:3967" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="3998:4043" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4255:9123" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4784:4817" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="4875:4939" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5019:5101" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5188:5266" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5356:6480" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="5989:6034" ph="/* Start Xamla ... */" />
+                <marker date="1549473932080" expanded="true" signature="6191:6314" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="6548:7796" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="7056:7101" ph="/* Start Xamla ... */" />
+                <marker date="1549473932080" expanded="true" signature="7619:7757" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="7838:8407" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8297:8397" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8464:9117" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8507:8565" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8645:8723" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8754:8799" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="8977:9082" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="9242:14122" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="9775:9808" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="9868:9932" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10014:10096" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10183:10261" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10351:11475" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="10984:11029" ph="/* Start Xamla ... */" />
+                <marker date="1549473932080" expanded="true" signature="11186:11309" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="11543:12791" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="12051:12096" ph="/* Start Xamla ... */" />
+                <marker date="1549473932080" expanded="true" signature="12614:12752" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="12833:13402" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="13292:13392" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="13459:14116" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="13502:13560" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="13642:13722" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="13753:13798" ph="{...}" />
+                <marker date="1549473932080" expanded="true" signature="13976:14081" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Samples/ActionClientSample/Program.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="896">
+              <caret line="56" selection-start-line="56" selection-end-line="56" />
+              <folding>
+                <marker date="1549477557313" expanded="true" signature="6:239" ph="..." />
+                <marker date="1549477557313" expanded="true" signature="289:5354" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="304:1768" ph="/* static void Main(string[] args) ... */" />
+                <marker date="1549477557313" expanded="true" signature="1810:5348" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="2511:5069" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="2739:4456" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="3335:4180" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="3438:4154" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="3704:3883" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="3920:4076" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="4231:4355" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="4703:4776" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="4813:4920" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="4941:5055" ph="{...}" />
+                <marker date="1549477557313" expanded="true" signature="5086:5184" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/_Init.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3984">
+              <caret line="249" column="40" selection-start-line="249" selection-start-column="40" selection-end-line="249" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/ApplicationLogging.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/TransportPublisherLink.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1120">
+              <caret line="70" column="27" selection-start-line="70" selection-start-column="27" selection-end-line="70" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/Subscription.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5744">
+              <caret line="359" column="30" selection-start-line="359" selection-start-column="24" selection-end-line="359" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>usage</find>
+      <find>connection closed</find>
+      <find>PendingConnectionDone</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ClientGoalHandle.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Samples/ActionClientTestbed/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Ros.Actionlib/actionlib_tutorials/AveragingActionMessages.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/_Init.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ServerGoalHandle.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Ros.Actionlib/actionlib_tutorials/FibonacciActionMessages.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.Transforms/Transformer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/Subscription.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Samples/ActionClientSample/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.Messages/actionlib/TestActionMessages.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/ApplicationLogging.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/TypeRegistryBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/RosMessage.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/actionlib_msgs/GoalID.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/actionlib_msgs/GoalStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/rosgraph_msgs/Log.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Samples/ActionServerSample/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/PendingConnection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YAMLParser/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ServiceServerLink.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/Publication.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YAMLParser/ActionFile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/Connection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YAMLParser/MsgFileLocator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros.Messages/control_msgs/JointControllerState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YAMLParser/ActionFileParser.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/TransportPublisherLink.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/YAMLParser/Program.cs" />
+        <option value="$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient.cs" />
+        <option value="$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionServer.cs" />
+        <option value="$PROJECT_DIR$/Samples/ActionClientSample/Program.cs" />
+        <option value="$PROJECT_DIR$/Samples/ActionServerSample/Program.cs" />
+        <option value="$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/Uml.Robotics.Ros.MessageBase.csproj" />
+        <option value="$PROJECT_DIR$/Uml.Robotics.Ros.Messages/Uml.Robotics.Ros.Messages.csproj" />
+        <option value="$PROJECT_DIR$/Uml.Robotics.XmlRpc/Uml.Robotics.XmlRpc.csproj" />
+        <option value="$PROJECT_DIR$/Uml.Robotics.Ros.Transforms/Uml.Robotics.Ros.Transforms.csproj" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="3054" />
+    <option name="y" value="1" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="FileSystemExplorer" />
+      <pane id="SolutionExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Project" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Uml.Robotics.Ros" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-all-files" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="runrecei&#9;null&#9;null" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Ros.Actionlib/Ros.Actionlib.csproj" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected=".NET Project.Samples\ActionServerSample">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/YAMLParser/bin/Debug/netcoreapp2.1/YAMLParser.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YAMLParser" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/YAMLParser/YAMLParser.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.1" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Samples\ActionServerSample" type="DotNetProject" factoryName=".NET Project" temporary="true">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Samples/ActionServerSample/bin/Debug/netcoreapp2.1/ActionServerSample.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Samples/ActionServerSample" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Samples/ActionServerSample/ActionServerSample.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.1" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="YAMLParser" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/YAMLParser/bin/Debug/netcoreapp2.1/YAMLParser.dll" />
+      <option name="PROGRAM_PARAMETERS" value="-m ../actionlib_tutorials -a ../Uml.Robotics.Ros.Messages/bin/Debug/netcoreapp2.1/Uml.Robotics.Ros.Messages.dll -o ../Ros.Actionlib" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YAMLParser" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/YAMLParser/YAMLParser.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.1" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue=".NET Project.YAMLParser" />
+      <item itemvalue=".NET Project.Default" />
+      <item itemvalue=".NET Project.Samples\ActionServerSample" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue=".NET Project.Samples\ActionServerSample" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3455cacc-c971-469e-8a52-f9d96b10cc06" name="Default Changelist" comment="" />
+      <created>1549471933024</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1549471933024</updated>
+      <workItem from="1549471934073" duration="8016000" />
+      <workItem from="1549547435688" duration="710000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="8726000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="2625" y="-4" width="2495" height="1444" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25193956" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32978722" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32978722" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39969605" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32978722" />
+      <window_info anchor="bottom" id="NuGet" order="7" weight="0.32978722" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Unit Tests" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32978722" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50020415" side_tool="true" visible="true" weight="0.32978722" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.49979582" visible="true" weight="0.32978722" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Errors In Solution" order="3" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge remote-tracking branch 'wiwing/fix/actionlib'&#10;&#10;# Conflicts:&#10;#&#9;Uml.Robotics.Ros/ActionLib/ActionClient.cs&#10;#&#9;Uml.Robotics.Ros/ActionLib/ActionServer.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'wiwing/fix/actionlib'&#10;&#10;# Conflicts:&#10;#&#9;Uml.Robotics.Ros/ActionLib/ActionClient.cs&#10;#&#9;Uml.Robotics.Ros/ActionLib/ActionServer.cs" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Samples/ActionClientTestbed/TestActionServer.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-672" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Samples/ActionClientTestbed/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="63" column="13" selection-start-line="63" selection-start-column="13" selection-end-line="63" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YAMLParser/Run.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YAMLParser/ActionFile.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YAMLParser/ActionFileParser.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="44" column="32" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.Messages/actionlib/TestActionMessages.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ros.Actionlib/actionlib_tutorials/FibonacciAction.cs" />
+    <entry file="file://$PROJECT_DIR$/YAMLParser/MsgFileLocator.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="114" column="27" selection-start-line="114" selection-start-column="27" selection-end-line="114" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YAMLParser/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="497">
+          <caret line="166" column="62" selection-start-line="166" selection-start-column="62" selection-end-line="166" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/TypeRegistryBase.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient_BASE_26914.cs" />
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient_LOCAL_26914.cs" />
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient_BACKUP_26914.cs" />
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionClient.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ClientGoalHandle.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2160" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ActionServer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="573">
+          <caret line="198" column="36" selection-start-line="198" selection-start-column="36" selection-end-line="198" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/ActionLib/ServerGoalHandle.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="148" column="46" selection-start-line="148" selection-start-column="46" selection-end-line="148" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/Connection.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="172" column="9" selection-start-line="172" selection-start-column="9" selection-end-line="172" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/Uml.Robotics.Ros.MessageBase.csproj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.Messages/Uml.Robotics.Ros.Messages.csproj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.XmlRpc/Uml.Robotics.XmlRpc.csproj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Samples/ActionClientSample/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="896">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
+          <folding>
+            <marker date="1549477557313" expanded="true" signature="6:239" ph="..." />
+            <marker date="1549477557313" expanded="true" signature="289:5354" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="304:1768" ph="/* static void Main(string[] args) ... */" />
+            <marker date="1549477557313" expanded="true" signature="1810:5348" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="2511:5069" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="2739:4456" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="3335:4180" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="3438:4154" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="3704:3883" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="3920:4076" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="4231:4355" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="4703:4776" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="4813:4920" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="4941:5055" ph="{...}" />
+            <marker date="1549477557313" expanded="true" signature="5086:5184" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/_Init.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3984">
+          <caret line="249" column="40" selection-start-line="249" selection-start-column="40" selection-end-line="249" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.MessageBase/ApplicationLogging.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/TransportPublisherLink.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1120">
+          <caret line="70" column="27" selection-start-line="70" selection-start-column="27" selection-end-line="70" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros/Subscription.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5744">
+          <caret line="359" column="30" selection-start-line="359" selection-start-column="24" selection-end-line="359" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Uml.Robotics.Ros.Transforms/Uml.Robotics.Ros.Transforms.csproj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Samples/ActionServerSample/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="57" column="28" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
+          <folding>
+            <marker date="1549477576278" expanded="false" signature="6:240" ph="..." />
+            <marker date="1549477576278" expanded="true" signature="270:3675" ph="{...}" />
+            <marker date="1549477576278" expanded="true" signature="290:3673" ph="{...}" />
+            <marker date="1549477576278" expanded="true" signature="297:1841" ph="/* static void Main(string[] args) ... */" />
+            <marker date="1549477576278" expanded="true" signature="1882:3667" ph="{...}" />
+            <marker date="1549477576278" expanded="true" signature="2002:2272" ph="/* ApplicationLogging.LoggerFactory.AddProvider( ... */" />
+            <marker date="1549477576278" expanded="true" signature="2882:3411" ph="{...}" />
+            <marker date="1549477576278" expanded="true" signature="3489:3550" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ros.Actionlib/actionlib_tutorials/FibonacciActionMessages.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <marker date="1549473932080" expanded="false" signature="6:251" ph="..." />
+            <marker date="1549473932080" expanded="true" signature="292:14158" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="371:4143" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="886:919" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="975:1039" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1117:1199" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1286:1364" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1454:2289" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1867:2041" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="2357:3382" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3205:3343" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3424:3655" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3712:4137" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3755:3813" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3891:3967" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3998:4043" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4255:9123" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4784:4817" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4875:4939" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5019:5101" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5188:5266" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5356:6480" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5989:6034" ph="/* Start Xamla ... */" />
+            <marker date="1549473932080" expanded="true" signature="6191:6314" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="6548:7796" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="7056:7101" ph="/* Start Xamla ... */" />
+            <marker date="1549473932080" expanded="true" signature="7619:7757" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="7838:8407" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8297:8397" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8464:9117" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8507:8565" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8645:8723" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8754:8799" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8977:9082" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="9242:14122" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="9775:9808" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="9868:9932" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10014:10096" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10183:10261" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10351:11475" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10984:11029" ph="/* Start Xamla ... */" />
+            <marker date="1549473932080" expanded="true" signature="11186:11309" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="11543:12791" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="12051:12096" ph="/* Start Xamla ... */" />
+            <marker date="1549473932080" expanded="true" signature="12614:12752" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="12833:13402" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="13292:13392" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="13459:14116" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="13502:13560" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="13642:13722" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="13753:13798" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="13976:14081" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ros.Actionlib/actionlib_tutorials/AveragingActionMessages.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="48" column="57" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
+          <folding>
+            <marker date="1549473932080" expanded="false" signature="6:251" ph="..." />
+            <marker date="1549473932080" expanded="true" signature="292:16380" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="371:4163" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="890:923" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="979:1043" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1121:1203" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1290:1368" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1458:2297" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="1873:2047" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="2365:3394" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3217:3355" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3436:3671" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3728:4157" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3771:3829" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="3907:3983" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4014:4059" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4275:9191" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4599:4642" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4839:4872" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="4930:4994" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5074:5156" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5243:5321" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5411:6858" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="5826:6000" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="6428:6602" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="6926:8258" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8081:8219" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8300:8652" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8709:9185" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8752:8810" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8890:8968" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="8999:9044" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="9310:16344" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="9679:9748" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="9949:9982" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10042:10106" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10188:10270" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10357:10435" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10525:13165" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="10939:11113" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="11534:11708" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="12133:12307" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="12735:12909" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="13233:15166" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="14989:15127" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="15208:15711" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="15768:16338" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="15811:15869" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="15951:16031" ph="{...}" />
+            <marker date="1549473932080" expanded="true" signature="16049:16107" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

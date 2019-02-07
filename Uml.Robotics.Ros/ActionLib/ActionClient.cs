@@ -220,7 +220,8 @@ namespace Uml.Robotics.Ros.ActionLib
                         break;
                 }
 
-                Thread.Sleep(1);
+                Thread.Sleep(10);
+
             }
 
             return CheckActionServerStatusAndLog();
@@ -257,8 +258,8 @@ namespace Uml.Robotics.Ros.ActionLib
                     if (elapsed > timeout)
                         break;
                 }
+                await Task.Delay(10);
 
-                await Task.Delay(5).ConfigureAwait(false);
             }
 
             return CheckActionServerStatusAndLog();
@@ -286,7 +287,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
 
                 spinner.SpinOnce();
-                Thread.Sleep(1);
+                Thread.Sleep(10);
             }
 
             return CheckActionServerStatusAndLog();
@@ -628,13 +629,14 @@ namespace Uml.Robotics.Ros.ActionLib
 
         private void UpdateStatus(ClientGoalHandle<TGoal, TResult, TFeedback> goalHandle, GoalStatus goalStatus)
         {
-            // process the status message
-            if (goalStatus != null)
+            // Check if ping action is correctly reflected by the status message
+            if (goalHandle.State == CommunicationState.DONE)
             {
-                goalHandle.LatestGoalStatus = goalStatus;
-                goalHandle.statusMissing = 0;
+              return;
+
             }
-            else
+
+            if (goalStatus == null)
             {
                 goalHandle.statusMissing += 1;
                 if (goalHandle.State != CommunicationState.WAITING_FOR_GOAL_ACK &&
@@ -672,6 +674,8 @@ namespace Uml.Robotics.Ros.ActionLib
                     return;
                 }
             }
+
+            goalHandle.LatestGoalStatus = goalStatus;
 
             if (goalHandle.State == CommunicationState.WAITING_FOR_GOAL_ACK)
             {

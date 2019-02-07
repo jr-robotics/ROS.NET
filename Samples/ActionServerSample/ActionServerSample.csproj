@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Ros.Actionlib\Ros.Actionlib.csproj" />
     <ProjectReference Include="..\..\Uml.Robotics.Ros.Messages\Uml.Robotics.Ros.Messages.csproj" />
     <ProjectReference Include="..\..\Uml.Robotics.Ros\Uml.Robotics.Ros.csproj" />
   </ItemGroup>

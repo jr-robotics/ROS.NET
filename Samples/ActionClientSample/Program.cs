@@ -5,6 +5,8 @@ using Uml.Robotics.Ros;
 using Uml.Robotics.Ros.ActionLib;
 using Messages.control_msgs;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace ActionClientSample
 {
@@ -52,6 +54,7 @@ namespace ActionClientSample
         static void Main(string[] args)
         {
             Console.WriteLine("Start ROS");
+
             ROS.Init(new string[0], "ActionClient");
             var asyncSpinner = new AsyncSpinner();
             asyncSpinner.Start();
