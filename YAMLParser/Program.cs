@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using Uml.Robotics.Ros;
 
@@ -29,6 +30,7 @@ namespace YAMLParser
 
             CommandOption messageDirectories = app.Option("-m|--message-dirs", "Directories where ROS message definitions are located, separated by comma. (required)", CommandOptionType.MultipleValue);
             CommandOption assemblies = app.Option("-a|--assemblies", "Full filename of assemblies that contain additional generated RosMessages. (optional)", CommandOptionType.MultipleValue);
+            CommandOption nugetPackages =  app.Option("-p|--packages", "List of nuget packages which should be added to the generated assembly. (optional)", CommandOptionType.MultipleValue);
             CommandOption interactive = app.Option("-i|--interactive", "Run in interactive mode. Default: false", CommandOptionType.NoValue);
             // Change of output directory requires more work, since the reference to Uml.Robotics.Ros.MessageBase needs to be adjusted
             CommandOption outputDirectory = app.Option("-o|--output", "Output directory for generated message. Default: ../Uml.Robotics.Ros.Messages", CommandOptionType.SingleValue);
@@ -49,6 +51,7 @@ namespace YAMLParser
                 Program.Run(
                     messageDirectories.HasValue() ? messageDirectories.Values : null,
                     assemblies.HasValue() ? assemblies.Values : null,
+                    nugetPackages.HasValue() ? nugetPackages.Values : null,
                     outputDirectory.HasValue() ? outputDirectory.Value() : null,
                     interactive.HasValue(),
                     runtime.HasValue() ? runtime.Value() : "Debug",
@@ -61,15 +64,9 @@ namespace YAMLParser
             app.Execute(args);
         }
 
-        private static void Run(List<string> messageDirs, List<string> assemblies = null, string outputdir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages")
+        private static void Run(List<string> messageDirs, List<string> assemblies = null, IEnumerable<string> nugetPackages = null, string outputdir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages")
         {
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddProvider(
-                new ConsoleLoggerProvider(
-                    (string text, LogLevel logLevel) => { return logLevel >= LogLevel.Debug; }, true)
-            );
-            ApplicationLogging.LoggerFactory = loggerFactory;
-            Logger = ApplicationLogging.CreateLogger("Program");
+            InitializeLogger();
 
             string yamlparser_parent = "";
             DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
@@ -82,6 +79,7 @@ namespace YAMLParser
             di = Directory.GetParent(di.FullName);
             yamlparser_parent = di.FullName;
 
+            
             if (outputdir == null)
             {
                 outputdir = yamlparser_parent;
@@ -92,32 +90,47 @@ namespace YAMLParser
 
             MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(MessageTypeRegistry.Default.GetType().GetTypeInfo().Assembly);
 
-            if (assemblies != null)
+            
+            var projectReferences = new StringBuilder();
+
+            if (assemblies != null &&  assemblies.Any())
             {
-                string hints = "";
-                foreach (var assembly in assemblies)
+                projectReferences.AppendLine("<ItemGroup>");
+
+                foreach (var assemblyPath in assemblies)
                 {
-                    var rosNetMessages = Assembly.LoadFile(Path.GetFullPath(assembly));
+                    var rosNetMessages = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
                     MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(rosNetMessages);
-                    hints += $@"
-  <ItemGroup>
-    <Reference Include=""Messages"">
-      <HintPath>{assembly}</HintPath>
-
-      </Reference>
-
-    </ItemGroup>
-
-  ";
+                    
+                    // TODO: more sophisticated name resolving
+                    projectReferences.AppendLine(@"    <Reference Include=""Messages"">
+        <HintPath>{assembly}</HintPath>
+    </Reference>");
                 }
-
-                Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", hints);
+                
+                projectReferences.AppendLine("</ItemGroup>");
             }
-            else
+
+            if (nugetPackages != null && nugetPackages.Any())
             {
-                Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", "");
-            }
+                projectReferences.AppendLine("<ItemGroup>");
 
+                foreach (var nugetPackage in nugetPackages)
+                {
+                    // TODO: Load Nuget Packages and add to message type registry (https://stackoverflow.com/questions/31859267/load-nuget-dependencies-at-runtime)
+                    // TODO: Nuget package version
+                    projectReferences.AppendLine($"<PackageReference Include=\"{nugetPackage}\" Version=\"1.0.0\" />");
+                }
+                
+                projectReferences.AppendLine("<ItemGroup>");
+            }
+            
+            Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", projectReferences.ToString());
+
+            
+            
+            
+            
             var paths = new List<MsgFileLocation>();
             var pathssrv = new List<MsgFileLocation>();
             var actionFileLocations = new List<MsgFileLocation>();
@@ -150,11 +163,12 @@ namespace YAMLParser
                 srvFiles.Add(new SrvFile(path));
             }
 
-            // secend pass: parse and resolve types
+            // second pass: parse and resolve types
             foreach (var msg in msgsFiles)
             {
                 msg.ParseAndResolveTypes();
             }
+            
             foreach (var srv in srvFiles)
             {
                 srv.ParseAndResolveTypes();
@@ -183,6 +197,17 @@ namespace YAMLParser
                 Console.WriteLine("Finished. Press enter.");
                 Console.ReadLine();
             }
+        }
+
+        private static void InitializeLogger()
+        {
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(
+                new ConsoleLoggerProvider(
+                    (string text, LogLevel logLevel) => { return logLevel >= LogLevel.Debug; }, true)
+            );
+            ApplicationLogging.LoggerFactory = loggerFactory;
+            Logger = ApplicationLogging.CreateLogger("Program");
         }
 
         private static void MakeTempDir(string outputdir)
