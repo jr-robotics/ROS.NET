@@ -1,0 +1,372 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Runtime.InteropServices;
+using uint8 = System.Byte;
+using Uml.Robotics.Ros;
+using Messages.geometry_msgs;
+using Messages.sensor_msgs;
+using Messages.actionlib_msgs;
+
+using Messages.std_msgs;
+using String=System.String;
+
+namespace Messages.sensor_msgs
+{
+    public class LaserScan : RosMessage
+    {
+
+			public Header header = new Header();
+			public Single angle_min;
+			public Single angle_max;
+			public Single angle_increment;
+			public Single time_increment;
+			public Single scan_time;
+			public Single range_min;
+			public Single range_max;
+			public Single[] ranges;
+			public Single[] intensities;
+
+
+        public override string MD5Sum() { return "90c7ef2dc6895d81024acba2ac42f369"; }
+        public override bool HasHeader() { return true; }
+        public override bool IsMetaType() { return true; }
+        public override string MessageDefinition() { return @"Header header
+float32 angle_min
+float32 angle_max
+float32 angle_increment
+float32 time_increment
+float32 scan_time
+float32 range_min
+float32 range_max
+float32[] ranges
+float32[] intensities"; }
+        public override string MessageType { get { return "sensor_msgs/LaserScan"; } }
+        public override bool IsServiceComponent() { return false; }
+
+        public LaserScan()
+        {
+            
+        }
+
+        public LaserScan(byte[] serializedMessage)
+        {
+            Deserialize(serializedMessage);
+        }
+
+        public LaserScan(byte[] serializedMessage, ref int currentIndex)
+        {
+            Deserialize(serializedMessage, ref currentIndex);
+        }
+
+
+
+        public override void Deserialize(byte[] serializedMessage, ref int currentIndex)
+        {
+            int arraylength = -1;
+            bool hasmetacomponents = false;
+            object __thing;
+            int piecesize = 0;
+            byte[] thischunk, scratch1, scratch2;
+            IntPtr h;
+            
+            //header
+            header = new Header(serializedMessage, ref currentIndex);
+            //angle_min
+            piecesize = Marshal.SizeOf(typeof(Single));
+            h = IntPtr.Zero;
+            if (serializedMessage.Length - currentIndex != 0)
+            {
+                h = Marshal.AllocHGlobal(piecesize);
+                Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
+            }
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
+            angle_min = (Single)Marshal.PtrToStructure(h, typeof(Single));
+            Marshal.FreeHGlobal(h);
+            currentIndex+= piecesize;
+            //angle_max
+            piecesize = Marshal.SizeOf(typeof(Single));
+            h = IntPtr.Zero;
+            if (serializedMessage.Length - currentIndex != 0)
+            {
+                h = Marshal.AllocHGlobal(piecesize);
+                Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
+            }
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
+            angle_max = (Single)Marshal.PtrToStructure(h, typeof(Single));
+            Marshal.FreeHGlobal(h);
+            currentIndex+= piecesize;
+            //angle_increment
+            piecesize = Marshal.SizeOf(typeof(Single));
+            h = IntPtr.Zero;
+            if (serializedMessage.Length - currentIndex != 0)
+            {
+                h = Marshal.AllocHGlobal(piecesize);
+                Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
+            }
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
+            angle_increment = (Single)Marshal.PtrToStructure(h, typeof(Single));
+            Marshal.FreeHGlobal(h);
+            currentIndex+= piecesize;
+            //time_increment
+            piecesize = Marshal.SizeOf(typeof(Single));
+            h = IntPtr.Zero;
+            if (serializedMessage.Length - currentIndex != 0)
+            {
+                h = Marshal.AllocHGlobal(piecesize);
+                Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
+            }
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
+            time_increment = (Single)Marshal.PtrToStructure(h, typeof(Single));
+            Marshal.FreeHGlobal(h);
+            currentIndex+= piecesize;
+            //scan_time
+            piecesize = Marshal.SizeOf(typeof(Single));
+            h = IntPtr.Zero;
+            if (serializedMessage.Length - currentIndex != 0)
+            {
+                h = Marshal.AllocHGlobal(piecesize);
+                Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
+            }
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
+            scan_time = (Single)Marshal.PtrToStructure(h, typeof(Single));
+            Marshal.FreeHGlobal(h);
+            currentIndex+= piecesize;
+            //range_min
+            piecesize = Marshal.SizeOf(typeof(Single));
+            h = IntPtr.Zero;
+            if (serializedMessage.Length - currentIndex != 0)
+            {
+                h = Marshal.AllocHGlobal(piecesize);
+                Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
+            }
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
+            range_min = (Single)Marshal.PtrToStructure(h, typeof(Single));
+            Marshal.FreeHGlobal(h);
+            currentIndex+= piecesize;
+            //range_max
+            piecesize = Marshal.SizeOf(typeof(Single));
+            h = IntPtr.Zero;
+            if (serializedMessage.Length - currentIndex != 0)
+            {
+                h = Marshal.AllocHGlobal(piecesize);
+                Marshal.Copy(serializedMessage, currentIndex, h, piecesize);
+            }
+            if (h == IntPtr.Zero) throw new Exception("Memory allocation failed");
+            range_max = (Single)Marshal.PtrToStructure(h, typeof(Single));
+            Marshal.FreeHGlobal(h);
+            currentIndex+= piecesize;
+            //ranges
+            hasmetacomponents |= false;
+            arraylength = BitConverter.ToInt32(serializedMessage, currentIndex);
+            currentIndex += Marshal.SizeOf(typeof(System.Int32));
+            if (ranges == null)
+                ranges = new Single[arraylength];
+            else
+                Array.Resize(ref ranges, arraylength);
+// Start Xamla
+                //ranges
+                piecesize = Marshal.SizeOf(typeof(Single)) * ranges.Length;
+                if (currentIndex + piecesize > serializedMessage.Length) {
+                    throw new Exception("Memory allocation failed: Ran out of bytes to read.");
+                }
+                Buffer.BlockCopy(serializedMessage, currentIndex, ranges, 0, piecesize);
+                currentIndex += piecesize;
+// End Xamla
+
+            //intensities
+            hasmetacomponents |= false;
+            arraylength = BitConverter.ToInt32(serializedMessage, currentIndex);
+            currentIndex += Marshal.SizeOf(typeof(System.Int32));
+            if (intensities == null)
+                intensities = new Single[arraylength];
+            else
+                Array.Resize(ref intensities, arraylength);
+// Start Xamla
+                //intensities
+                piecesize = Marshal.SizeOf(typeof(Single)) * intensities.Length;
+                if (currentIndex + piecesize > serializedMessage.Length) {
+                    throw new Exception("Memory allocation failed: Ran out of bytes to read.");
+                }
+                Buffer.BlockCopy(serializedMessage, currentIndex, intensities, 0, piecesize);
+                currentIndex += piecesize;
+// End Xamla
+
+        }
+
+        public override byte[] Serialize(bool partofsomethingelse)
+        {
+            int currentIndex=0, length=0;
+            bool hasmetacomponents = false;
+            byte[] thischunk, scratch1, scratch2;
+            List<byte[]> pieces = new List<byte[]>();
+            GCHandle h;
+            IntPtr ptr;
+            int x__size;
+            
+            //header
+            if (header == null)
+                header = new Header();
+            pieces.Add(header.Serialize(true));
+            //angle_min
+            scratch1 = new byte[Marshal.SizeOf(typeof(Single))];
+            h = GCHandle.Alloc(scratch1, GCHandleType.Pinned);
+            Marshal.StructureToPtr(angle_min, h.AddrOfPinnedObject(), false);
+            h.Free();
+            pieces.Add(scratch1);
+            //angle_max
+            scratch1 = new byte[Marshal.SizeOf(typeof(Single))];
+            h = GCHandle.Alloc(scratch1, GCHandleType.Pinned);
+            Marshal.StructureToPtr(angle_max, h.AddrOfPinnedObject(), false);
+            h.Free();
+            pieces.Add(scratch1);
+            //angle_increment
+            scratch1 = new byte[Marshal.SizeOf(typeof(Single))];
+            h = GCHandle.Alloc(scratch1, GCHandleType.Pinned);
+            Marshal.StructureToPtr(angle_increment, h.AddrOfPinnedObject(), false);
+            h.Free();
+            pieces.Add(scratch1);
+            //time_increment
+            scratch1 = new byte[Marshal.SizeOf(typeof(Single))];
+            h = GCHandle.Alloc(scratch1, GCHandleType.Pinned);
+            Marshal.StructureToPtr(time_increment, h.AddrOfPinnedObject(), false);
+            h.Free();
+            pieces.Add(scratch1);
+            //scan_time
+            scratch1 = new byte[Marshal.SizeOf(typeof(Single))];
+            h = GCHandle.Alloc(scratch1, GCHandleType.Pinned);
+            Marshal.StructureToPtr(scan_time, h.AddrOfPinnedObject(), false);
+            h.Free();
+            pieces.Add(scratch1);
+            //range_min
+            scratch1 = new byte[Marshal.SizeOf(typeof(Single))];
+            h = GCHandle.Alloc(scratch1, GCHandleType.Pinned);
+            Marshal.StructureToPtr(range_min, h.AddrOfPinnedObject(), false);
+            h.Free();
+            pieces.Add(scratch1);
+            //range_max
+            scratch1 = new byte[Marshal.SizeOf(typeof(Single))];
+            h = GCHandle.Alloc(scratch1, GCHandleType.Pinned);
+            Marshal.StructureToPtr(range_max, h.AddrOfPinnedObject(), false);
+            h.Free();
+            pieces.Add(scratch1);
+            //ranges
+            hasmetacomponents |= false;
+            if (ranges == null)
+                ranges = new Single[0];
+            pieces.Add(BitConverter.GetBytes(ranges.Length));
+// Start Xamla
+                //ranges
+                x__size = Marshal.SizeOf(typeof(Single)) * ranges.Length;
+                scratch1 = new byte[x__size];
+                Buffer.BlockCopy(ranges, 0, scratch1, 0, x__size);
+                pieces.Add(scratch1);
+// End Xamla
+
+            //intensities
+            hasmetacomponents |= false;
+            if (intensities == null)
+                intensities = new Single[0];
+            pieces.Add(BitConverter.GetBytes(intensities.Length));
+// Start Xamla
+                //intensities
+                x__size = Marshal.SizeOf(typeof(Single)) * intensities.Length;
+                scratch1 = new byte[x__size];
+                Buffer.BlockCopy(intensities, 0, scratch1, 0, x__size);
+                pieces.Add(scratch1);
+// End Xamla
+
+            // combine every array in pieces into one array and return it
+            int __a_b__f = pieces.Sum((__a_b__c)=>__a_b__c.Length);
+            int __a_b__e=0;
+            byte[] __a_b__d = new byte[__a_b__f];
+            foreach(var __p__ in pieces)
+            {
+                Array.Copy(__p__,0,__a_b__d,__a_b__e,__p__.Length);
+                __a_b__e += __p__.Length;
+            }
+            return __a_b__d;
+        }
+
+        public override void Randomize()
+        {
+            int arraylength = -1;
+            Random rand = new Random();
+            int strlength;
+            byte[] strbuf, myByte;
+            
+            //header
+            header = new Header();
+            header.Randomize();
+            //angle_min
+            angle_min = (float)(rand.Next() + rand.NextDouble());
+            //angle_max
+            angle_max = (float)(rand.Next() + rand.NextDouble());
+            //angle_increment
+            angle_increment = (float)(rand.Next() + rand.NextDouble());
+            //time_increment
+            time_increment = (float)(rand.Next() + rand.NextDouble());
+            //scan_time
+            scan_time = (float)(rand.Next() + rand.NextDouble());
+            //range_min
+            range_min = (float)(rand.Next() + rand.NextDouble());
+            //range_max
+            range_max = (float)(rand.Next() + rand.NextDouble());
+            //ranges
+            arraylength = rand.Next(10);
+            if (ranges == null)
+                ranges = new Single[arraylength];
+            else
+                Array.Resize(ref ranges, arraylength);
+            for (int i=0;i<ranges.Length; i++) {
+                //ranges[i]
+                ranges[i] = (float)(rand.Next() + rand.NextDouble());
+            }
+            //intensities
+            arraylength = rand.Next(10);
+            if (intensities == null)
+                intensities = new Single[arraylength];
+            else
+                Array.Resize(ref intensities, arraylength);
+            for (int i=0;i<intensities.Length; i++) {
+                //intensities[i]
+                intensities[i] = (float)(rand.Next() + rand.NextDouble());
+            }
+        }
+
+        public override bool Equals(RosMessage ____other)
+        {
+            if (____other == null)
+				return false;
+            bool ret = true;
+            var other = ____other as Messages.sensor_msgs.LaserScan;
+            if (other == null)
+                return false;
+            ret &= header.Equals(other.header);
+            ret &= angle_min == other.angle_min;
+            ret &= angle_max == other.angle_max;
+            ret &= angle_increment == other.angle_increment;
+            ret &= time_increment == other.time_increment;
+            ret &= scan_time == other.scan_time;
+            ret &= range_min == other.range_min;
+            ret &= range_max == other.range_max;
+            if (ranges.Length != other.ranges.Length)
+                return false;
+            for (int __i__=0; __i__ < ranges.Length; __i__++)
+            {
+                ret &= ranges[__i__] == other.ranges[__i__];
+            }
+            if (intensities.Length != other.intensities.Length)
+                return false;
+            for (int __i__=0; __i__ < intensities.Length; __i__++)
+            {
+                ret &= intensities[__i__] == other.intensities[__i__];
+            }
+            // for each SingleType st:
+            //    ret &= {st.Name} == other.{st.Name};
+            return ret;
+        }
+    }
+}
