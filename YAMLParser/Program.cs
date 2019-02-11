@@ -67,26 +67,14 @@ namespace YAMLParser
         private static void Run(List<string> messageDirs, List<string> assemblies = null, IEnumerable<string> nugetPackages = null, string outputdir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages")
         {
             InitializeLogger();
-
-            string yamlparser_parent = "";
-            DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
-            while (di != null && di.Name != "YAMLParser")
-            {
-                di = Directory.GetParent(di.FullName);
-            }
-            if (di == null)
-                throw new InvalidOperationException("Not started from within YAMLParser directory.");
-            di = Directory.GetParent(di.FullName);
-            yamlparser_parent = di.FullName;
-
+            var programRootDir = GetYamlParserDirectory();
             
             if (outputdir == null)
             {
-                outputdir = yamlparser_parent;
-                outputdir = Path.Combine(outputdir, DEFAULT_OUTPUT_FOLDERNAME);
+                outputdir = Path.Combine(Directory.GetParent(programRootDir.FullName).FullName, DEFAULT_OUTPUT_FOLDERNAME);
             }
 
-            Templates.LoadTemplateStrings(Path.Combine(yamlparser_parent, "YAMLParser", "TemplateProject"));
+            Templates.LoadTemplateStrings(Path.Combine(programRootDir.FullName, "TemplateProject"));
 
             MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(MessageTypeRegistry.Default.GetType().GetTypeInfo().Assembly);
 
@@ -197,6 +185,21 @@ namespace YAMLParser
                 Console.WriteLine("Finished. Press enter.");
                 Console.ReadLine();
             }
+        }
+
+        private static DirectoryInfo GetYamlParserDirectory()
+        {
+            var di = new DirectoryInfo(Directory.GetCurrentDirectory());
+            
+            while (di != null && di.Name != "YAMLParser")
+            {
+                di = Directory.GetParent(di.FullName);
+            }
+
+            if (di == null)
+                throw new InvalidOperationException("Not started from within YAMLParser directory.");
+            
+            return di;
         }
 
         private static void InitializeLogger()
