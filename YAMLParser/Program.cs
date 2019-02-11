@@ -87,12 +87,12 @@ namespace YAMLParser
 
                 foreach (var assemblyPath in assemblies)
                 {
-                    var rosNetMessages = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
-                    MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(rosNetMessages);
+                    var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
+                    MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(assembly);
                     
                     // TODO: more sophisticated name resolving
-                    projectReferences.AppendLine(@"    <Reference Include=""Messages"">
-        <HintPath>{assembly}</HintPath>
+                    projectReferences.AppendLine($@"    <Reference Include=""{assembly.GetName().Name}"">
+        <HintPath>{assembly.Location}</HintPath>
     </Reference>");
                 }
                 
