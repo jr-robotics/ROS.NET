@@ -10,7 +10,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using NuGet.Common;
+using NuGet.Packaging.Core;
+using NuGet.Versioning;
 using Uml.Robotics.Ros;
+using YAMLParser.NuGet;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace YAMLParser
 {
@@ -103,11 +109,29 @@ namespace YAMLParser
             {
                 projectReferences.AppendLine("<ItemGroup>");
 
-                foreach (var nugetPackage in nugetPackages)
+                var nugetPackageDefinitions = ParseNugetPackageIdentities(nugetPackages);
+                var nugetPackageInstaller = new PackageInstaller()
                 {
+                    Logger = NullLogger.Instance,
+                    Settings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings()
+                };
+                
+                foreach (var nugetPackage in nugetPackageDefinitions)
+                {                    
                     // TODO: Load Nuget Packages and add to message type registry (https://stackoverflow.com/questions/31859267/load-nuget-dependencies-at-runtime)
-                    // TODO: Nuget package version
-                    projectReferences.AppendLine($"<PackageReference Include=\"{nugetPackage}\" Version=\"1.0.0\" />");
+                    nugetPackageInstaller
+                        .InstallPackageAsync(nugetPackage, "..\\Temp\\nuget\\")
+                        .Wait();
+                    
+
+                    projectReferences.Append($"    <PackageReference Include=\"{nugetPackage.Id}\"");
+
+                    if (nugetPackage.HasVersion)
+                    {
+                        projectReferences.Append($" Version=\"{nugetPackage.Version.ToString()}\"");
+                    }
+                    
+                    projectReferences.AppendLine(" />");
                 }
                 
                 projectReferences.AppendLine("<ItemGroup>");
@@ -185,6 +209,35 @@ namespace YAMLParser
                 Console.WriteLine("Finished. Press enter.");
                 Console.ReadLine();
             }
+        }
+
+        private static IEnumerable<PackageIdentity> ParseNugetPackageIdentities(IEnumerable<string> nugetPackages)
+        {
+            if (nugetPackages == null || !nugetPackages.Any())
+            {
+                return Enumerable.Empty<PackageIdentity>();
+            }
+
+            var packages = new List<PackageIdentity>();
+
+            foreach (var nugetPackageString in nugetPackages)
+            {
+                if (nugetPackageString == null) throw new ArgumentNullException(nameof(nugetPackageString));
+            
+                var parts = nugetPackageString.Split(",");
+
+                if (parts.Length > 2)
+                {
+                    throw new ArgumentException("NuGet package string must only contain package id and an optional version in format \"packageId,version\".");
+                }
+
+                var version = parts.Length > 1 ? NuGetVersion.Parse(parts[1]) : null;
+                var package = new PackageIdentity(parts[0], version);
+
+                packages.Add(package);
+            }
+            
+            return packages;
         }
 
         private static DirectoryInfo GetYamlParserDirectory()
