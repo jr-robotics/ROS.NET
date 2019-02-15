@@ -16,7 +16,7 @@ namespace Uml.Robotics.Ros
 
         class CallInfo
         {
-            public TaskCompletionSource<bool> Tcs { get; } = new TaskCompletionSource<bool>();
+            public TaskCompletionSource<bool> Tcs { get; } = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             public Task<bool> AsyncResult => this.Tcs.Task;
             public RosMessage Request { get; set; }
             public RosMessage Response { get; set; }
@@ -281,7 +281,8 @@ namespace Uml.Robotics.Ros
                 var call = new CallInfo { Request = request, Response = response };
                 await queue.OnNext(call, cancel).ConfigureAwait(false);
 
-                bool success = await call.AsyncResult.ConfigureAwait(false);
+                bool success = await call.AsyncResult;
+
                 if (success)
                 {
                     // response is only sent on success

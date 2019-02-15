@@ -15,7 +15,7 @@ namespace Uml.Robotics.Ros.ActionLib
         where TFeedback : InnerActionMessage, new()
     {
         private readonly object gate = new object();
-        private TaskCompletionSource<TResult> tcs = new TaskCompletionSource<TResult>();
+        private TaskCompletionSource<TResult> tcs = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         private IActionClient<TGoal, TResult, TFeedback> actionClient;
         internal int statusMissing;     // internal couter used to track if this goal handle is missing in multiple status messsages of server
 
