@@ -89,7 +89,7 @@ namespace YAMLParser
 
             if (assemblies != null &&  assemblies.Any())
             {
-                projectReferences.AppendLine("<ItemGroup>");
+                projectReferences.AppendLine("  <ItemGroup>");
 
                 foreach (var assemblyPath in assemblies)
                 {
@@ -97,16 +97,16 @@ namespace YAMLParser
 
                     // TODO: more sophisticated name resolving
                     projectReferences.AppendLine($@"    <Reference Include=""{assembly.GetName().Name}"">
-        <HintPath>{assembly.Location}</HintPath>
+      <HintPath>{assembly.Location}</HintPath>
     </Reference>");
                 }
                 
-                projectReferences.AppendLine("</ItemGroup>");
+                projectReferences.AppendLine("  </ItemGroup>");
             }
 
             if (nugetPackages != null && nugetPackages.Any())
             {
-                projectReferences.AppendLine("<ItemGroup>");
+                projectReferences.AppendLine("  <ItemGroup>");
 
                 var nugetPackageDefinitions = ParseNugetPackageIdentities(nugetPackages);
                 var nugetSettings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings();
@@ -147,7 +147,7 @@ namespace YAMLParser
                     projectReferences.AppendLine(" />");
                 }
                 
-                projectReferences.AppendLine("</ItemGroup>");
+                projectReferences.AppendLine("  </ItemGroup>");
             }
             
             Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", projectReferences.ToString());
