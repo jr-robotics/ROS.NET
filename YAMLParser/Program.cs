@@ -147,7 +147,7 @@ namespace YAMLParser
                     projectReferences.AppendLine(" />");
                 }
                 
-                projectReferences.AppendLine("<ItemGroup>");
+                projectReferences.AppendLine("</ItemGroup>");
             }
             
             Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", projectReferences.ToString());
