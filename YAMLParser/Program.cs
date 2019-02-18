@@ -93,9 +93,8 @@ namespace YAMLParser
 
                 foreach (var assemblyPath in assemblies)
                 {
-                    var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
-                    MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(assembly);
-                    
+                    var assembly = LoadMessageAssemnly(assemblyPath);
+
                     // TODO: more sophisticated name resolving
                     projectReferences.AppendLine($@"    <Reference Include=""{assembly.GetName().Name}"">
         <HintPath>{assembly.Location}</HintPath>
@@ -110,20 +109,34 @@ namespace YAMLParser
                 projectReferences.AppendLine("<ItemGroup>");
 
                 var nugetPackageDefinitions = ParseNugetPackageIdentities(nugetPackages);
-                var nugetPackageInstaller = new PackageInstaller()
-                {
-                    Logger = NullLogger.Instance,
-                    Settings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings()
-                };
+                var nugetSettings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings();
+                var logger = new NuGet.ConsoleLogger();
+                const string installPath = "..\\Temp\\nuget\\";
+
+                var nugetPackageInstaller = new PackageInstaller(nugetSettings, logger, installPath);
+                
+                logger.LogMinimal("Installing NuGet packages...");
                 
                 foreach (var nugetPackage in nugetPackageDefinitions)
                 {                    
                     // TODO: Load Nuget Packages and add to message type registry (https://stackoverflow.com/questions/31859267/load-nuget-dependencies-at-runtime)
+
+                    // Install NuGet package (download to temp folder)
                     nugetPackageInstaller
-                        .InstallPackageAsync(nugetPackage, "..\\Temp\\nuget\\")
+                        .InstallPackageAsync(nugetPackage)
                         .Wait();
                     
+                    // Load Messages
+                    var packagePath = nugetPackageInstaller.GetInstalledPath(nugetPackage);
+                    var assemblyFileNames = Directory.GetFiles(packagePath, "*.dll", SearchOption.AllDirectories);
 
+                    foreach (var assemblyFileName in assemblyFileNames)
+                    {
+                        LoadMessageAssemnly(assemblyFileName);
+                    }
+                    
+
+                    // Add to project file
                     projectReferences.Append($"    <PackageReference Include=\"{nugetPackage.Id}\"");
 
                     if (nugetPackage.HasVersion)
@@ -209,6 +222,13 @@ namespace YAMLParser
                 Console.WriteLine("Finished. Press enter.");
                 Console.ReadLine();
             }
+        }
+
+        private static Assembly LoadMessageAssemnly(string assemblyPath)
+        {
+            var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
+            MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(assembly);
+            return assembly;
         }
 
         private static IEnumerable<PackageIdentity> ParseNugetPackageIdentities(IEnumerable<string> nugetPackages)

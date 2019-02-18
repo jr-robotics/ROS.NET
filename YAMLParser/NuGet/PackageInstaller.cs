@@ -23,47 +23,67 @@ namespace YAMLParser.NuGet
 {
     public class PackageInstaller
     {
-        private ISettings settings;
+        private ISettings _settings;
+        
+        private readonly string _installPath;
+
+        private readonly FolderNuGetProject _nugetProject;
+        private readonly NuGetPackageManager _nugetPackageManager;
+        private readonly IEnumerable<SourceRepository> _primaryRepositories;
+        private readonly IPackageSourceProvider _sourceProvider;
+
         public ILogger Logger { get; set; } = NullLogger.Instance;
 
         public ISettings Settings
         {
-            get => settings;
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-                
-                settings = value;
-                
-                SourceProvider = new PackageSourceProvider(Settings);
-            }
+            get => _settings;
         }
 
-        private IPackageSourceProvider SourceProvider { get; set; }
-        
-        public async Task InstallPackageAsync(
-            PackageIdentity packageIdentity,
-            string installPath)
+        public PackageInstaller(ISettings settings, ILogger logger, string installPath)
         {
-            var packageId = packageIdentity.Id;
-            var version = packageIdentity.Version;
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+            
+            if (string.IsNullOrEmpty(installPath))
+            {
+                throw new ArgumentNullException(nameof(installPath));
+            }
+
+            _settings = settings;
+            _installPath = installPath;
+
+            if (logger != null)
+            {
+                Logger = logger;
+            }
+            
+                
+            _sourceProvider = new PackageSourceProvider(Settings);
+            
+            
             var framework = GetTargetFramework();
+            var sourceRepositoryProvider = GetSourceRepositoryProvider();
 
             // Create the project and set the framework if available.
-            var project = new FolderNuGetProject(
+            _nugetProject = new FolderNuGetProject(
                 installPath,
                 new PackagePathResolver(installPath),
                 framework);
-
-            var sourceRepositoryProvider = GetSourceRepositoryProvider();
-            var packageManager = new NuGetPackageManager(sourceRepositoryProvider, Settings, installPath);
+            
+            _nugetPackageManager = new NuGetPackageManager(sourceRepositoryProvider, Settings, installPath);
 
             var packageSources = GetPackageSources(Settings);
-            var primaryRepositories = packageSources.Select(sourceRepositoryProvider.CreateRepository);
-
+            _primaryRepositories = packageSources.Select(sourceRepositoryProvider.CreateRepository);
+        }
+        
+        public async Task InstallPackageAsync(
+            PackageIdentity packageIdentity)
+        {
+            var packageId = packageIdentity.Id;
+            var version = packageIdentity.Version;
+            
             using (var sourceCacheContext = new SourceCacheContext())
             {
                 var resolutionContext = new ResolutionContext(
@@ -79,9 +99,9 @@ namespace YAMLParser.NuGet
                     // Find the latest version using NuGetPackageManager
                     var resolvePackage = await NuGetPackageManager.GetLatestVersionAsync(
                         packageId,
-                        project,
+                        _nugetProject,
                         resolutionContext,
-                        primaryRepositories,
+                        _primaryRepositories,
                         Logger,
                         CancellationToken.None);
 
@@ -94,7 +114,7 @@ namespace YAMLParser.NuGet
                 }
 
                 // Get a list of packages already in the folder.
-                var installedPackages = await project.GetInstalledPackagesAsync(CancellationToken.None);
+                var installedPackages = await _nugetProject.GetInstalledPackagesAsync(CancellationToken.None);
 
                 // Find existing versions of the package
                 var alreadyInstalledVersions = new HashSet<NuGetVersion>(installedPackages
@@ -102,7 +122,7 @@ namespace YAMLParser.NuGet
                     .Select(e => e.PackageIdentity.Version));
 
                 // Check if the package already exists or a higher version exists already.
-                var skipInstall = project.PackageExists(packageIdentity);
+                var skipInstall = _nugetProject.PackageExists(packageIdentity);
 
                 // For SxS allow other versions to install. For non-SxS skip if a higher version exists.
                 skipInstall |= alreadyInstalledVersions.Any(e => e >= version);
@@ -113,6 +133,8 @@ namespace YAMLParser.NuGet
                 }
                 else
                 {
+                    Logger.LogMinimal($"Installing package {packageIdentity}");
+                    
                     var clientPolicyContext = ClientPolicyContext.GetClientPolicy(Settings, Logger);
 
                     var projectContext = new EmptyNuGetProjectContext()
@@ -129,21 +151,21 @@ namespace YAMLParser.NuGet
                     resolutionContext.SourceCacheContext.NoCache = false;
                     resolutionContext.SourceCacheContext.DirectDownload = directDownload;
 
-                    var downloadContext = new PackageDownloadContext(resolutionContext.SourceCacheContext, installPath, directDownload)
+                    var downloadContext = new PackageDownloadContext(resolutionContext.SourceCacheContext, _installPath, directDownload)
                     {
                         ClientPolicyContext = clientPolicyContext
                     };
 
-                    await packageManager.InstallPackageAsync(
-                        project,
+                    await _nugetPackageManager.InstallPackageAsync(
+                        _nugetProject,
                         packageIdentity,
                         resolutionContext,
                         projectContext,
                         downloadContext,
-                        primaryRepositories,
+                        _primaryRepositories,
                         Enumerable.Empty<SourceRepository>(),
                         CancellationToken.None);
-
+ 
                     if (downloadContext.DirectDownload)
                     {
                         GetDownloadResultUtility.CleanUpDirectDownloads(downloadContext);
@@ -165,7 +187,7 @@ namespace YAMLParser.NuGet
             }
             
             
-            var availableSources = SourceProvider.LoadPackageSources().Where(source => source.IsEnabled);
+            var availableSources = _sourceProvider.LoadPackageSources().Where(source => source.IsEnabled);
             packageSources.AddRange(availableSources);
 
             return packageSources;
@@ -176,7 +198,7 @@ namespace YAMLParser.NuGet
             var resourceProviders = new List<Lazy<INuGetResourceProvider>>();
             resourceProviders.AddRange(FactoryExtensionsV3.GetCoreV3(Repository.Provider));
             
-            return new SourceRepositoryProvider(SourceProvider, resourceProviders);
+            return new SourceRepositoryProvider(_sourceProvider, resourceProviders);
         }
 
         /// <summary>
@@ -194,6 +216,13 @@ namespace YAMLParser.NuGet
                 : NuGetFramework.ParseFrameworkName(frameworkName, new DefaultFrameworkNameProvider());
 
             return currentFramework;
+        }
+
+        public string GetInstalledPath(PackageIdentity nugetPackage)
+        {
+            if (nugetPackage == null) throw new ArgumentNullException(nameof(nugetPackage));
+
+            return _nugetProject.GetInstalledPath(nugetPackage);
         }
     }
 }
