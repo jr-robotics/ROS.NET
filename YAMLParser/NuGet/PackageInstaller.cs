@@ -81,9 +81,6 @@ namespace YAMLParser.NuGet
         public async Task InstallPackageAsync(
             PackageIdentity packageIdentity)
         {
-            var packageId = packageIdentity.Id;
-            var version = packageIdentity.Version;
-            
             using (var sourceCacheContext = new SourceCacheContext())
             {
                 var resolutionContext = new ResolutionContext(
@@ -94,11 +91,11 @@ namespace YAMLParser.NuGet
                     new GatherCache(),
                     sourceCacheContext);
 
-                if (version == null)
+                if (!packageIdentity.HasVersion)
                 {
                     // Find the latest version using NuGetPackageManager
                     var resolvePackage = await NuGetPackageManager.GetLatestVersionAsync(
-                        packageId,
+                        packageIdentity.Id,
                         _nugetProject,
                         resolutionContext,
                         _primaryRepositories,
@@ -107,10 +104,10 @@ namespace YAMLParser.NuGet
 
                     if (resolvePackage == null || resolvePackage.LatestVersion == null)
                     {
-                        throw new InvalidOperationException($"Could not find package {packageId}");
+                        throw new InvalidOperationException($"Could not find package {packageIdentity.Id}");
                     }
 
-                    version = resolvePackage.LatestVersion;
+                    packageIdentity = new PackageIdentity(packageIdentity.Id, resolvePackage.LatestVersion);
                 }
 
                 // Get a list of packages already in the folder.
@@ -118,14 +115,14 @@ namespace YAMLParser.NuGet
 
                 // Find existing versions of the package
                 var alreadyInstalledVersions = new HashSet<NuGetVersion>(installedPackages
-                    .Where(e => StringComparer.OrdinalIgnoreCase.Equals(packageId, e.PackageIdentity.Id))
+                    .Where(e => StringComparer.OrdinalIgnoreCase.Equals(packageIdentity.Id, e.PackageIdentity.Id))
                     .Select(e => e.PackageIdentity.Version));
 
                 // Check if the package already exists or a higher version exists already.
                 var skipInstall = _nugetProject.PackageExists(packageIdentity);
 
                 // For SxS allow other versions to install. For non-SxS skip if a higher version exists.
-                skipInstall |= alreadyInstalledVersions.Any(e => e >= version);
+                skipInstall |= alreadyInstalledVersions.Any(e => e >= packageIdentity.Version);
 
                 if (skipInstall)
                 {
