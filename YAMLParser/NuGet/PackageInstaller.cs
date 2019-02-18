@@ -174,7 +174,7 @@ namespace YAMLParser.NuGet
             }
         }
 
-        protected IReadOnlyCollection<PackageSource> GetPackageSources(ISettings settings)
+        private IReadOnlyCollection<PackageSource> GetPackageSources(ISettings settings)
         {
             var packageSources = new List<PackageSource>();
 

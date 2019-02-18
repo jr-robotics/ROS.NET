@@ -2,7 +2,7 @@
   "profiles": {
     "YAMLParser": {
       "commandName": "Project",
-      "commandLineArgs": "-m ../common_msgs/ -c Debug -n Uml.Robotics.Ros.Messages -o ../Temp/Uml.Robotics.Ros.Messages -a \"D:\\BRG\\DEV\\ROS.NET\\JR ROS.NET\\ROS.NET\\YAMLParser\\bin\\Debug\\netcoreapp2.1\\Uml.Robotics.Ros.MessageBase.dll\" -p Uml.Robotics.Ros.MessageBase,1.0.3"
+      "commandLineArgs": "-m ../common_msgs/ -n Uml.Robotics.Ros.Messages -c Debug -p Uml.Robotics.Ros.MessageBase,1.0.3"
     }
   }
 }

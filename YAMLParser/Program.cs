@@ -22,9 +22,6 @@ namespace YAMLParser
 {
     internal class Program
     {
-        const string DEFAULT_OUTPUT_FOLDERNAME = "Uml.Robotics.Ros.Messages";
-        const string DEFAULT_PROJECT_NAME = "Uml.Robotics.Ros.Messages";
-
         static List<MsgFile> msgsFiles = new List<MsgFile>();
         static List<SrvFile> srvFiles = new List<SrvFile>();
         static List<ActionFile> actionFiles = new List<ActionFile>();
@@ -34,23 +31,24 @@ namespace YAMLParser
         {
             var app = new CommandLineApplication(throwOnUnexpectedArg: true);
 
-            CommandOption messageDirectories = app.Option("-m|--message-dirs", "Directories where ROS message definitions are located, separated by comma. (required)", CommandOptionType.MultipleValue);
+            CommandOption projectName = app.Option("-n|--name", "Name of the generated project file. (required)", CommandOptionType.SingleValue);
+            CommandOption messageDirectories = app.Option("-m|--message-dirs", "Directories where ROS message definitions are located. (required)", CommandOptionType.MultipleValue);
             CommandOption assemblies = app.Option("-a|--assemblies", "Full filename of assemblies that contain additional generated RosMessages. (optional)", CommandOptionType.MultipleValue);
             CommandOption nugetPackages =  app.Option("-p|--packages", "List of nuget packages which should be added to the generated assembly. (optional)", CommandOptionType.MultipleValue);
             CommandOption interactive = app.Option("-i|--interactive", "Run in interactive mode. Default: false", CommandOptionType.NoValue);
             // Change of output directory requires more work, since the reference to Uml.Robotics.Ros.MessageBase needs to be adjusted
-            CommandOption outputDirectory = app.Option("-o|--output", "Output directory for generated message. Default: ../Uml.Robotics.Ros.Messages", CommandOptionType.SingleValue);
+            CommandOption outputDirectory = app.Option("-o|--output", "Output directory for generated message. Default: ../Temp/[projectName]", CommandOptionType.SingleValue);
             CommandOption runtime = app.Option("-c|--config", "Specify build-configuration, e.g. Debug or Release. Default: Debug", CommandOptionType.SingleValue);
-            CommandOption projectName = app.Option("-n|--name", "Name of the generated project file. Default: Uml.Robotics.Ros.Messages", CommandOptionType.SingleValue);
 
             app.HelpOption("-? | -h | --help");
 
             app.OnExecute(() =>
             {
-                if (!messageDirectories.HasValue())
+                if (!messageDirectories.HasValue() || !projectName.HasValue())
                 {
-                    Console.WriteLine("At least one directory with ROS message definitions is required.");
-
+                    Console.WriteLine("Invalid Parameters.");
+                    app.ShowHelp();
+                    
                     return 1;
                 }
 
@@ -61,7 +59,7 @@ namespace YAMLParser
                     outputDirectory.HasValue() ? outputDirectory.Value() : null,
                     interactive.HasValue(),
                     runtime.HasValue() ? runtime.Value() : "Debug",
-                    projectName.HasValue() ? projectName.Value() : DEFAULT_PROJECT_NAME
+                    projectName.HasValue() ? projectName.Value() : null
                 );
 
                 return 0;
@@ -74,10 +72,11 @@ namespace YAMLParser
         {
             InitializeLogger();
             var programRootDir = GetYamlParserDirectory();
+            var tempFolder = Path.Combine(Directory.GetParent(programRootDir.FullName).FullName, "Temp");
             
             if (outputdir == null)
             {
-                outputdir = Path.Combine(Directory.GetParent(programRootDir.FullName).FullName, DEFAULT_OUTPUT_FOLDERNAME);
+                outputdir = Path.Combine(tempFolder, projectName);
             }
 
             Templates.LoadTemplateStrings(Path.Combine(programRootDir.FullName, "TemplateProject"));
@@ -111,7 +110,8 @@ namespace YAMLParser
                 var nugetPackageDefinitions = ParseNugetPackageIdentities(nugetPackages);
                 var nugetSettings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings();
                 var logger = new NuGet.ConsoleLogger();
-                const string installPath = "..\\Temp\\nuget\\";
+                
+                var installPath = Path.Combine(tempFolder, "ParserNugetCache", projectName);
 
                 var nugetPackageInstaller = new PackageInstaller(nugetSettings, logger, installPath);
                 
