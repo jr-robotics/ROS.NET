@@ -22,6 +22,9 @@ namespace YAMLParser
 {
     internal class Program
     {
+        private const string MESSAGE_BASE_PACKAGE_ID = "Uml.Robotics.Ros.MessageBase";
+        private const string MESSAGE_BASE_PACKAGE_VERSION = "1.0.3";
+        
         static List<MsgFile> msgsFiles = new List<MsgFile>();
         static List<SrvFile> srvFiles = new List<SrvFile>();
         static List<ActionFile> actionFiles = new List<ActionFile>();
@@ -80,9 +83,6 @@ namespace YAMLParser
             }
 
             Templates.LoadTemplateStrings(Path.Combine(programRootDir.FullName, "TemplateProject"));
-
-            MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(MessageTypeRegistry.Default.GetType().GetTypeInfo().Assembly);
-
             
             var projectReferences = new StringBuilder();
 
@@ -103,11 +103,13 @@ namespace YAMLParser
                 projectReferences.AppendLine("  </ItemGroup>");
             }
 
-            if (nugetPackages != null && nugetPackages.Any())
+
+            var nugetPackageDefinitions = BuildNugetPackageDefinitions(nugetPackages);
+
+            if (nugetPackageDefinitions.Any())
             {
                 projectReferences.AppendLine("  <ItemGroup>");
 
-                var nugetPackageDefinitions = ParseNugetPackageIdentities(nugetPackages);
                 var nugetSettings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings();
                 var logger = new NuGet.ConsoleLogger();
                 
@@ -152,10 +154,6 @@ namespace YAMLParser
             
             Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", projectReferences.ToString());
 
-            
-            
-            
-            
             var paths = new List<MsgFileLocation>();
             var pathssrv = new List<MsgFileLocation>();
             var actionFileLocations = new List<MsgFileLocation>();
@@ -229,6 +227,19 @@ namespace YAMLParser
             var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
             MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(assembly);
             return assembly;
+        }
+
+        private static IEnumerable<PackageIdentity> BuildNugetPackageDefinitions(IEnumerable<string> nugetPackages)
+        {
+            var referencedNugetPackages = nugetPackages == null ? new List<string>() : nugetPackages.ToList();
+
+            if (!referencedNugetPackages.Any(p => p.StartsWith(MESSAGE_BASE_PACKAGE_ID)))
+            {
+                referencedNugetPackages.Add($"{MESSAGE_BASE_PACKAGE_ID},{MESSAGE_BASE_PACKAGE_VERSION}");
+            }
+
+            var nugetPackageDefinitions = ParseNugetPackageIdentities(referencedNugetPackages);
+            return nugetPackageDefinitions;
         }
 
         private static IEnumerable<PackageIdentity> ParseNugetPackageIdentities(IEnumerable<string> nugetPackages)

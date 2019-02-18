@@ -2,7 +2,7 @@
   "profiles": {
     "YAMLParser": {
       "commandName": "Project",
-      "commandLineArgs": "-m ../common_msgs/ -n Uml.Robotics.Ros.Messages -c Debug -p Uml.Robotics.Ros.MessageBase,1.0.3"
+      "commandLineArgs": "-m ../common_msgs/ -n Uml.Robotics.Ros.Messages -c Debug"
     }
   }
 }
