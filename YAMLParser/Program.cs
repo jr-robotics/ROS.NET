@@ -22,9 +22,6 @@ namespace YAMLParser
 {
     internal class Program
     {
-        private const string MESSAGE_BASE_PACKAGE_ID = "Uml.Robotics.Ros.MessageBase";
-        private const string MESSAGE_BASE_PACKAGE_VERSION = "1.0.3";
-        
         static List<MsgFile> msgsFiles = new List<MsgFile>();
         static List<SrvFile> srvFiles = new List<SrvFile>();
         static List<ActionFile> actionFiles = new List<ActionFile>();
@@ -194,22 +191,11 @@ namespace YAMLParser
 
                 foreach (var nugetPackage in nugetPackageDefinitions)
                 {
-                    // TODO: Load Nuget Packages and add to message type registry (https://stackoverflow.com/questions/31859267/load-nuget-dependencies-at-runtime)
-
                     // Install NuGet package (download to temp folder)
-                    nugetPackageInstaller
-                        .InstallPackageAsync(nugetPackage)
-                        .Wait();
-
-                    // Load Messages
-                    var packagePath = nugetPackageInstaller.GetInstalledPath(nugetPackage);
-                    var assemblyFileNames = Directory.GetFiles(packagePath, "*.dll", SearchOption.AllDirectories);
-
-                    foreach (var assemblyFileName in assemblyFileNames)
+                    if (!nugetPackage.IsRosMessageBasePackage()) // Message base is already loaded
                     {
-                        LoadMessageAssemnly(assemblyFileName);
+                        InstallAndLoadMessageNugetPackage(nugetPackageInstaller, nugetPackage);
                     }
-
 
                     // Add to project file
                     projectReferences.Append($"    <PackageReference Include=\"{nugetPackage.Id}\"");
@@ -228,6 +214,22 @@ namespace YAMLParser
             Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", projectReferences.ToString());
         }
 
+        private static void InstallAndLoadMessageNugetPackage(PackageInstaller nugetPackageInstaller, PackageIdentity nugetPackage)
+        {
+            nugetPackageInstaller
+                .InstallPackageAsync(nugetPackage)
+                .Wait();
+
+            // Load Messages
+            var packagePath = nugetPackageInstaller.GetInstalledPath(nugetPackage);
+            var assemblyFileNames = Directory.GetFiles(packagePath, "*.dll", SearchOption.AllDirectories);
+
+            foreach (var assemblyFileName in assemblyFileNames)
+            {
+                LoadMessageAssemnly(assemblyFileName);
+            }
+        }
+
         private static Assembly LoadMessageAssemnly(string assemblyPath)
         {
             var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
@@ -237,41 +239,32 @@ namespace YAMLParser
 
         private static IEnumerable<PackageIdentity> BuildNugetPackageDefinitions(IEnumerable<string> nugetPackages)
         {
-            var referencedNugetPackages = nugetPackages == null ? new List<string>() : nugetPackages.ToList();
-
-            if (!referencedNugetPackages.Any(p => p.StartsWith(MESSAGE_BASE_PACKAGE_ID)))
-            {
-                referencedNugetPackages.Add($"{MESSAGE_BASE_PACKAGE_ID},{MESSAGE_BASE_PACKAGE_VERSION}");
-            }
-
-            var nugetPackageDefinitions = ParseNugetPackageIdentities(referencedNugetPackages);
-            return nugetPackageDefinitions;
-        }
-
-        private static IEnumerable<PackageIdentity> ParseNugetPackageIdentities(IEnumerable<string> nugetPackages)
-        {
-            if (nugetPackages == null || !nugetPackages.Any())
-            {
-                return Enumerable.Empty<PackageIdentity>();
-            }
-
             var packages = new List<PackageIdentity>();
 
-            foreach (var nugetPackageString in nugetPackages)
+            if (nugetPackages != null)
             {
-                if (nugetPackageString == null) throw new ArgumentNullException(nameof(nugetPackageString));
-            
-                var parts = nugetPackageString.Split(",");
-
-                if (parts.Length > 2)
+                foreach (var nugetPackageString in nugetPackages)
                 {
-                    throw new ArgumentException("NuGet package string must only contain package id and an optional version in format \"packageId,version\".");
+                    if (nugetPackageString == null) throw new ArgumentNullException(nameof(nugetPackageString));
+
+                    var parts = nugetPackageString.Split(",");
+
+                    if (parts.Length > 2)
+                    {
+                        throw new ArgumentException(
+                            "NuGet package string must only contain package id and an optional version in format \"packageId,version\".");
+                    }
+
+                    var version = parts.Length > 1 ? NuGetVersion.Parse(parts[1]) : null;
+                    var package = new PackageIdentity(parts[0], version);
+
+                    packages.Add(package);
                 }
+            }
 
-                var version = parts.Length > 1 ? NuGetVersion.Parse(parts[1]) : null;
-                var package = new PackageIdentity(parts[0], version);
-
-                packages.Add(package);
+            if (!packages.HasRosMessageBasePackage())
+            {
+                packages.AddRosMessageBasePackage();
             }
             
             return packages;
