@@ -84,75 +84,7 @@ namespace YAMLParser
 
             Templates.LoadTemplateStrings(Path.Combine(programRootDir.FullName, "TemplateProject"));
             
-            var projectReferences = new StringBuilder();
-
-            if (assemblies != null &&  assemblies.Any())
-            {
-                projectReferences.AppendLine("  <ItemGroup>");
-
-                foreach (var assemblyPath in assemblies)
-                {
-                    var assembly = LoadMessageAssemnly(assemblyPath);
-
-                    // TODO: more sophisticated name resolving
-                    projectReferences.AppendLine($@"    <Reference Include=""{assembly.GetName().Name}"">
-      <HintPath>{assembly.Location}</HintPath>
-    </Reference>");
-                }
-                
-                projectReferences.AppendLine("  </ItemGroup>");
-            }
-
-
-            var nugetPackageDefinitions = BuildNugetPackageDefinitions(nugetPackages);
-
-            if (nugetPackageDefinitions.Any())
-            {
-                projectReferences.AppendLine("  <ItemGroup>");
-
-                var nugetSettings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings();
-                var logger = new NuGet.ConsoleLogger();
-                
-                var installPath = Path.Combine(tempFolder, "ParserNugetCache", projectName);
-
-                var nugetPackageInstaller = new PackageInstaller(nugetSettings, logger, installPath);
-                
-                logger.LogMinimal("Installing NuGet packages...");
-                
-                foreach (var nugetPackage in nugetPackageDefinitions)
-                {                    
-                    // TODO: Load Nuget Packages and add to message type registry (https://stackoverflow.com/questions/31859267/load-nuget-dependencies-at-runtime)
-
-                    // Install NuGet package (download to temp folder)
-                    nugetPackageInstaller
-                        .InstallPackageAsync(nugetPackage)
-                        .Wait();
-                    
-                    // Load Messages
-                    var packagePath = nugetPackageInstaller.GetInstalledPath(nugetPackage);
-                    var assemblyFileNames = Directory.GetFiles(packagePath, "*.dll", SearchOption.AllDirectories);
-
-                    foreach (var assemblyFileName in assemblyFileNames)
-                    {
-                        LoadMessageAssemnly(assemblyFileName);
-                    }
-                    
-
-                    // Add to project file
-                    projectReferences.Append($"    <PackageReference Include=\"{nugetPackage.Id}\"");
-
-                    if (nugetPackage.HasVersion)
-                    {
-                        projectReferences.Append($" Version=\"{nugetPackage.Version.ToString()}\"");
-                    }
-                    
-                    projectReferences.AppendLine(" />");
-                }
-                
-                projectReferences.AppendLine("  </ItemGroup>");
-            }
-            
-            Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", projectReferences.ToString());
+            BuildExternalProjectReferences(assemblies, nugetPackages, projectName, programRootDir, tempFolder);
 
             var paths = new List<MsgFileLocation>();
             var pathssrv = new List<MsgFileLocation>();
@@ -220,6 +152,80 @@ namespace YAMLParser
                 Console.WriteLine("Finished. Press enter.");
                 Console.ReadLine();
             }
+        }
+
+        private static void BuildExternalProjectReferences(List<string> assemblies, IEnumerable<string> nugetPackages, string projectName,
+            DirectoryInfo programRootDir, string tempFolder)
+        {
+            var projectReferences = new StringBuilder();
+
+            if (assemblies != null && assemblies.Any())
+            {
+                projectReferences.AppendLine("  <ItemGroup>");
+
+                foreach (var assemblyPath in assemblies)
+                {
+                    var assembly = LoadMessageAssemnly(assemblyPath);
+
+                    // TODO: more sophisticated name resolving
+                    projectReferences.AppendLine($@"    <Reference Include=""{assembly.GetName().Name}"">
+      <HintPath>{assembly.Location}</HintPath>
+    </Reference>");
+                }
+
+                projectReferences.AppendLine("  </ItemGroup>");
+            }
+
+
+            var nugetPackageDefinitions = BuildNugetPackageDefinitions(nugetPackages);
+
+            if (nugetPackageDefinitions.Any())
+            {
+                projectReferences.AppendLine("  <ItemGroup>");
+
+                var nugetSettings = new NugetSettingsLoader(programRootDir.FullName).CalculateEffectiveSettings();
+                var logger = new NuGet.ConsoleLogger();
+
+                var installPath = Path.Combine(tempFolder, "ParserNugetCache", projectName);
+
+                var nugetPackageInstaller = new PackageInstaller(nugetSettings, logger, installPath);
+
+                logger.LogMinimal("Installing NuGet packages...");
+
+                foreach (var nugetPackage in nugetPackageDefinitions)
+                {
+                    // TODO: Load Nuget Packages and add to message type registry (https://stackoverflow.com/questions/31859267/load-nuget-dependencies-at-runtime)
+
+                    // Install NuGet package (download to temp folder)
+                    nugetPackageInstaller
+                        .InstallPackageAsync(nugetPackage)
+                        .Wait();
+
+                    // Load Messages
+                    var packagePath = nugetPackageInstaller.GetInstalledPath(nugetPackage);
+                    var assemblyFileNames = Directory.GetFiles(packagePath, "*.dll", SearchOption.AllDirectories);
+
+                    foreach (var assemblyFileName in assemblyFileNames)
+                    {
+                        LoadMessageAssemnly(assemblyFileName);
+                    }
+
+
+                    // Add to project file
+                    projectReferences.Append($"    <PackageReference Include=\"{nugetPackage.Id}\"");
+
+                    if (nugetPackage.HasVersion)
+                    {
+                        projectReferences.Append($" Version=\"{nugetPackage.Version.ToString()}\"");
+                    }
+
+                    projectReferences.AppendLine(" />");
+                }
+
+                projectReferences.AppendLine("  </ItemGroup>");
+            }
+
+            Templates.MessagesProj = Templates.MessagesProj.Replace("$$HINTS$$", projectReferences.ToString());
         }
 
         private static Assembly LoadMessageAssemnly(string assemblyPath)
