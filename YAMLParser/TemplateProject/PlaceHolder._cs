@@ -6,9 +6,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using uint8 = System.Byte;
 using Uml.Robotics.Ros;
-using Messages.geometry_msgs;
-using Messages.sensor_msgs;
-using Messages.actionlib_msgs;
 
 namespace Messages
 {
