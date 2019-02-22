@@ -38,7 +38,7 @@ namespace YAMLParser
             CommandOption interactive = app.Option("-i|--interactive", "Run in interactive mode. Default: false", CommandOptionType.NoValue);
             // Change of output directory requires more work, since the reference to Uml.Robotics.Ros.MessageBase needs to be adjusted
             CommandOption outputDirectory = app.Option("-o|--output", "Output directory for generated message. Default: ../Temp/[projectName]", CommandOptionType.SingleValue);
-            CommandOption runtime = app.Option("-c|--config", "Specify build-configuration, e.g. Debug or Release. Default: Debug", CommandOptionType.SingleValue);
+            CommandOption runtime = app.Option("-c|--config", "Specify build-configuration, e.g. Debug or Release. Default: Release", CommandOptionType.SingleValue);
             CommandOption outputVersion = app.Option("-v|--version", "Output assembly version.", CommandOptionType.SingleValue);
 
             app.HelpOption("-? | -h | --help");
@@ -59,7 +59,7 @@ namespace YAMLParser
                     nugetPackages.HasValue() ? nugetPackages.Values : null,
                     outputDirectory.HasValue() ? outputDirectory.Value() : null,
                     interactive.HasValue(),
-                    runtime.HasValue() ? runtime.Value() : "Debug",
+                    runtime.HasValue() ? runtime.Value() : "Release",
                     projectName.HasValue() ? projectName.Value() : null,
                     outputVersion.HasValue() ? outputVersion.Value() : null
                 );
@@ -70,7 +70,7 @@ namespace YAMLParser
             app.Execute(args);
         }
 
-        private static void Run(List<string> messageDirs, List<string> assemblies = null, IEnumerable<string> nugetPackages = null, string projectDir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages", string outputVersion = null)
+        private static void Run(List<string> messageDirs, List<string> assemblies, IEnumerable<string> nugetPackages, string projectDir, bool interactive, string configuration, string projectName, string outputVersion)
         {
             InitializeLogger();
             var programRootDir = GetYamlParserDirectory();
