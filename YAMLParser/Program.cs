@@ -155,6 +155,8 @@ namespace YAMLParser
             DirectoryInfo programRootDir, string tempFolder)
         {
             var projectReferences = new StringBuilder();
+            
+            MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(typeof(TypeRegistryBase).Assembly);
 
             if (assemblies != null && assemblies.Any())
             {
@@ -192,7 +194,7 @@ namespace YAMLParser
                 foreach (var nugetPackage in nugetPackageDefinitions)
                 {
                     // Install NuGet package (download to temp folder)
-                    if (!nugetPackage.IsRosMessageBasePackage()) // Message base is already loaded
+                    if (!nugetPackage.IsRosMessageBasePackage()) // Message base is already referenced and loaded in YAMLParser project
                     {
                         InstallAndLoadMessageNugetPackage(nugetPackageInstaller, nugetPackage);
                     }
@@ -233,6 +235,7 @@ namespace YAMLParser
         private static Assembly LoadMessageAssemnly(string assemblyPath)
         {
             var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
+            
             MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(assembly);
             return assembly;
         }
@@ -362,121 +365,108 @@ namespace YAMLParser
 
         private static void GenerateFiles(List<MsgFile> files, List<SrvFile> srvfiles, List<ActionFile> actionFiles, string outputdir)
         {
-            List<MsgFile> mresolved = new List<MsgFile>();
-            List<SrvFile> sresolved = new List<SrvFile>();
-            List<ActionFile> actionFilesResolved = new List<ActionFile>();
-            while (files.Except(mresolved).Any())
+            var resolvedMessages = new List<MsgFile>();
+            var resolvedServices = new List<SrvFile>();
+            var resolvedActions = new List<ActionFile>();
+            
+            while (files.Except(resolvedMessages).Any())
             {
-                Debug.WriteLine("MSG: Running for " + files.Count + "/" + mresolved.Count + "\n" + files.Except(mresolved).Aggregate("\t", (o, n) => "" + o + "\n\t" + n.Name));
-                foreach (MsgFile m in files.Except(mresolved))
+                Debug.WriteLine("MSG: Running for " + files.Count + "/" + resolvedMessages.Count + "\n" + files.Except(resolvedMessages).Aggregate("\t", (o, n) => "" + o + "\n\t" + n.Name));
+                foreach (var m in files.Except(resolvedMessages))
                 {
-                    string md5 = null;
-                    string typename = null;
-                    md5 = MD5.Sum(m);
-                    typename = m.Name;
+                    var md5 = MD5.Sum(m);
+                    var typename = m.Name;
+                    
                     if (md5 != null && !md5.StartsWith("$") && !md5.EndsWith("MYMD5SUM"))
                     {
-                        mresolved.Add(m);
+                        resolvedMessages.Add(m);
                     }
                     else
                     {
                         Debug.WriteLine("Waiting for children of " + typename + " to have sums");
                     }
                 }
-                if (files.Except(mresolved).Any())
+                
+                if (files.Except(resolvedMessages).Any())
                 {
-                    Debug.WriteLine("MSG: Rerunning sums for remaining " + files.Except(mresolved).Count() + " definitions");
+                    Debug.WriteLine("MSG: Rerunning sums for remaining " + files.Except(resolvedMessages).Count() + " definitions");
                 }
             }
-            while (srvfiles.Except(sresolved).Any())
+            
+            while (srvfiles.Except(resolvedServices).Any())
             {
-                Debug.WriteLine("SRV: Running for " + srvfiles.Count + "/" + sresolved.Count + "\n" + srvfiles.Except(sresolved).Aggregate("\t", (o, n) => "" + o + "\n\t" + n.Name));
-                foreach (SrvFile s in srvfiles.Except(sresolved))
+                Debug.WriteLine("SRV: Running for " + srvfiles.Count + "/" + resolvedServices.Count + "\n" + srvfiles.Except(resolvedServices).Aggregate("\t", (o, n) => "" + o + "\n\t" + n.Name));
+                foreach (var s in srvfiles.Except(resolvedServices))
                 {
-                    string md5 = null;
-                    string typename = null;
                     s.Request.Stuff.ForEach(a => s.Request.resolve(a));
                     s.Response.Stuff.ForEach(a => s.Request.resolve(a));
-                    md5 = MD5.Sum(s);
-                    typename = s.Name;
+                    
+                    var md5 = MD5.Sum(s);
+                    var typename = s.Name;
+                    
                     if (md5 != null && !md5.StartsWith("$") && !md5.EndsWith("MYMD5SUM"))
                     {
-                        sresolved.Add(s);
+                        resolvedServices.Add(s);
                     }
                     else
                     {
                         Debug.WriteLine("Waiting for children of " + typename + " to have sums");
                     }
                 }
-                if (srvfiles.Except(sresolved).Any())
+                
+                if (srvfiles.Except(resolvedServices).Any())
                 {
-                    Debug.WriteLine("SRV: Rerunning sums for remaining " + srvfiles.Except(sresolved).Count() + " definitions");
+                    Debug.WriteLine("SRV: Rerunning sums for remaining " + srvfiles.Except(resolvedServices).Count() + " definitions");
                 }
             }
-            while (actionFiles.Except(actionFilesResolved).Any())
+            
+            while (actionFiles.Except(resolvedActions).Any())
             {
-                Debug.WriteLine("SRV: Running for " + actionFiles.Count + "/" + actionFilesResolved.Count + "\n" + actionFiles.Except(actionFilesResolved).Aggregate("\t", (o, n) => "" + o + "\n\t" + n.Name));
-                foreach (ActionFile actionFile in actionFiles.Except(actionFilesResolved))
+                Debug.WriteLine("SRV: Running for " + actionFiles.Count + "/" + resolvedActions.Count + "\n" + actionFiles.Except(resolvedActions).Aggregate("\t", (o, n) => "" + o + "\n\t" + n.Name));
+                foreach (var actionFile in actionFiles.Except(resolvedActions))
                 {
-                    string md5 = null;
-                    string typename = null;
                     actionFile.GoalMessage.Stuff.ForEach(a => actionFile.GoalMessage.resolve(a));
                     actionFile.ResultMessage.Stuff.ForEach(a => actionFile.ResultMessage.resolve(a));
                     actionFile.FeedbackMessage.Stuff.ForEach(a => actionFile.FeedbackMessage.resolve(a));
-                    md5 = MD5.Sum(actionFile);
-                    typename = actionFile.Name;
+                    
+                    var md5 = MD5.Sum(actionFile);
+                    var typename = actionFile.Name;
+                    
                     if (md5 != null && !md5.StartsWith("$") && !md5.EndsWith("MYMD5SUM"))
                     {
-                        actionFilesResolved.Add(actionFile);
+                        resolvedActions.Add(actionFile);
                     }
                     else
                     {
                         Logger.LogDebug("Waiting for children of " + typename + " to have sums");
                     }
                 }
-                if (actionFiles.Except(actionFilesResolved).Any())
+                
+                if (actionFiles.Except(resolvedActions).Any())
                 {
-                    Logger.LogDebug("ACTION: Rerunning sums for remaining " + actionFiles.Except(actionFilesResolved).Count() + " definitions");
+                    Logger.LogDebug("ACTION: Rerunning sums for remaining " + actionFiles.Except(resolvedActions).Count() + " definitions");
                 }
             }
-            foreach (MsgFile file in files)
+            
+            foreach (var file in files)
             {
                 file.Write(outputdir);
             }
-            foreach (SrvFile file in srvfiles)
+            
+            foreach (var file in srvfiles)
             {
                 file.Write(outputdir);
             }
-            foreach (ActionFile actionFile in actionFiles)
+            
+            foreach (var actionFile in actionFiles)
             {
                 actionFile.Write(outputdir);
             }
-            File.WriteAllText(Path.Combine(outputdir, "MessageTypes.cs"), ToString().Replace("FauxMessages", "Messages"));
         }
 
         private static void GenerateProject(List<MsgFile> files, List<SrvFile> srvfiles, string projectName, string outputdir)
         {
-            string[] lines = Templates.MessagesProj.Split('\n');
-            string output = "";
-            for (int i = 0; i < lines.Length; i++)
-            {
-                output += "" + lines[i] + "\n";
-                /*if (lines[i].Contains("<Compile Include="))
-                {
-                    foreach (MsgsFile m in files)
-                    {
-                        output += "\t<Compile Include=\"" + m.Name.Replace('.', '\\') + ".cs\" />\n";
-                    }
-                    foreach (SrvsFile m in srvfiles)
-                    {
-                        output += "\t<Compile Include=\"" + m.Name.Replace('.', '\\') + ".cs\" />\n";
-                    }
-                    output += "\t<Compile Include=\"SerializationHelper.cs\" />\n";
-                    output += "\t<Compile Include=\"Interfaces.cs\" />\n";
-                    output += "\t<Compile Include=\"MessageTypes.cs\" />\n";
-                }*/
-            }
-            File.WriteAllText(Path.Combine(outputdir, projectName + ".csproj"), output);
+            File.WriteAllText(Path.Combine(outputdir, projectName + ".csproj"), Templates.MessagesProj);
             File.WriteAllText(Path.Combine(outputdir, ".gitignore"), "*");
         }
 
@@ -532,11 +522,6 @@ namespace YAMLParser
             {
                 Console.WriteLine("ROS Messages .Net assembly was successfully built.");
             }
-        }
-
-        private new static string ToString()
-        {
-            return "";
         }
     }
 }
