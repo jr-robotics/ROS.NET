@@ -68,20 +68,20 @@ namespace YAMLParser
             app.Execute(args);
         }
 
-        private static void Run(List<string> messageDirs, List<string> assemblies = null, IEnumerable<string> nugetPackages = null, string outputdir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages")
+        private static void Run(List<string> messageDirs, List<string> assemblies = null, IEnumerable<string> nugetPackages = null, string projectDir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages")
         {
             InitializeLogger();
             var programRootDir = GetYamlParserDirectory();
-            var tempFolder = Path.Combine(Directory.GetParent(programRootDir.FullName).FullName, "Temp");
+            var tempDir = Path.Combine(Directory.GetParent(programRootDir.FullName).FullName, "Temp");
             
-            if (outputdir == null)
+            if (projectDir == null)
             {
-                outputdir = Path.Combine(tempFolder, projectName);
+                projectDir = Path.Combine(tempDir, projectName);
             }
 
             Templates.LoadTemplateStrings(Path.Combine(programRootDir.FullName, "TemplateProject"));
             
-            BuildExternalProjectReferences(assemblies, nugetPackages, projectName, programRootDir, tempFolder);
+            BuildExternalProjectReferences(assemblies, nugetPackages, projectName, programRootDir, tempDir);
 
             var paths = new List<MsgFileLocation>();
             var pathssrv = new List<MsgFileLocation>();
@@ -132,10 +132,10 @@ namespace YAMLParser
 
             if (paths.Count + pathssrv.Count+actionFiles.Count > 0)
             {
-                MakeTempDir(outputdir);
-                GenerateFiles(msgsFiles, srvFiles, actionFiles, outputdir);
-                GenerateProject(msgsFiles, srvFiles, projectName, outputdir);
-                BuildProject(configuration, projectName, outputdir);
+                CreateProjectDir(projectDir);
+                GenerateFiles(msgsFiles, srvFiles, actionFiles, projectDir);
+                GenerateProject(msgsFiles, srvFiles, projectName, projectDir);
+                BuildProject(configuration, projectName, projectDir);
             }
             else
             {
@@ -299,68 +299,14 @@ namespace YAMLParser
             Logger = ApplicationLogging.CreateLogger("Program");
         }
 
-        private static void MakeTempDir(string outputdir)
+        private static void CreateProjectDir(string projectDir)
         {
-            if (!Directory.Exists(outputdir))
-                Directory.CreateDirectory(outputdir);
-            else
+            if (Directory.Exists(projectDir))
             {
-                foreach (string s in Directory.GetFiles(outputdir, "*.cs"))
-                {
-                    try
-                    {
-                        File.Delete(s);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-                foreach (string s in Directory.GetDirectories(outputdir))
-                {
-                    if (s != "Properties")
-                    {
-                        try
-                        {
-                            Directory.Delete(s, true);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
-                }
+                Directory.Delete(projectDir, true);
             }
-            if (!Directory.Exists(outputdir))
-                Directory.CreateDirectory(outputdir);
-            else
-            {
-                foreach (string s in Directory.GetFiles(outputdir, "*.cs"))
-                {
-                    try
-                    {
-                        File.Delete(s);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-                foreach (string s in Directory.GetDirectories(outputdir))
-                {
-                    if (s != "Properties")
-                    {
-                        try
-                        {
-                            Directory.Delete(s, true);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
-                }
-            }
+            
+            Directory.CreateDirectory(projectDir);
         }
 
         private static void GenerateFiles(List<MsgFile> files, List<SrvFile> srvfiles, List<ActionFile> actionFiles, string outputdir)
