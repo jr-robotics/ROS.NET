@@ -472,56 +472,37 @@ namespace YAMLParser
 
         private static void BuildProject(string configuration, string projectName, string outputdir)
         {
-            BuildProject("BUILDING GENERATED PROJECT WITH MSBUILD!", configuration, projectName, outputdir);
+            Console.WriteLine("\n\nBUILDING GENERATED PROJECT!");
+            
+            Console.WriteLine("Running dotnet build...");
+            string buildArgs = "-f netcoreapp2.1 \"" + Path.Combine(outputdir, projectName) + ".csproj\" -c " + configuration;
+            var proc = RunDotNet("build", buildArgs);
+
+            Console.WriteLine(proc.StandardOutput.ReadToEnd());
+            Console.WriteLine(proc.StandardError.ReadToEnd());
+            
+            proc.WaitForExit();
+
+            if (proc.ExitCode == 0)
+            {
+                Console.WriteLine("ROS Messages assembly was successfully built.");
+            }
         }
 
-        static Process RunDotNet(string args)
+        static Process RunDotNet(string command, string args)
         {
-            string fn = "dotnet";
+            const string programName = "dotnet";
+            
             var proc = new Process();
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.RedirectStandardError = true;
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.CreateNoWindow = true;
-            proc.StartInfo.FileName = fn;
-            proc.StartInfo.Arguments = args;
+            proc.StartInfo.FileName = programName;
+            proc.StartInfo.Arguments = $"{command} {args}";
             proc.Start();
+            
             return proc;
-        }
-
-        private static void BuildProject(string spam, string configuration, string projectName, string outputdir)
-        {
-            Console.WriteLine("\n\n" + spam);
-
-            string output, error;
-
-            Console.WriteLine("Running dotnet restore...");
-            string restoreArgs = "restore \"" + Path.Combine(outputdir, projectName) + ".csproj\"";
-            var proc = RunDotNet(restoreArgs);
-            output = proc.StandardOutput.ReadToEnd();
-            error = proc.StandardError.ReadToEnd();
-            if (output.Length > 0)
-                Console.WriteLine(output);
-            if (error.Length > 0)
-                Console.WriteLine(error);
-
-            Console.WriteLine("Running dotnet build...");
-            string buildArgs = "build -f netcoreapp2.1 \"" + Path.Combine(outputdir, projectName) + ".csproj\" -c " + configuration;
-            proc = RunDotNet(buildArgs);
-
-            output = proc.StandardOutput.ReadToEnd();
-            error = proc.StandardError.ReadToEnd();
-            proc.WaitForExit();
-
-            if (output.Length > 0)
-                Console.WriteLine(output);
-            if (error.Length > 0)
-                Console.WriteLine(error);
-
-            if (proc.ExitCode == 0)
-            {
-                Console.WriteLine("ROS Messages .Net assembly was successfully built.");
-            }
         }
     }
 }
