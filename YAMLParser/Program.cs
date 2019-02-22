@@ -39,6 +39,7 @@ namespace YAMLParser
             // Change of output directory requires more work, since the reference to Uml.Robotics.Ros.MessageBase needs to be adjusted
             CommandOption outputDirectory = app.Option("-o|--output", "Output directory for generated message. Default: ../Temp/[projectName]", CommandOptionType.SingleValue);
             CommandOption runtime = app.Option("-c|--config", "Specify build-configuration, e.g. Debug or Release. Default: Debug", CommandOptionType.SingleValue);
+            CommandOption outputVersion = app.Option("-v|--version", "Output assembly version.", CommandOptionType.SingleValue);
 
             app.HelpOption("-? | -h | --help");
 
@@ -59,7 +60,8 @@ namespace YAMLParser
                     outputDirectory.HasValue() ? outputDirectory.Value() : null,
                     interactive.HasValue(),
                     runtime.HasValue() ? runtime.Value() : "Debug",
-                    projectName.HasValue() ? projectName.Value() : null
+                    projectName.HasValue() ? projectName.Value() : null,
+                    outputVersion.HasValue() ? outputVersion.Value() : null
                 );
 
                 return 0;
@@ -68,7 +70,7 @@ namespace YAMLParser
             app.Execute(args);
         }
 
-        private static void Run(List<string> messageDirs, List<string> assemblies = null, IEnumerable<string> nugetPackages = null, string projectDir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages")
+        private static void Run(List<string> messageDirs, List<string> assemblies = null, IEnumerable<string> nugetPackages = null, string projectDir = null, bool interactive = false, string configuration = "Debug", string projectName = "Messages", string outputVersion = null)
         {
             InitializeLogger();
             var programRootDir = GetYamlParserDirectory();
@@ -77,10 +79,11 @@ namespace YAMLParser
             if (projectDir == null)
             {
                 projectDir = Path.Combine(tempDir, projectName);
-            }
+            } 
 
             Templates.LoadTemplateStrings(Path.Combine(programRootDir.FullName, "TemplateProject"));
-            
+
+            SetProjectVersion(outputVersion);
             BuildExternalProjectReferences(assemblies, nugetPackages, projectName, programRootDir, tempDir);
 
             var paths = new List<MsgFileLocation>();
@@ -149,6 +152,16 @@ namespace YAMLParser
                 Console.WriteLine("Finished. Press enter.");
                 Console.ReadLine();
             }
+        }
+
+        private static void SetProjectVersion(string version)
+        {
+            if (string.IsNullOrEmpty(version))
+            {
+                version = "1.0.0";
+            }
+            
+            Templates.MessagesProj = Templates.MessagesProj.Replace("$$VERSION$$", version);
         }
 
         private static void BuildExternalProjectReferences(List<string> assemblies, IEnumerable<string> nugetPackages, string projectName,
@@ -421,7 +434,7 @@ namespace YAMLParser
             Console.WriteLine("\n\nBUILDING GENERATED PROJECT!");
             
             Console.WriteLine("Running dotnet build...");
-            string buildArgs = "-f netcoreapp2.1 \"" + Path.Combine(outputdir, projectName) + ".csproj\" -c " + configuration;
+            string buildArgs = "\"" + Path.Combine(outputdir, projectName) + ".csproj\" -c " + configuration;
             var proc = RunDotNet("build", buildArgs);
 
             Console.WriteLine(proc.StandardOutput.ReadToEnd());
