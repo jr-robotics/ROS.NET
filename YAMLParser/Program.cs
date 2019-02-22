@@ -25,7 +25,10 @@ namespace YAMLParser
         static List<MsgFile> msgsFiles = new List<MsgFile>();
         static List<SrvFile> srvFiles = new List<SrvFile>();
         static List<ActionFile> actionFiles = new List<ActionFile>();
+        
         private static ILogger Logger { get; set; }
+        
+        private static List<Assembly> externalMessageAssemblies = new List<Assembly>();
 
         public static void Main(params string[] args)
         {
@@ -75,82 +78,99 @@ namespace YAMLParser
             InitializeLogger();
             var programRootDir = GetYamlParserDirectory();
             var tempDir = Path.Combine(Directory.GetParent(programRootDir.FullName).FullName, "Temp");
-            
+
             if (projectDir == null)
             {
                 projectDir = Path.Combine(tempDir, projectName);
-            } 
+            }
 
             Templates.LoadTemplateStrings(Path.Combine(programRootDir.FullName, "TemplateProject"));
 
             SetProjectVersion(outputVersion);
             BuildExternalProjectReferences(assemblies, nugetPackages, projectName, programRootDir, tempDir);
 
-            var paths = new List<MsgFileLocation>();
-            var pathssrv = new List<MsgFileLocation>();
-            var actionFileLocations = new List<MsgFileLocation>();
-            Console.WriteLine("Generatinc C# classes for ROS Messages...\n");
-            foreach (var messageDir in messageDirs)
+            using (new AssemblyResolver(externalMessageAssemblies, AppDomain.CurrentDomain))
             {
-                string d = new DirectoryInfo(Path.GetFullPath(messageDir)).FullName;
-                Console.WriteLine("Looking in " + d);
-                MsgFileLocator.findMessages(paths, pathssrv, actionFileLocations, d);
-            }
-
-            // first pass: create all msg files (and register them in static resolver dictionary)
-            var baseTypes = MessageTypeRegistry.Default.GetTypeNames().ToList();
-            foreach (MsgFileLocation path in paths)
-            {
-                var typeName = $"{path.package}/{path.basename}";
-                if (baseTypes.Contains(typeName))
+                RegisterExternalMessageAssemblies();
+                
+                var paths = new List<MsgFileLocation>();
+                var pathssrv = new List<MsgFileLocation>();
+                var actionFileLocations = new List<MsgFileLocation>();
+                Console.WriteLine("Generatinc C# classes for ROS Messages...\n");
+                foreach (var messageDir in messageDirs)
                 {
-                    Logger.LogInformation($"Skip file {path} because MessageBase already contains this message");
+                    string d = new DirectoryInfo(Path.GetFullPath(messageDir)).FullName;
+                    Console.WriteLine("Looking in " + d);
+                    MsgFileLocator.findMessages(paths, pathssrv, actionFileLocations, d);
+                }
+
+                // first pass: create all msg files (and register them in static resolver dictionary)
+                var baseTypes = MessageTypeRegistry.Default.GetTypeNames().ToList();
+                foreach (MsgFileLocation path in paths)
+                {
+                    var typeName = $"{path.package}/{path.basename}";
+                    if (baseTypes.Contains(typeName))
+                    {
+                        Logger.LogInformation($"Skip file {path} because MessageBase already contains this message");
+                    }
+                    else
+                    {
+                        msgsFiles.Add(new MsgFile(path));
+                    }
+                }
+
+                Logger.LogDebug($"Added {msgsFiles.Count} message files");
+
+                foreach (MsgFileLocation path in pathssrv)
+                {
+                    srvFiles.Add(new SrvFile(path));
+                }
+
+                // second pass: parse and resolve types
+                foreach (var msg in msgsFiles)
+                {
+                    msg.ParseAndResolveTypes();
+                }
+
+                foreach (var srv in srvFiles)
+                {
+                    srv.ParseAndResolveTypes();
+                }
+
+                var actionFileParser = new ActionFileParser(actionFileLocations);
+                actionFiles = actionFileParser.GenerateRosMessageClasses();
+
+                if (paths.Count + pathssrv.Count + actionFiles.Count > 0)
+                {
+                    CreateProjectDir(projectDir);
+                    GenerateFiles(msgsFiles, srvFiles, actionFiles, projectDir);
+                    GenerateProject(msgsFiles, srvFiles, projectName, projectDir);
+                    BuildProject(configuration, projectName, projectDir);
                 }
                 else
                 {
-                    msgsFiles.Add(new MsgFile(path));
+                    Console.WriteLine(
+                        "Usage:         YAMLParser.exe <SolutionFolder> [... other directories to search]\n      The Messages dll will be output to <SolutionFolder>/Messages/Messages.dll");
+                    if (interactive)
+                        Console.ReadLine();
+                    Environment.Exit(1);
+                }
+
+                if (interactive)
+                {
+                    Console.WriteLine("Finished. Press enter.");
+                    Console.ReadLine();
                 }
             }
-            Logger.LogDebug($"Added {msgsFiles.Count} message files");
+        }
 
-            foreach (MsgFileLocation path in pathssrv)
-            {
-                srvFiles.Add(new SrvFile(path));
-            }
+        private static void RegisterExternalMessageAssemblies()
+        {
+            MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(typeof(TypeRegistryBase).Assembly);
 
-            // second pass: parse and resolve types
-            foreach (var msg in msgsFiles)
+            foreach (var assembly in externalMessageAssemblies)
             {
-                msg.ParseAndResolveTypes();
-            }
-            
-            foreach (var srv in srvFiles)
-            {
-                srv.ParseAndResolveTypes();
-            }
-
-            var actionFileParser = new ActionFileParser(actionFileLocations);
-            actionFiles = actionFileParser.GenerateRosMessageClasses();
-            //var actionFiles = new List<ActionFile>();
-
-            if (paths.Count + pathssrv.Count+actionFiles.Count > 0)
-            {
-                CreateProjectDir(projectDir);
-                GenerateFiles(msgsFiles, srvFiles, actionFiles, projectDir);
-                GenerateProject(msgsFiles, srvFiles, projectName, projectDir);
-                BuildProject(configuration, projectName, projectDir);
-            }
-            else
-            {
-                Console.WriteLine("Usage:         YAMLParser.exe <SolutionFolder> [... other directories to search]\n      The Messages dll will be output to <SolutionFolder>/Messages/Messages.dll");
-                if (interactive)
-                    Console.ReadLine();
-                Environment.Exit(1);
-            }
-            if (interactive)
-            {
-                Console.WriteLine("Finished. Press enter.");
-                Console.ReadLine();
+                MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(assembly);
             }
         }
 
@@ -168,8 +188,6 @@ namespace YAMLParser
             DirectoryInfo programRootDir, string tempFolder)
         {
             var projectReferences = new StringBuilder();
-            
-            MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(typeof(TypeRegistryBase).Assembly);
 
             if (assemblies != null && assemblies.Any())
             {
@@ -177,7 +195,7 @@ namespace YAMLParser
 
                 foreach (var assemblyPath in assemblies)
                 {
-                    var assembly = LoadMessageAssemnly(assemblyPath);
+                    var assembly = LoadMessageAssembly(assemblyPath);
 
                     // TODO: more sophisticated name resolving
                     projectReferences.AppendLine($@"    <Reference Include=""{assembly.GetName().Name}"">
@@ -241,15 +259,15 @@ namespace YAMLParser
 
             foreach (var assemblyFileName in assemblyFileNames)
             {
-                LoadMessageAssemnly(assemblyFileName);
+                LoadMessageAssembly(assemblyFileName);
             }
         }
 
-        private static Assembly LoadMessageAssemnly(string assemblyPath)
+        private static Assembly LoadMessageAssembly(string assemblyPath)
         {
             var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyPath));
+            externalMessageAssemblies.Add(assembly);
             
-            MessageTypeRegistry.Default.ParseAssemblyAndRegisterRosMessages(assembly);
             return assembly;
         }
 
