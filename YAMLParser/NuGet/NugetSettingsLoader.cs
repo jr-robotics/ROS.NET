@@ -25,10 +25,6 @@ namespace YAMLParser.NuGet
                 configFileName: null,
                 machineWideSettings: new MachineWideSettings());
 
-            // Recreate the source provider and credential provider
-//                SourceProvider = PackageSourceBuilder.CreateSourceProvider(Settings);
-//                SetDefaultCredentialProvider();
-
             return settings;
         }
     }
