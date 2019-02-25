@@ -26,7 +26,7 @@ $ dotnet add package Uml.Robotics.Ros
 For pre-release builds check: https://www.nuget.org/profiles/Xamla
 
 
-Then add any required ROS.Messages NuGet Package from NuGet. This packages have the naming convention ROS.Messages.<PACKAGE_NAME>
+Then add any required ROS.Messages NuGet Packages from NuGet. This packages have the naming convention ```ROS.Messages.<PACKAGE_NAME>```
 You can also build your own ROS Messages assembly using our [YAMLParser](/YAMLParser) project.
 
 ## Contributing
