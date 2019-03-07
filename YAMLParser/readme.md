@@ -12,7 +12,7 @@ In the simplest form use it like
 
 ```
 cd YAMLParser
-dotnet run -n "ROS.Messages.my_message_package_msgs" -m "MESSAGES_SOURCE_FOLDER"
+dotnet run -- -n "ROS.Messages.my_message_package_msgs" -m "MESSAGES_SOURCE_FOLDER"
 ```
 
 This command compiles the ROS message files contained in ```MESSAGES_SOURCE_FOLDER``` to an Assembly called ```ROS.Messages.my_message_package_msgs.dll```.
@@ -35,7 +35,7 @@ If your messages depend on other ros message packages you have to specify the re
 Use the command line options ```-p|--packages <NUGET_PACKAGE_ID>[/<VERSION>]``` for referencing NuGet packages containing ROS Messages.
 
 ```
-dotnet run -n "ROS.Messages.my_message_package_msgs" -m "MESSAGES_SOURCE_FOLDER" -p "ROS.Messages.common_msgs" -p "ROS.Messages.control_msgs/0.0.1"
+dotnet run -- -n "ROS.Messages.my_message_package_msgs" -m "MESSAGES_SOURCE_FOLDER" -p "ROS.Messages.common_msgs" -p "ROS.Messages.control_msgs/0.0.1"
 ```
 This command references the NuGet packages
 
@@ -59,7 +59,7 @@ By default your Assembly and the NuGet Package are built with version 1.0.0.
 You can change the version by adding the  ```-v|--version <VERSION>``` flag.
 
 ```
-dotnet run -n "ROS.Messages.my_message_package_msgs" -v 1.0.2 -m "MESSAGES_SOURCE_FOLDER" -p "ROS.Messages.common_msgs" -p "ROS.Messages.control_msgs/0.0.1"
+dotnet run -- -n "ROS.Messages.my_message_package_msgs" -v 1.0.2 -m "MESSAGES_SOURCE_FOLDER" -p "ROS.Messages.common_msgs" -p "ROS.Messages.control_msgs/0.0.1"
 ```
 
 You can than push the created NuGet package to out NuGet server. See http://robv005:33333/upload for help.
