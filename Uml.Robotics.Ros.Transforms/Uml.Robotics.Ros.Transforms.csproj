@@ -1,7 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Condition=" '$(OS)' == 'Unix'">
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Unix'">
     <TargetFrameworks>netcoreapp2.1;net462</TargetFrameworks>
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <RuntimeIdentifiers>win10-x64;osx.10.11-x64;ubuntu.16.04-x64</RuntimeIdentifiers>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
