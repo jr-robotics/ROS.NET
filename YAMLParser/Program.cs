@@ -221,24 +221,23 @@ namespace YAMLParser
                 var nugetPackageInstaller = new PackageInstaller(nugetSettings, logger, installPath);
 
                 logger.LogMinimal("Installing NuGet packages...");
-
+                
                 foreach (var nugetPackage in nugetPackageDefinitions)
                 {
+                    var package = nugetPackage;
+                    if (!package.HasVersion)
+                    {
+                        package = nugetPackageInstaller.FindLatestPackageVersion(package.Id);
+                    }
+                    
                     // Install NuGet package (download to temp folder)
                     if (!nugetPackage.IsRosMessageBasePackage()) // Message base is already referenced and loaded in YAMLParser project
                     {
-                        InstallAndLoadMessageNugetPackage(nugetPackageInstaller, nugetPackage);
+                        InstallAndLoadMessageNugetPackage(nugetPackageInstaller, package);
                     }
 
                     // Add to project file
-                    projectReferences.Append($"    <PackageReference Include=\"{nugetPackage.Id}\"");
-
-                    if (nugetPackage.HasVersion)
-                    {
-                        projectReferences.Append($" Version=\"{nugetPackage.Version.ToString()}\"");
-                    }
-
-                    projectReferences.AppendLine(" />");
+                    projectReferences.AppendLine($"    <PackageReference Include=\"{package.Id}\" Version=\"{package.Version.ToString()}\" />");
                 }
 
                 projectReferences.AppendLine("  </ItemGroup>");

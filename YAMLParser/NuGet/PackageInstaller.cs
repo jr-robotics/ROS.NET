@@ -31,6 +31,8 @@ namespace YAMLParser.NuGet
         private readonly NuGetPackageManager _nugetPackageManager;
         private readonly IEnumerable<SourceRepository> _primaryRepositories;
         private readonly IPackageSourceProvider _sourceProvider;
+        
+        private readonly Dictionary<string, PackageIdentity> _latestNugetVersions = new Dictionary<string, PackageIdentity>();
 
         public ILogger Logger { get; set; } = NullLogger.Instance;
 
@@ -83,31 +85,11 @@ namespace YAMLParser.NuGet
         {
             using (var sourceCacheContext = new SourceCacheContext())
             {
-                var resolutionContext = new ResolutionContext(
-                    DependencyBehavior.Lowest,
-                    false,
-                    true,
-                    VersionConstraints.None,
-                    new GatherCache(),
-                    sourceCacheContext);
+                var resolutionContext = GetDefaultResolutionContext(sourceCacheContext);
 
                 if (!packageIdentity.HasVersion)
                 {
-                    // Find the latest version using NuGetPackageManager
-                    var resolvePackage = await NuGetPackageManager.GetLatestVersionAsync(
-                        packageIdentity.Id,
-                        _nugetProject,
-                        resolutionContext,
-                        _primaryRepositories,
-                        Logger,
-                        CancellationToken.None);
-
-                    if (resolvePackage == null || resolvePackage.LatestVersion == null)
-                    {
-                        throw new InvalidOperationException($"Could not find package {packageIdentity.Id}");
-                    }
-
-                    packageIdentity = new PackageIdentity(packageIdentity.Id, resolvePackage.LatestVersion);
+                    packageIdentity = FindLatestPackageVersion(packageIdentity.Id, resolutionContext);
                 }
 
                 // Get a list of packages already in the folder.
@@ -171,6 +153,55 @@ namespace YAMLParser.NuGet
             }
         }
 
+        private static ResolutionContext GetDefaultResolutionContext(SourceCacheContext sourceCacheContext)
+        {
+            return new ResolutionContext(
+                DependencyBehavior.Lowest,
+                false,
+                true,
+                VersionConstraints.None,
+                new GatherCache(),
+                sourceCacheContext);
+        }
+
+        public PackageIdentity FindLatestPackageVersion(string packageId)
+        {
+            using (var sourceCacheContext = new SourceCacheContext())
+            {
+                return FindLatestPackageVersion(packageId, GetDefaultResolutionContext(sourceCacheContext));
+            }
+        }
+
+        private PackageIdentity FindLatestPackageVersion(string packageId, ResolutionContext resolutionContext)
+        {
+            if (_latestNugetVersions.ContainsKey(packageId))
+            {
+                return _latestNugetVersions[packageId];
+            }
+            
+            // Find the latest version using NuGetPackageManager
+            var resolvePackageTask = NuGetPackageManager.GetLatestVersionAsync(
+                packageId,
+                _nugetProject,
+                resolutionContext,
+                _primaryRepositories,
+                Logger,
+                CancellationToken.None);
+
+            resolvePackageTask.Wait();
+            var resolvePackage = resolvePackageTask.Result;
+
+            if (resolvePackage == null || resolvePackage.LatestVersion == null)
+            {
+                throw new InvalidOperationException($"Could not find package {packageId}");
+            }
+
+           var packageIdentity = new PackageIdentity(packageId, resolvePackage.LatestVersion);
+
+           _latestNugetVersions[packageId] = packageIdentity;
+           return packageIdentity;
+        }
+
         private IReadOnlyCollection<PackageSource> GetPackageSources(ISettings settings)
         {
             var packageSources = new List<PackageSource>();
@@ -218,7 +249,8 @@ namespace YAMLParser.NuGet
         public string GetInstalledPath(PackageIdentity nugetPackage)
         {
             if (nugetPackage == null) throw new ArgumentNullException(nameof(nugetPackage));
-
+            if (!nugetPackage.HasVersion) throw new InvalidOperationException("No package version set");
+            
             return _nugetProject.GetInstalledPath(nugetPackage);
         }
     }
