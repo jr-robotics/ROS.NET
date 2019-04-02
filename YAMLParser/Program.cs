@@ -37,12 +37,12 @@ namespace YAMLParser
             CommandOption projectName = app.Option("-n|--name", "Name of the generated project file. (required)", CommandOptionType.SingleValue);
             CommandOption messageDirectories = app.Option("-m|--message-dirs", "Directories where ROS message definitions are located. (required)", CommandOptionType.MultipleValue);
             CommandOption assemblies = app.Option("-a|--assemblies", "Full filename of assemblies that contain additional generated RosMessages. (optional)", CommandOptionType.MultipleValue);
-            CommandOption nugetPackages =  app.Option("-p|--packages", "List of nuget packages which should be added to the generated assembly. (optional)", CommandOptionType.MultipleValue);
+            CommandOption nugetPackages =  app.Option("-p|--packages", "List of nuget packages which should be added to the generated assembly. Specify a package in the Format <PACKAGE-NAME>[/<VERSION>]. <VERSION> is optional (e.g.: ROS.Messages.common_msgs/0.0.1). (optional)", CommandOptionType.MultipleValue);
             CommandOption interactive = app.Option("-i|--interactive", "Run in interactive mode. Default: false", CommandOptionType.NoValue);
             // Change of output directory requires more work, since the reference to Uml.Robotics.Ros.MessageBase needs to be adjusted
-            CommandOption outputDirectory = app.Option("-o|--output", "Output directory for generated message. Default: ../Temp/[projectName]", CommandOptionType.SingleValue);
-            CommandOption runtime = app.Option("-c|--config", "Specify build-configuration, e.g. Debug or Release. Default: Release", CommandOptionType.SingleValue);
-            CommandOption outputVersion = app.Option("-v|--version", "Output assembly version.", CommandOptionType.SingleValue);
+            CommandOption outputDirectory = app.Option("-o|--output", "Output directory for generated message. Default: ../Temp/<ProjectName>", CommandOptionType.SingleValue);
+            CommandOption runtime = app.Option("-c|--config", "Specify the build configuration (Debug or Release). Default: Release", CommandOptionType.SingleValue);
+            CommandOption outputVersion = app.Option("-v|--version", "Output assembly version. Default: 1.0.0", CommandOptionType.SingleValue);
 
             app.HelpOption("-? | -h | --help");
 
