@@ -281,7 +281,7 @@ namespace YAMLParser
                 {
                     if (nugetPackageString == null) throw new ArgumentNullException(nameof(nugetPackageString));
 
-                    var parts = nugetPackageString.Split(",");
+                    var parts = nugetPackageString.Split(new []{ ',', '/' });
 
                     if (parts.Length > 2)
                     {
