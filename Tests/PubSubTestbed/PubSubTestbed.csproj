@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Uml.Robotics.Ros.Messages\Uml.Robotics.Ros.Messages.csproj" />
+    <PackageReference Include="Uml.Robotics.Ros.Messages" Version="1.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+<!--    <ProjectReference Include="..\..\Uml.Robotics.Ros.Messages\Uml.Robotics.Ros.Messages.csproj" />-->
     <ProjectReference Include="..\..\Uml.Robotics.Ros\Uml.Robotics.Ros.csproj" />
   </ItemGroup>
 
