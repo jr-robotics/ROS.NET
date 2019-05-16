@@ -33,8 +33,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionClientTestbed", "Samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uml.Robotics.Ros.MessageBase", "Uml.Robotics.Ros.MessageBase\Uml.Robotics.Ros.MessageBase.csproj", "{61409C4D-4855-4A73-8B37-8445E2638D5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uml.Robotics.Ros.Messages", "Uml.Robotics.Ros.Messages\Uml.Robotics.Ros.Messages.csproj", "{0183095B-098C-4773-ACEA-272C45D587AA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionClientSample", "Samples\ActionClientSample\ActionClientSample.csproj", "{4F0E93D5-6CC7-4971-BB91-A5139CF4B05E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionServerSample", "Samples\ActionServerSample\ActionServerSample.csproj", "{3041CF5C-222C-412E-8EE6-289C1DE0E567}"
@@ -99,10 +97,6 @@ Global
 		{61409C4D-4855-4A73-8B37-8445E2638D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61409C4D-4855-4A73-8B37-8445E2638D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61409C4D-4855-4A73-8B37-8445E2638D5D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0183095B-098C-4773-ACEA-272C45D587AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0183095B-098C-4773-ACEA-272C45D587AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0183095B-098C-4773-ACEA-272C45D587AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0183095B-098C-4773-ACEA-272C45D587AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F0E93D5-6CC7-4971-BB91-A5139CF4B05E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F0E93D5-6CC7-4971-BB91-A5139CF4B05E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F0E93D5-6CC7-4971-BB91-A5139CF4B05E}.Release|Any CPU.ActiveCfg = Release|Any CPU
