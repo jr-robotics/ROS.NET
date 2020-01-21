@@ -9,7 +9,7 @@ namespace YAMLParser
     public static class RosMessageBasePackageExtensions
     {
         private const string MESSAGE_BASE_PACKAGE_ID = "Uml.Robotics.Ros.MessageBase";
-        private const string MESSAGE_BASE_PACKAGE_VERSION = "1.0.3";
+        private const string MESSAGE_BASE_PACKAGE_VERSION = "1.0.7";
 
         public static PackageIdentity MessageBasePackage { get; } = new PackageIdentity(MESSAGE_BASE_PACKAGE_ID, NuGetVersion.Parse(MESSAGE_BASE_PACKAGE_VERSION));
 
