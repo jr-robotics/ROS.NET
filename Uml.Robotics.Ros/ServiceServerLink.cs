@@ -271,7 +271,7 @@ namespace Uml.Robotics.Ros
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            RosMessage response = RosMessage.Generate(request.MessageType.Replace("Request", "Response"));
+            RosMessage response = RosMessage.Generate(request.MessageType.Replace("__Request", "__Response"));
             if (response == null)
                 throw new Exception("Response message generation failed.");
 

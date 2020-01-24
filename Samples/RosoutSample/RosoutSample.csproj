@@ -8,11 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Uml.Robotics.Ros\Uml.Robotics.Ros.csproj" />
-    <ProjectReference Include="..\..\Uml.Robotics.XmlRpc\Uml.Robotics.XmlRpc.csproj" />
+    <PackageReference Include="Uml.Robotics.Ros" Version="1.0.7" />
+    <PackageReference Include="Uml.Robotics.Ros.MessageBase" Version="1.0.7" />
   </ItemGroup>
 
 </Project>

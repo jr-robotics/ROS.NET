@@ -11,6 +11,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
     <Description>ROS.NET is a CLR implementation of the ROS communication infratructure (topics, services, actions) that can communicate with standard ROS 1 nodes.</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageVersion>1.0.8</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,8 +21,8 @@
     <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="Uml.Robotics.XmlRpc" Version="1.0.7" />
     <PackageReference Include="Uml.Robotics.Ros.MessageBase" Version="1.0.7" />
+    <PackageReference Include="Uml.Robotics.XmlRpc" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>
