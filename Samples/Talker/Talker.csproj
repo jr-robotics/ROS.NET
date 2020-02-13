@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <RuntimeIdentifiers>win10-x64;osx.10.11-x64;ubuntu.16.04-x64</RuntimeIdentifiers>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <ApplicationIcon />
     <OutputTypeEx>exe</OutputTypeEx>
     <StartupObject />
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -21,11 +19,11 @@
   <ItemGroup>
     <PackageReference Include="System.Diagnostics.TextWriterTraceListener" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.TraceSource " Version="4.3.0" />
-    <PackageReference Include="Uml.Robotics.Ros.MessageBase" Version="1.0.7" />
   </ItemGroup>
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Uml.Robotics.Ros.MessageBase\Uml.Robotics.Ros.MessageBase.csproj" />
     <ProjectReference Include="..\..\Uml.Robotics.Ros\Uml.Robotics.Ros.csproj" />
   </ItemGroup>
 

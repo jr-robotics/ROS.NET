@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RuntimeIdentifiers>win10-x64;osx.10.11-x64;ubuntu.16.04-x64</RuntimeIdentifiers>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
+    <PackageVersion>1.0.7</PackageVersion>
+      
     <PackageProjectUrl>https://github.com/xamla/ROS.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/LICENSE</PackageLicenseUrl>
     <Authors>ROS.net Contributors</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
     <Description>This package contains the the message base assembly which contains base clases for ROS messages, sevices and actions. Every assembly that contains ROS message types for ROS.NET must reference the MessageBase assembly.</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageVersion>1.0.7</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1'">
