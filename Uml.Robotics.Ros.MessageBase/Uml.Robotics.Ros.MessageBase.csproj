@@ -4,8 +4,11 @@
     <IncludeSymbols>true</IncludeSymbols>
     <Version>1.0.7</Version>
     <PackageVersion>1.0.7</PackageVersion>
-      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-      
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageOutputPath>../nuget/</PackageOutputPath>
+    
     <PackageProjectUrl>https://github.com/xamla/ROS.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/LICENSE</PackageLicenseUrl>
     <Authors>ROS.net Contributors</Authors>
