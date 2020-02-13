@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <Version>1.0.7</Version>
     <PackageVersion>1.0.7</PackageVersion>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       
     <PackageProjectUrl>https://github.com/xamla/ROS.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/LICENSE</PackageLicenseUrl>
