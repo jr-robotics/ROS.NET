@@ -19,6 +19,8 @@ namespace Uml.Robotics.Ros.IntegrationTests
         public RosFixture()
         {
             Console.WriteLine("Init ROS");
+            ROS.ROS_MASTER_URI = "http://localhost:11311";
+            ROS.ROS_IP = "127.0.0.1";
             ROS.Init(new string[0], "RosFixture");
         }
 

@@ -6,20 +6,6 @@ The code builds and runs on Windows and Linux with .NET Core 2.1. The code also 
 
 The main ROS client functionality (Publishers, Subscribers, Service Calls & Actions) are working and in daily use.
 
-## NuGet Packages
-
-To use ROS.NET in your projects simply add the [Uml.Robotics.Ros](https://www.nuget.org/packages/Uml.Robotics.Ros/) and [Uml.Robotics.Ros.Messages](https://www.nuget.org/packages/Uml.Robotics.Ros.Messages/) NuGet packages.
-
-Via dotnet CLI:
-
-```
-$ dotnet add package Uml.Robotics.Ros
-$ dotnet add package Uml.Robotics.Ros.Messages
-```
-
-For pre-release builds check: https://www.nuget.org/profiles/Xamla
-
-
 ## .NET Core 2.1 Build Instructions
 
 1. `cd YAMLParser`
@@ -27,6 +13,21 @@ For pre-release builds check: https://www.nuget.org/profiles/Xamla
 3. `cd ..`
 4. `dotnet build -f netcoreapp2.1 Uml.Robotics.Ros.sln`
 
+
+## Usage in your project
+
+To use ROS.NET in your projects simply add the [Uml.Robotics.Ros](https://www.nuget.org/packages/Uml.Robotics.Ros/) NuGet package.
+
+Via dotnet CLI:
+
+```
+$ dotnet add package Uml.Robotics.Ros
+```
+For pre-release builds check: https://www.nuget.org/profiles/Xamla
+
+
+Then add any required ROS.Messages NuGet Packages from NuGet. This packages have the naming convention ```ROS.Messages.<PACKAGE_NAME>```
+You can also build your own ROS Messages assembly using our [YAMLParser](/YAMLParser) project.
 
 ## Contributing
 

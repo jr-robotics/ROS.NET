@@ -1,5 +1,5 @@
-﻿using Uml.Robotics.Ros;
-using Xunit;
+﻿using Xunit;
+using Uml.Robotics.Ros;
 
 namespace Uml.Robotics.Ros.UnitTests
 {
