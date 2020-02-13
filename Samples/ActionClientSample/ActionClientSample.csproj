@@ -6,10 +6,4 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Uml.Robotics.Ros.Messages\Uml.Robotics.Ros.Messages.csproj" />
-    <ProjectReference Include="..\..\Uml.Robotics.Ros\Uml.Robotics.Ros.csproj" />
-    <ProjectReference Include="..\..\Uml.Robotics.XmlRpc\Uml.Robotics.XmlRpc.csproj" />
-  </ItemGroup>
-
 </Project>

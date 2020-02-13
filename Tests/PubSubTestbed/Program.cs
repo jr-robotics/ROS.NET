@@ -51,6 +51,7 @@ namespace Testbed
         private void StartRos(int runNumber)
         {
             Logger.LogInformation($"Start ROS #{runNumber}");
+            ROS.ROS_MASTER_URI = "http://localhost:11311";
             ROS.Init(new string[] { }, "PubSubTestbed");
             spinner = new AsyncSpinner();
             spinner.Start();
