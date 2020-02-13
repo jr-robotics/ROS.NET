@@ -7,14 +7,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1'">
-    <DefineConstants>NETCORE</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
-    <DefineConstants>NET462</DefineConstants>
-  </PropertyGroup>
-
 
   <ItemGroup>
     <PackageReference Include="System.Diagnostics.TextWriterTraceListener" Version="4.3.0" />
