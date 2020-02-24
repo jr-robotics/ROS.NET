@@ -36,31 +36,10 @@ namespace Uml.Robotics.Ros
             return result;
         }
 
+        [Obsolete("This method has differnet behavior in .Net Cora and .Net Framework. It was moved to Uml.Robotics.Ros", true)]
         public static IEnumerable<Assembly> GetCandidateAssemblies(params string[] tagAssemblies)
         {
-            if (tagAssemblies == null)
-                throw new ArgumentNullException(nameof(tagAssemblies));
-            if (tagAssemblies.Length == 0)
-                throw new ArgumentException("At least one tag assembly name must be specified.", nameof(tagAssemblies));
-
-            var referenceAssemblies = new HashSet<string>(tagAssemblies, StringComparer.OrdinalIgnoreCase);
-
-#if NETCORE
-            var context = DependencyContext.Load(Assembly.GetEntryAssembly());
-            var loadContext = AssemblyLoadContext.Default;
-
-            return context.RuntimeLibraries
-                .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
-                .SelectMany(x => x.GetDefaultAssemblyNames(context))
-                .Select(loadContext.LoadFromAssemblyName);
-#else
-            var context = DependencyContext.Load(Assembly.GetEntryAssembly());
-
-            return context.RuntimeLibraries
-                .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
-                .SelectMany(x => x.GetDefaultAssemblyNames(context))
-                .Select(Assembly.Load);
-#endif
+            throw new InvalidOperationException("This method is obsolete");
         }
     }
 }

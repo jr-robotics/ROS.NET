@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Uml.Robotics.XmlRpc;
 using std_msgs = Messages.std_msgs;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Uml.Robotics.Ros
 {
@@ -332,12 +334,20 @@ namespace Uml.Robotics.Ros
                 {
                     atExitRegistered = true;
                     
+#if NETCORE
+                    AssemblyLoadContext.Default.Unloading += (AssemblyLoadContext obj) =>
+                    {
+                        Shutdown();
+                        WaitForShutdown();
+                    };
+#else
                     Process.GetCurrentProcess().EnableRaisingEvents = true;
                     Process.GetCurrentProcess().Exited += (o, args) =>
                     {
                         Shutdown();
                         WaitForShutdown();
                     };
+#endif
 
                     Console.CancelKeyPress += (o, args) =>
                     {
@@ -366,7 +376,7 @@ namespace Uml.Robotics.Ros
                     
                     
                     // Load RosMessages from all assemblies that depend on MessageBase
-                    var candidates = MessageTypeRegistry.GetCandidateAssemblies("Uml.Robotics.Ros.MessageBase");
+                    var candidates = GetMessageCandidateAssemblies("Uml.Robotics.Ros.MessageBase");
                     foreach (var assembly in candidates)
                     {
                         logger.LogDebug($"Parse assembly: {assembly.Location}");
@@ -405,6 +415,33 @@ namespace Uml.Robotics.Ros
                     RosOutAppender.Instance.Start();
                 }
             }
+        }
+        
+        public static IEnumerable<Assembly> GetMessageCandidateAssemblies(params string[] tagAssemblies)
+        {
+            if (tagAssemblies == null)
+                throw new ArgumentNullException(nameof(tagAssemblies));
+            if (tagAssemblies.Length == 0)
+                throw new ArgumentException("At least one tag assembly name must be specified.", nameof(tagAssemblies));
+
+            var referenceAssemblies = new HashSet<string>(tagAssemblies, StringComparer.OrdinalIgnoreCase);
+
+#if NETCORE
+            var context = DependencyContext.Load(Assembly.GetEntryAssembly());
+            var loadContext = AssemblyLoadContext.Default;
+
+            return context.RuntimeLibraries
+                .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
+                .SelectMany(x => x.GetDefaultAssemblyNames(context))
+                .Select(loadContext.LoadFromAssemblyName);
+#else
+            var context = DependencyContext.Load(Assembly.GetEntryAssembly());
+
+            return context.RuntimeLibraries
+                .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
+                .SelectMany(x => x.GetDefaultAssemblyNames(context))
+                .Select(Assembly.Load);
+#endif
         }
 
         /// <summary>
