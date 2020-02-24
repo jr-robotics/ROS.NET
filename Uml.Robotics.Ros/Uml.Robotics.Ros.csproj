@@ -3,7 +3,7 @@
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
     <Version>1.0.10</Version>
-    <PackageVersion>1.0.10-rc1</PackageVersion>
+    <PackageVersion>1.0.10-rc2</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -14,9 +14,13 @@
     <Authors>ROS.net Contributors</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
     <Description>ROS.NET is a CLR implementation of the ROS communication infratructure (topics, services, actions) that can communicate with standard ROS 1 nodes.</Description>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
   </PropertyGroup>
 
+<!--  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1' or '$(TargetFramework)' == 'netcoreapp3.1'">-->
+<!--    <DefineConstants>NETCORE</DefineConstants>-->
+<!--  </ItemGroup>-->
+  
   <ItemGroup>
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
