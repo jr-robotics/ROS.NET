@@ -454,11 +454,7 @@ namespace Xamla.Robotics.Ros.Async
 
         public static bool HasCompletedSuccessfully(this Task t)
         {
-#if !NETCORE
             return t.Status == TaskStatus.RanToCompletion;
-#else
-            return t.IsCompletedSuccessfully;
-#endif
         }
     }
 }

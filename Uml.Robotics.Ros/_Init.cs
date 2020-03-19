@@ -1,18 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-
-#if NETCORE
-using System.Runtime.Loader;
-#endif
 using Microsoft.Extensions.Logging;
 
 using Uml.Robotics.XmlRpc;
 using std_msgs = Messages.std_msgs;
 using System.Threading.Tasks;
-using System.Linq;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Uml.Robotics.Ros
 {
@@ -336,6 +333,7 @@ namespace Uml.Robotics.Ros
                 if (!atExitRegistered)
                 {
                     atExitRegistered = true;
+                    
 #if NETCORE
                     AssemblyLoadContext.Default.Unloading += (AssemblyLoadContext obj) =>
                     {
@@ -375,26 +373,16 @@ namespace Uml.Robotics.Ros
 
                     // Load RosMessages from MessageBase assembly
                     msgRegistry.ParseAssemblyAndRegisterRosMessages(typeof(RosMessage).GetTypeInfo().Assembly);
-
-#if NETCORE
+                    
+                    
                     // Load RosMessages from all assemblies that depend on MessageBase
-                    var candidates = MessageTypeRegistry.GetCandidateAssemblies("Uml.Robotics.Ros.MessageBase");
+                    var candidates = GetMessageCandidateAssemblies("Uml.Robotics.Ros.MessageBase");
                     foreach (var assembly in candidates)
                     {
                         logger.LogDebug($"Parse assembly: {assembly.Location}");
                         msgRegistry.ParseAssemblyAndRegisterRosMessages(assembly);
                         srvRegistry.ParseAssemblyAndRegisterRosServices(assembly);
                     }
-#else
-                    // Load RosMessages from Messages assembly
-                    var msgAssembly = Assembly.LoadFrom("Uml.Robotics.Ros.dll");
-
-                    logger.LogDebug($"Parse assembly: {msgAssembly.Location}");
-                    msgRegistry.ParseAssemblyAndRegisterRosMessages(msgAssembly);
-                    srvRegistry.ParseAssemblyAndRegisterRosServices(msgAssembly);
-
-#endif
-
 
                     initOptions = options;
                     _ok = true;
@@ -427,6 +415,33 @@ namespace Uml.Robotics.Ros
                     RosOutAppender.Instance.Start();
                 }
             }
+        }
+        
+        public static IEnumerable<Assembly> GetMessageCandidateAssemblies(params string[] tagAssemblies)
+        {
+            if (tagAssemblies == null)
+                throw new ArgumentNullException(nameof(tagAssemblies));
+            if (tagAssemblies.Length == 0)
+                throw new ArgumentException("At least one tag assembly name must be specified.", nameof(tagAssemblies));
+
+            var referenceAssemblies = new HashSet<string>(tagAssemblies, StringComparer.OrdinalIgnoreCase);
+
+#if NETCORE
+            var context = DependencyContext.Load(Assembly.GetEntryAssembly());
+            var loadContext = AssemblyLoadContext.Default;
+
+            return context.RuntimeLibraries
+                .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
+                .SelectMany(x => x.GetDefaultAssemblyNames(context))
+                .Select(loadContext.LoadFromAssemblyName);
+#else
+            var context = DependencyContext.Load(Assembly.GetEntryAssembly());
+
+            return context.RuntimeLibraries
+                .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
+                .SelectMany(x => x.GetDefaultAssemblyNames(context))
+                .Select(Assembly.Load);
+#endif
         }
 
         /// <summary>
