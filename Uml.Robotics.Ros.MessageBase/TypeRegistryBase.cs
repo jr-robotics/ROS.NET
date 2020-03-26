@@ -36,10 +36,10 @@ namespace Uml.Robotics.Ros
             return result;
         }
 
-        [Obsolete("This method has differnet behavior in .Net Cora and .Net Framework. It was moved to Uml.Robotics.Ros", true)]
+        [Obsolete("This method has different behavior in .Net Cora and .Net Framework. It was moved to Uml.Robotics.Ros", true)]
         public static IEnumerable<Assembly> GetCandidateAssemblies(params string[] tagAssemblies)
         {
-            throw new InvalidOperationException("This method is obsolete");
+            throw new InvalidOperationException("This method is obsolete and was moved to Uml.Robotics.Ros");
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -10,6 +9,12 @@ using Uml.Robotics.XmlRpc;
 using std_msgs = Messages.std_msgs;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyModel;
+
+#if NETCOREAPP
+using System.Runtime.Loader;
+#elif NETFRAMEWORK
+using System.Diagnostics;
+#endif
 
 namespace Uml.Robotics.Ros
 {
@@ -334,19 +339,21 @@ namespace Uml.Robotics.Ros
                 {
                     atExitRegistered = true;
                     
-#if NETCORE
+#if NETCOREAPP
                     AssemblyLoadContext.Default.Unloading += (AssemblyLoadContext obj) =>
                     {
                         Shutdown();
                         WaitForShutdown();
                     };
-#else
+#elif NETFRAMEWORK
                     Process.GetCurrentProcess().EnableRaisingEvents = true;
                     Process.GetCurrentProcess().Exited += (o, args) =>
                     {
                         Shutdown();
                         WaitForShutdown();
                     };
+#else
+                    throw new PlatformNotSupportedException();
 #endif
 
                     Console.CancelKeyPress += (o, args) =>
@@ -426,7 +433,7 @@ namespace Uml.Robotics.Ros
 
             var referenceAssemblies = new HashSet<string>(tagAssemblies, StringComparer.OrdinalIgnoreCase);
 
-#if NETCORE
+#if NETCOREAPP
             var context = DependencyContext.Load(Assembly.GetEntryAssembly());
             var loadContext = AssemblyLoadContext.Default;
 
@@ -434,13 +441,15 @@ namespace Uml.Robotics.Ros
                 .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
                 .SelectMany(x => x.GetDefaultAssemblyNames(context))
                 .Select(loadContext.LoadFromAssemblyName);
-#else
+#elif NETFRAMEWORK
             var context = DependencyContext.Load(Assembly.GetEntryAssembly());
 
             return context.RuntimeLibraries
                 .Where(x => x.Dependencies.Any(d => referenceAssemblies.Contains(d.Name)))
                 .SelectMany(x => x.GetDefaultAssemblyNames(context))
                 .Select(Assembly.Load);
+#else
+            throw new PlatformNotSupportedException();
 #endif
         }
 
