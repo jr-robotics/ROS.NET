@@ -128,8 +128,17 @@ namespace Uml.Robotics.Ros.Transforms
         public double Abs =>
             Math.Sqrt(Norm);
 
-        public double Angle =>
-            Math.Acos(W / Abs) * 2.0;
+        public double Angle
+        {
+            get
+            {
+                if(W / Abs < -1)
+                    return Math.Acos(-1) * 2.0;
+                if(W / Abs > 1)
+                    return Math.Acos(1) * 2.0;
+                return Math.Acos(W / Abs) * 2.0;
+            }
+        }
 
         public override string ToString()
         {
@@ -170,6 +179,8 @@ namespace Uml.Robotics.Ros.Transforms
         public double AngleShortestPath(Quaternion q)
         {
             double s = Math.Sqrt(this.Length2 * q.Length2);
+            if (Math.Abs(Dot(q) / s) > 1)
+                return 0;
             if (Dot(q) < 0) // Take care of long angle case see http://en.wikipedia.org/wiki/Slerp
             {
                 return Math.Acos(Dot(-q) / s) * 2.0;
