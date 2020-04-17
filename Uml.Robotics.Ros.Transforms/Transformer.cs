@@ -136,7 +136,7 @@ namespace Uml.Robotics.Ros.Transforms
                 switch (retval)
                 {
                     case TfStatus.ConnectivityError:
-                        error_string = "NO CONNECTIONSZSZ: " + error_string;
+                        error_string = "NO CONNECTION: " + error_string;
                         break;
                     case TfStatus.ExtrapolationError:
                         error_string = "EXTRAPOLATION: " + error_string;
