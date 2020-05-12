@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>1.0.8</Version>
-    <PackageVersion>1.0.8-rc1</PackageVersion>
+    <PackageVersion>1.0.8-rc3</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -13,7 +13,7 @@
     <Authors>ROS.net Contributors</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
     <Description>Basic ROS TF implemenation for ROS.NET</Description>
-    <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
