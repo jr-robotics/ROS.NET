@@ -18,7 +18,11 @@ namespace Uml.Robotics.Ros
         {
             get
             {
-                var typeName = typeof(TFeedback).ToString().Replace("Messages.", "").Replace(".", "/");
+                // Create dummy instance and get message type.
+                var dummyInstance = new TFeedback();
+                var typeName = dummyInstance.MessageType;
+
+                // Replace Feedback$ with ActionFeedback
                 var front = typeName.Substring(0, typeName.Length - 8);
                 var back = typeName.Substring(typeName.Length - 8);
                 typeName = front + "Action" + back;
@@ -31,7 +35,7 @@ namespace Uml.Robotics.Ros
         {
         }
 
-        public FeedbackActionMessage(byte[] serializedMessage) 
+        public FeedbackActionMessage(byte[] serializedMessage)
             : base(serializedMessage)
         {
         }

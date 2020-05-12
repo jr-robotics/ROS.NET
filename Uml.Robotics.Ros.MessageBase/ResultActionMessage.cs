@@ -5,14 +5,24 @@ using System.Text;
 namespace Uml.Robotics.Ros
 {
     [IgnoreRosMessage]
-    public class ResultActionMessage<TResult> : WrappedFeedbackMessage<TResult> where TResult : InnerActionMessage, new()
+    public class ResultActionMessage<TResult> : WrappedFeedbackMessage<TResult>
+        where TResult : InnerActionMessage, new()
     {
-        public TResult Result { get { return Content; } set { Content = value; } }
+        public TResult Result
+        {
+            get { return Content; }
+            set { Content = value; }
+        }
+
         public override string MessageType
         {
             get
             {
-                var typeName = typeof(TResult).ToString().Replace("Messages.", "").Replace(".", "/");
+                // Create dummy instance and get message type.
+                var dummyInstance = new TResult();
+                var typeName = dummyInstance.MessageType;
+
+                // Replace Result$ with ActionResult
                 var front = typeName.Substring(0, typeName.Length - 6);
                 var back = typeName.Substring(typeName.Length - 6);
                 typeName = front + "Action" + back;
