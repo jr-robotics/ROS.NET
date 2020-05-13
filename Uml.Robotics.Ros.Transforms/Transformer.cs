@@ -136,7 +136,7 @@ namespace Uml.Robotics.Ros.Transforms
                 switch (retval)
                 {
                     case TfStatus.ConnectivityError:
-                        error_string = "NO CONNECTIONSZSZ: " + error_string;
+                        error_string = "NO CONNECTION: " + error_string;
                         break;
                     case TfStatus.ExtrapolationError:
                         error_string = "EXTRAPOLATION: " + error_string;
@@ -233,6 +233,9 @@ namespace Uml.Robotics.Ros.Transforms
             uint frame = source_id;
             uint top_parent = frame;
             uint depth = 0;
+
+            var extrapolationErrorMightHaveOccurred = false;
+            string extrapolationErrorString = null;
             while (frame != 0)
             {
                 if (!frames.ContainsKey(frame))
@@ -241,16 +244,18 @@ namespace Uml.Robotics.Ros.Transforms
                     break;
                 }
                 TimeCache cache = frames[frame];
-                uint parent = f.Gather(cache, time, out error_str);
+                uint parent = f.Gather(cache, time, out extrapolationErrorString);
                 if (parent == 0)
                 {
                     top_parent = frame;
+                    extrapolationErrorMightHaveOccurred = true;
                     break;
                 }
 
                 if (frame == target_id)
                 {
                     f.Finalize(WalkEnding.TargetParentOfSource, time);
+                    error_str = null;
                     return TfStatus.NoError;
                 }
 
@@ -291,6 +296,7 @@ namespace Uml.Robotics.Ros.Transforms
                 if (frame == source_id)
                 {
                     f.Finalize(WalkEnding.SourceParentOfTarget, time);
+                    error_str = null;
                     return TfStatus.NoError;
                 }
 
@@ -310,13 +316,20 @@ namespace Uml.Robotics.Ros.Transforms
 
             if (frame != top_parent)
             {
-                if (error_str != null)
-                    error_str = "" + frameids_reverse[source_id] + " DOES NOT CONNECT TO " + frameids_reverse[target_id];
+                if (extrapolationErrorMightHaveOccurred)
+                {
+                    if (extrapolationErrorString != null)
+                    {
+                        error_str = extrapolationErrorString + ", when looking up transform from frame [" + frameids_reverse[source_id] + "] to [" + frameids_reverse[target_id] + "]";
+                    }
+                }
+                
+                error_str = "" + frameids_reverse[source_id] + " DOES NOT CONNECT TO " + frameids_reverse[target_id];
                 return TfStatus.ConnectivityError;
             }
 
             f.Finalize(WalkEnding.FullPath, time);
-
+            error_str = null;
             return TfStatus.NoError;
         }
 

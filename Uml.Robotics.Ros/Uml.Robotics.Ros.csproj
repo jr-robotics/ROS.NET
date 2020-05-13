@@ -14,7 +14,7 @@
     <Authors>ROS.net Contributors</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
     <Description>ROS.NET is a CLR implementation of the ROS communication infratructure (topics, services, actions) that can communicate with standard ROS 1 nodes.</Description>
-    <TargetFrameworks>net462;netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;net462</TargetFrameworks>
   </PropertyGroup>
   
   <ItemGroup>

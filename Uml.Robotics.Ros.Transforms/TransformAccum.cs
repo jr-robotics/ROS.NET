@@ -94,7 +94,6 @@ namespace Uml.Robotics.Ros.Transforms
         public Vector3 QuatRotate(Quaternion rotation, Vector3 v)
         {
             Quaternion q = rotation * v;
-            q *= rotation.Inverse();
             return new Vector3(q.X, q.Y, q.Z);
         }
     }
