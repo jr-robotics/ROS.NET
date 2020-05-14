@@ -18,7 +18,11 @@ namespace Uml.Robotics.Ros
         {
             get
             {
-                var typeName = typeof(TGoal).ToString().Replace("Messages.", "").Replace(".", "/");
+                // Create dummy instance and get message type.
+                var dummyInstance = new TGoal();
+                var typeName = dummyInstance.MessageType;
+                
+                // Replace Goal$ with ActionGoal
                 var front = typeName.Substring(0, typeName.Length - 4);
                 var back = typeName.Substring(typeName.Length - 4);
                 typeName = front + "Action" + back;
