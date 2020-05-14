@@ -3,7 +3,7 @@
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
     <Version>1.0.10</Version>
-    <PackageVersion>1.0.10-rc3</PackageVersion>
+    <PackageVersion>1.0.10</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
