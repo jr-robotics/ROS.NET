@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Linq;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 
 namespace Uml.Robotics.XmlRpc
 {
@@ -28,10 +30,21 @@ namespace Uml.Robotics.XmlRpc
                 {
                     if (loggerFactory == null)
                     {
-                        loggerFactory = new LoggerFactory();
-                        loggerFactory.AddProvider(
-                            new ConsoleLoggerProvider((string text, LogLevel logLevel) => logLevel >= ConsoleLogLevel, true)
-                        );
+                        // Here a method had been used that was marked as obsolete in Microsoft.Extensions.Logging 2.2
+                        // and has been removed in version 3.0 -> this is the workaround for it.
+                        // Refactoring the whole thing to make use of dependencyInjection will become necessary at some
+                        // point in the future.
+                        var configureNamedOptions = new ConfigureNamedOptions<ConsoleLoggerOptions>("", null);
+                        var postConfigureOptions = Enumerable.Empty<IPostConfigureOptions<ConsoleLoggerOptions>>();
+                        var setups = new []{ configureNamedOptions };
+                        var optionsFactory = new OptionsFactory<ConsoleLoggerOptions>(setups, postConfigureOptions);
+                        var optionsChangeTokenSources = Enumerable.Empty<IOptionsChangeTokenSource<ConsoleLoggerOptions>>();
+                        var optionsMonitorCache = new OptionsCache<ConsoleLoggerOptions>();
+                        var optionsMonitor = new OptionsMonitor<ConsoleLoggerOptions>(optionsFactory, optionsChangeTokenSources, optionsMonitorCache);
+                        var loggerFilterOptions = new LoggerFilterOptions { MinLevel = ConsoleLogLevel };
+                        var consoleLoggerProvider = new ConsoleLoggerProvider(optionsMonitor);
+                        
+                        loggerFactory = new LoggerFactory(new[] { consoleLoggerProvider }, loggerFilterOptions);
                     }
                     return loggerFactory;
                 }
