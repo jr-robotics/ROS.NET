@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using Microsoft.Extensions.Options;
 using NuGet.Common;
 using NuGet.Packaging.Core;
 using NuGet.Versioning;
@@ -320,11 +321,21 @@ namespace YAMLParser
 
         private static void InitializeLogger()
         {
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddProvider(
-                new ConsoleLoggerProvider(
-                    (string text, LogLevel logLevel) => { return logLevel >= LogLevel.Debug; }, true)
-            );
+            // Here a method had been used that was marked as obsolete in Microsoft.Extensions.Logging 2.2
+            // and has been removed in version 3.0 -> this is the workaround for it.
+            // Refactoring the whole thing to make use of dependencyInjection will become necessary at some
+            // point in the future.
+            var configureNamedOptions = new ConfigureNamedOptions<ConsoleLoggerOptions>("", null);
+            var postConfigureOptions = Enumerable.Empty<IPostConfigureOptions<ConsoleLoggerOptions>>();
+            var setups = new []{ configureNamedOptions };
+            var optionsFactory = new OptionsFactory<ConsoleLoggerOptions>(setups, postConfigureOptions);
+            var optionsChangeTokenSources = Enumerable.Empty<IOptionsChangeTokenSource<ConsoleLoggerOptions>>();
+            var optionsMonitorCache = new OptionsCache<ConsoleLoggerOptions>();
+            var optionsMonitor = new OptionsMonitor<ConsoleLoggerOptions>(optionsFactory, optionsChangeTokenSources, optionsMonitorCache);
+            var loggerFilterOptions = new LoggerFilterOptions { MinLevel = LogLevel.Debug };
+            var consoleLoggerProvider = new ConsoleLoggerProvider(optionsMonitor);
+                        
+            var loggerFactory = new LoggerFactory(new[] { consoleLoggerProvider }, loggerFilterOptions);
             ApplicationLogging.LoggerFactory = loggerFactory;
             Logger = ApplicationLogging.CreateLogger("Program");
         }
