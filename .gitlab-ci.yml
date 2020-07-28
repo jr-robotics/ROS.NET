@@ -35,7 +35,7 @@ nuget-pack:
     paths:
       - 'nuget'
       - 'Uml.Robotics.Ros/bin/Release/'
-      - 'Uml.Robotics.Ros.MessageBase/bin/Release/'/bin/Release/'
+      - 'Uml.Robotics.Ros.MessageBase/bin/Release/'
       - 'Uml.Robotics.Ros.Transforms/bin/Release/'
   tags:
     - docker-executor
