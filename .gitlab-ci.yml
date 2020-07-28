@@ -8,13 +8,13 @@ build:
   image: mcr.microsoft.com/dotnet/core/sdk:2.1
   stage: build
   script:
-    - dotnet build -c Release -o output/
+    - dotnet build -c Release
   artifacts:
     paths:
-      - 'Uml.Robotics.Ros/output'
-      - 'Uml.Robotics.Ros.MessageBase/output'
-      - 'Uml.Robotics.Ros.Transforms/output'
-      - 'YAMLParser/output'
+      - 'Uml.Robotics.Ros/bin/Release'
+      - 'Uml.Robotics.Ros.MessageBase/bin/Release'
+      - 'Uml.Robotics.Ros.Transforms/bin/Release'
+      - 'YAMLParser/bin/Release'
   tags:
     - docker-executor
 
