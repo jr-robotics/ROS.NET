@@ -30,14 +30,16 @@ nuget-pack:
     - bugfix/logging
   script:
     - 'dotnet pack Uml.Robotics.Ros -c Release -o ../nuget/'
-    - 'dotnet pack Uml.Robotics.Ros.MessageBase -c Release -o ../nuget/ /p:Version=$X_CI_VERSION'
-    - 'dotnet pack Uml.Robotics.Ros.Transforms -c Release -o ../nuget/ /p:Version=$X_CI_VERSION'
+    - 'dotnet pack Uml.Robotics.Ros.MessageBase -c Release -o ../nuget/'
+    - 'dotnet pack Uml.Robotics.Ros.Transforms -c Release -o ../nuget/'
+    - 'dotnet pack YAMLParser -c Release -o ../nuget/'
   artifacts:
     paths:
       - 'nuget'
       - 'Uml.Robotics.Ros/bin/Release/'
       - 'Uml.Robotics.Ros.MessageBase/bin/Release/'
       - 'Uml.Robotics.Ros.Transforms/bin/Release/'
+      - 'YAMLParser/bin/Release/'
   tags:
     - docker-executor
 
@@ -57,9 +59,12 @@ nuget-pack:
     url: https://robotics-baget.joanneum.at/
   script:
     - 'cd nuget'
+    # MESSAGE PACKAGE COMMENTED OUT SINCE I DO NOT KNOW IF THIS VERSION IS THE LATEST.
+    # - 'dotnet nuget push Uml.Robotics.Ros.Messages*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
     - 'dotnet nuget push Uml.Robotics.Ros.MessageBase*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
     - 'dotnet nuget push Uml.Robotics.Ros.Transforms*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
     - 'dotnet nuget push Uml.Robotics.Ros*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
+    
   tags:
     - docker-executor
 
