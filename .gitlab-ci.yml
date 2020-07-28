@@ -14,6 +14,7 @@ build:
       - 'Uml.Robotics.Ros/output'
       - 'Uml.Robotics.Ros.MessageBase/output'
       - 'Uml.Robotics.Ros.Transforms/output'
+      - 'YAMLParser/output'
   tags:
     - docker-executor
 
