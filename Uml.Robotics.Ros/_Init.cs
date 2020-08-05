@@ -155,8 +155,21 @@ namespace Uml.Robotics.Ros
         /// Gets the current time as std_msgs/Time
         /// </summary>
         /// <returns> </returns>
+        [Obsolete("Does not take into account sim time, use ROS.Now() instead.")]
         public static std_msgs.Time GetTime()
         {
+            return ToTimeMessage(DateTime.UtcNow);
+        }
+        
+        /// <summary>
+        /// Gets the current time or the last received sim time as std_msgs/Time
+        /// </summary>
+        /// <returns>Current time or the last received sim time as std_msgs/Time</returns>
+        public static std_msgs.Time Now()
+        {
+            if (SimTime.Instance.IsTimeSimulated && lastSimTime != default)
+                return new std_msgs.Time(TimeData.FromTicks(lastSimTime.Ticks));
+
             return ToTimeMessage(DateTime.UtcNow);
         }
 
