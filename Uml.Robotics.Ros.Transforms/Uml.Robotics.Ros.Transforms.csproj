@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.0.9</Version>
-    <PackageVersion>1.0.9</PackageVersion>
+    <Version>1.0.10-rc1</Version>
+    <PackageVersion>1.0.10-rc1</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
