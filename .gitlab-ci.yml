@@ -75,8 +75,4 @@ nuget-pack:
 
 baget:man:
   <<: *baget_base
-  only:
-    - develop
-    - master
-    - bugfix/logging
   when: manual
