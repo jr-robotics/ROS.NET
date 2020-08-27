@@ -100,6 +100,7 @@ namespace Uml.Robotics.Ros
             catch (Exception e)
             {
                 ROS.Error()(e.ToString());
+                return false;
             }
             finally
             {
