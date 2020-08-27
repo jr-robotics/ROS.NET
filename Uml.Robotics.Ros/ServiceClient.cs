@@ -97,6 +97,10 @@ namespace Uml.Robotics.Ros
                 bool result = await serverLink.Call(srv).ConfigureAwait(false);
                 return result;
             }
+            catch (Exception e)
+            {
+                ROS.Error()(e.ToString());
+            }
             finally
             {
                 ExitCall();
