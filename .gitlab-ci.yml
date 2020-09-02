@@ -25,10 +25,6 @@ build:
 nuget-pack:
   image: mcr.microsoft.com/dotnet/core/sdk:2.1
   stage: publish
-  only:
-    - develop
-    - master
-    - bugfix/logging
   script:
     - 'dotnet pack Uml.Robotics.Ros -c Release -o ../nuget/'
     - 'dotnet pack Uml.Robotics.Ros.MessageBase -c Release -o ../nuget/'
@@ -75,8 +71,4 @@ nuget-pack:
 
 baget:man:
   <<: *baget_base
-  only:
-    - develop
-    - master
-    - bugfix/logging
   when: manual

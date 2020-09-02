@@ -8,6 +8,9 @@ using Xamla.Robotics.Ros.Async;
 
 namespace Uml.Robotics.Ros
 {
+    /// <summary>
+    /// Connection to a Subscriber (used to publish messages to it)
+    /// </summary>
     internal class TransportSubscriberLink
         : SubscriberLink
         , IDisposable
@@ -86,6 +89,7 @@ namespace Uml.Robotics.Ros
                         logger.LogWarning(e, e.Message);
                         await connection.SendHeaderError(e.Message, cancel).ConfigureAwait(false);
                     }
+
                     connection.Close(50);
 
                     throw;
@@ -97,7 +101,16 @@ namespace Uml.Robotics.Ros
                     cancel.ThrowIfCancellationRequested();
 
                     var current = outbox.Current;
-                    await WriteMessage(current).ConfigureAwait(false);
+                    try
+                    {
+                        await WriteMessage(current).ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        // Catch exceptions and log them instead of just ignoring them...
+                        ROS.Error()($"NOT SENDING MESSAGE: Error in message serialization: {e.ToString()}");
+                        throw;
+                    }
                 }
             }
             finally
