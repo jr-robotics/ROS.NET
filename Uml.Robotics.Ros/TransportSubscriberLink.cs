@@ -86,6 +86,7 @@ namespace Uml.Robotics.Ros
                         logger.LogWarning(e, e.Message);
                         await connection.SendHeaderError(e.Message, cancel).ConfigureAwait(false);
                     }
+
                     connection.Close(50);
 
                     throw;
@@ -97,7 +98,15 @@ namespace Uml.Robotics.Ros
                     cancel.ThrowIfCancellationRequested();
 
                     var current = outbox.Current;
-                    await WriteMessage(current).ConfigureAwait(false);
+                    try
+                    {
+                        await WriteMessage(current).ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        ROS.Error()($"Error in messages serialization: {e.ToString()}");
+                        throw;
+                    }
                 }
             }
             finally
