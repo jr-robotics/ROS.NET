@@ -8,6 +8,9 @@ using Xamla.Robotics.Ros.Async;
 
 namespace Uml.Robotics.Ros
 {
+    /// <summary>
+    /// Connection to a Subscriber (used to publish messages to it)
+    /// </summary>
     internal class TransportSubscriberLink
         : SubscriberLink
         , IDisposable
@@ -104,7 +107,8 @@ namespace Uml.Robotics.Ros
                     }
                     catch (Exception e)
                     {
-                        ROS.Error()($"Error in messages serialization: {e.ToString()}");
+                        // Catch exceptions and log them instead of just ignoring them...
+                        ROS.Error()($"NOT SENDING MESSAGE: Error in message serialization: {e.ToString()}");
                         throw;
                     }
                 }
