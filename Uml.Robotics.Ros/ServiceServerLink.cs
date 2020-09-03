@@ -232,7 +232,7 @@ namespace Uml.Robotics.Ros
             }
             finally
             {
-                logger.LogDebug($"Removing service client for [{name}] from ServiceManagare.");
+                logger.LogDebug($"Removing service client for [{name}] from ServiceManager.");
                 ServiceManager.Instance.RemoveServiceServerLinkAsync(this);
             }
         }
@@ -292,8 +292,7 @@ namespace Uml.Robotics.Ros
             }
             catch (Exception e)
             {
-                string message = $"Service call failed: service [{name}] responded with an error: {e.Message}";
-                ROS.Error()(message);
+                ROS.Error()($"Service call failed: service [{name}] responded with an error: {e}");
                 return (false, null);
             }
             finally

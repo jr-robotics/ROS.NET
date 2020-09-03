@@ -46,8 +46,13 @@ namespace Uml.Robotics.Ros
 
                 (bool result, RosMessage response) = await serverLink.Call(request).ConfigureAwait(false);
 
-                var responseMessage = (MRes)response;
+                var responseMessage = (MRes) response;
                 return (result, responseMessage);
+            }
+            catch(Exception ex)
+            {
+                ROS.Error()("Error during service call. Error: {0}, Stacktrace: {1}", ex.ToString(), ex.StackTrace);
+                return (false, new MRes());
             }
             finally
             {
@@ -99,7 +104,7 @@ namespace Uml.Robotics.Ros
             }
             catch (Exception e)
             {
-                ROS.Error()(e.ToString());
+                ROS.Error()("Error during async service call. Error: {0}, Stacktrace: {1}", e.ToString(), e.StackTrace);
                 return false;
             }
             finally

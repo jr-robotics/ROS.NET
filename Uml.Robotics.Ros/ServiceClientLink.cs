@@ -64,6 +64,7 @@ namespace Uml.Robotics.Ros
                         ROS.Error()(e.Message);
                         await connection.SendHeaderError(e.Message, cancel).ConfigureAwait(false);
                     }
+
                     connection.Close(50);
 
                     throw;
@@ -77,7 +78,8 @@ namespace Uml.Robotics.Ros
                     int requestLength = await connection.ReadInt32(cancel).ConfigureAwait(false);
                     if (requestLength < 0 || requestLength > Connection.MESSAGE_SIZE_LIMIT)
                     {
-                        var errorMessage = $"Message length exceeds limit of {Connection.MESSAGE_SIZE_LIMIT}. Dropping connection.";
+                        var errorMessage =
+                            $"Message length exceeds limit of {Connection.MESSAGE_SIZE_LIMIT}. Dropping connection.";
                         ROS.Error()(errorMessage);
                         throw new ConnectionError(errorMessage);
                     }
@@ -100,6 +102,10 @@ namespace Uml.Robotics.Ros
                     if (!persistent)
                         break;
                 }
+            }
+            catch (Exception ex)
+            {
+                ROS.Error()("Error during service loop. Error: {0}, Stacktrace: {1}", ex.ToString(), ex.StackTrace);
             }
             finally
             {
