@@ -218,6 +218,16 @@ namespace Uml.Robotics.Ros
                 connection.Socket.Shutdown(SocketShutdown.Send);
                 connection.Close(50);
             }
+            catch (System.IO.EndOfStreamException ex)
+            {
+                ROS.Debug()("EndOfStreamException during connection handling. Message: {0}, Stacktrace : {1}",
+                    ex.ToString(), ex.StackTrace);
+            }
+            catch (System.IO.IOException ex)
+            {
+                ROS.Debug()("IOException during connection handling. Message: {0}, Stacktrace : {1}",
+                    ex.ToString(), ex.StackTrace);
+            }
             catch (Exception e)
             {
                 if (!(e is OperationCanceledException))

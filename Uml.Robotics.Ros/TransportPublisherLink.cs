@@ -115,6 +115,16 @@ namespace Uml.Robotics.Ros
 
                     client.Close();
                 }
+                catch (System.IO.EndOfStreamException ex)
+                {
+                    ROS.Debug()("EndOfStreamException during connection handling to a publisher. Message: {0}, Stacktrace : {1}",
+                        ex.ToString(), ex.StackTrace);
+                }
+                catch (System.IO.IOException ex)
+                {
+                    ROS.Debug()("IOException during connection handling to a publisher. Message: {0}, Stacktrace : {1}",
+                        ex.ToString(), ex.StackTrace);
+                }
                 catch (Exception ex)
                 {
                     ROS.Error()("Error during connection handling to a publisher. Error: {0}, Stacktrace: {1}",

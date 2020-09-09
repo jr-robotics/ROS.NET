@@ -103,6 +103,16 @@ namespace Uml.Robotics.Ros
                         break;
                 }
             }
+            catch (System.IO.EndOfStreamException ex)
+            {
+                ROS.Debug()("EndOfStreamException during connection handling. Message: {0}, Stacktrace : {1}",
+                    ex.ToString(), ex.StackTrace);
+            }
+            catch (System.IO.IOException ex)
+            {
+                ROS.Debug()("IOException during connection handling. Message: {0}, Stacktrace : {1}",
+                    ex.ToString(), ex.StackTrace);
+            }
             catch (Exception ex)
             {
                 ROS.Error()("Error during service loop. Error: {0}, Stacktrace: {1}", ex.ToString(), ex.StackTrace);
