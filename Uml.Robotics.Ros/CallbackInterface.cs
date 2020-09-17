@@ -32,7 +32,8 @@ namespace Uml.Robotics.Ros
             base.Event += f;
         }
 
-        public override void AddToCallbackQueue(ISubscriptionCallbackHelper helper, RosMessage message, bool nonconst_need_copy, ref bool was_full, TimeData receipt_time)
+        public override void AddToCallbackQueue(ISubscriptionCallbackHelper helper, RosMessage message,
+            bool nonconst_need_copy, ref bool was_full, TimeData receipt_time)
         {
             if (was_full)
                 was_full = false;
@@ -52,6 +53,7 @@ namespace Uml.Robotics.Ros
                     queue.Dequeue();
                     was_full = true;
                 }
+
                 queue.Enqueue(i);
             }
         }
@@ -115,6 +117,7 @@ namespace Uml.Robotics.Ros
                     callbackState = false;
                 }
             }
+
             return CallResult.Success;
         }
     }
@@ -123,6 +126,7 @@ namespace Uml.Robotics.Ros
     public abstract class CallbackInterface
     {
         public delegate void CallbackDelegate(RosMessage msg);
+
         public event CallbackDelegate Event;
 
         private readonly ILogger logger = ApplicationLogging.CreateLogger<CallbackInterface>();
@@ -156,7 +160,9 @@ namespace Uml.Robotics.Ros
             }
         }
 
-        public abstract void AddToCallbackQueue(ISubscriptionCallbackHelper helper, RosMessage msg, bool nonconst_need_copy, ref bool was_full, TimeData receipt_time);
+        public abstract void AddToCallbackQueue(ISubscriptionCallbackHelper helper, RosMessage msg,
+            bool nonconst_need_copy, ref bool was_full, TimeData receipt_time);
+
         public abstract void Clear();
         internal abstract CallResult Call();
     }

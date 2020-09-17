@@ -20,7 +20,7 @@ namespace Uml.Robotics.Ros
         private readonly ILogger logger = ApplicationLogging.CreateLogger<TransportPublisherLink>();
 
         Connection connection;
-        volatile bool connected;     // set to true for first time after successful header handshake
+        volatile bool connected; // set to true for first time after successful header handshake
         volatile bool dropping;
 
         string host;
@@ -48,7 +48,7 @@ namespace Uml.Robotics.Ros
             cts.Cancel();
             if (receiveLoop != null)
             {
-                receiveLoop.WhenCompleted().Wait();       // wait for publisher loop to terminate
+                receiveLoop.WhenCompleted().Wait(); // wait for publisher loop to terminate
             }
         }
 
@@ -95,7 +95,8 @@ namespace Uml.Robotics.Ros
                         int length = await connection.ReadInt32(cancel).ConfigureAwait(false);
                         if (length > Connection.MESSAGE_SIZE_LIMIT)
                         {
-                            var message = $"Message received in TransportPublisherLink exceeds length limit of {Connection.MESSAGE_SIZE_LIMIT}. Dropping connection";
+                            var message =
+                                $"Message received in TransportPublisherLink exceeds length limit of {Connection.MESSAGE_SIZE_LIMIT}. Dropping connection";
                             throw new RosException(message);
                         }
 
@@ -114,6 +115,22 @@ namespace Uml.Robotics.Ros
 
                     client.Close();
                 }
+                catch (System.IO.EndOfStreamException ex)
+                {
+                    ROS.Debug()("EndOfStreamException during connection handling to a publisher. Message: {0}, Stacktrace : {1}",
+                        ex.ToString(), ex.StackTrace);
+                }
+                catch (System.IO.IOException ex)
+                {
+                    ROS.Debug()("IOException during connection handling to a publisher. Message: {0}, Stacktrace : {1}",
+                        ex.ToString(), ex.StackTrace);
+                }
+                catch (Exception ex)
+                {
+                    ROS.Error()("Error during connection handling to a publisher. Error: {0}, Stacktrace: {1}",
+                        ex.ToString(),
+                        ex.StackTrace);
+                }
                 finally
                 {
                     this.connected = false;
@@ -124,7 +141,7 @@ namespace Uml.Robotics.Ros
 
         public async Task RunReceiveLoopAsync()
         {
-            await Task.Yield();     // do not block the thread starting the loop
+            await Task.Yield(); // do not block the thread starting the loop
 
             while (true)
             {
@@ -137,13 +154,13 @@ namespace Uml.Robotics.Ros
                 catch (HeaderErrorException e)
                 {
                     logger.LogError(e, $"Error in the Header: {Parent?.Name ?? "unknown"}");
-                    return;     // no retry in case of header error
+                    return; // no retry in case of header error
                 }
                 catch (Exception e)
                 {
                     if (dropping || cancel.IsCancellationRequested)
                     {
-                        return;     // no retry when disposing
+                        return; // no retry when disposing
                     }
 
                     logger.LogError(e, e.Message);
