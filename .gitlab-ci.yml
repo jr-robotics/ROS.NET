@@ -1,0 +1,74 @@
+stages:
+  - build
+  - generate
+  - publish
+  - deploy
+
+build:
+  image: mcr.microsoft.com/dotnet/core/sdk:2.1
+  stage: build
+  script:
+    - dotnet build -c Release
+  artifacts:
+    paths:
+      - 'Uml.Robotics.Ros/bin/Release'
+      - 'Uml.Robotics.Ros.MessageBase/bin/Release'
+      - 'Uml.Robotics.Ros.Transforms/bin/Release'
+      - 'Uml.Robotics.XmlRpc/bin/Release'
+      - 'YAMLParser/bin/Release'
+  tags:
+    - docker-executor
+
+
+# Create a versioned NuGet package
+# This task is only executed for the branches develop and master as well as version tags
+nuget-pack:
+  image: mcr.microsoft.com/dotnet/core/sdk:2.1
+  stage: publish
+  script:
+    - 'dotnet pack Uml.Robotics.Ros -c Release -o ../nuget/'
+    - 'dotnet pack Uml.Robotics.Ros.MessageBase -c Release -o ../nuget/'
+    - 'dotnet pack Uml.Robotics.Ros.Transforms -c Release -o ../nuget/'
+    - 'dotnet pack Uml.Robotics.XmlRpc -c Release -o ../nuget/'
+    - 'dotnet pack YAMLParser -c Release -o ../nuget/'
+  artifacts:
+    paths:
+      - 'nuget'
+      - 'Uml.Robotics.Ros/bin/Release/'
+      - 'Uml.Robotics.Ros.MessageBase/bin/Release/'
+      - 'Uml.Robotics.Ros.Transforms/bin/Release/'
+      - 'Uml.Robotics.XmlRpc/bin/Release/'
+      - 'YAMLParser/bin/Release/'
+  tags:
+    - docker-executor
+
+
+# Deploy to JR BaGet server
+# This is done for all pushes of version tags (v*) automatically
+# Pushes to the master branch and web pipeline triggers must be deployed manually
+.baget_base: &baget_base
+  image: mcr.microsoft.com/dotnet/core/sdk:2.1
+  stage: deploy
+  dependencies:
+    - nuget-pack
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: JR BaGet
+    url: https://robotics-baget.joanneum.at/
+  script:
+    - 'cd nuget'
+    # MESSAGE PACKAGE COMMENTED OUT SINCE I DO NOT KNOW IF THIS VERSION IS THE LATEST.
+    # - 'dotnet nuget push Uml.Robotics.Ros.Messages*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
+    - 'dotnet nuget push Uml.Robotics.Ros.MessageBase*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
+    - 'dotnet nuget push Uml.Robotics.Ros.Transforms*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
+    - 'dotnet nuget push Uml.Robotics.Ros*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
+    - 'dotnet nuget push Uml.Robotics.XmlRpc*.nupkg -s $JR_BAGET_URL -k $JR_BAGET_API_KEY'
+
+
+  tags:
+    - docker-executor
+
+baget:man:
+  <<: *baget_base
+  when: manual

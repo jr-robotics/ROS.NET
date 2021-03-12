@@ -725,7 +725,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = {0}", goalStatus.status);
                 }
             }
             else if (goalHandle.State == CommunicationState.PENDING)
@@ -774,7 +774,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = {0}", goalStatus.status);
                 }
 
             }
@@ -817,7 +817,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = {0}", goalStatus.status);
                 }
 
 
@@ -848,7 +848,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = {0}", goalStatus.status);
                 }
 
             }
@@ -890,7 +890,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown State from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown State from the ActionServer. status = {0}", goalStatus.status);
                 }
 
             }
@@ -932,7 +932,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown State from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown State from the ActionServer. status = {0}", goalStatus.status);
                 }
 
             }
@@ -973,7 +973,7 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown State from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown State from the ActionServer. status = {0}", goalStatus.status);
                 }
 
             }
@@ -1008,13 +1008,13 @@ namespace Uml.Robotics.Ros.ActionLib
                 }
                 else
                 {
-                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = %u", goalStatus.status);
+                    ROS.Error()("BUG: Got an unknown status from the ActionServer. status = {0}", goalStatus.status);
                 }
 
             }
             else
             {
-                ROS.Error()("Invalid comm State: %u", goalHandle.State);
+                ROS.Error()("Invalid comm State: {0}", goalHandle.State);
             }
 
         }

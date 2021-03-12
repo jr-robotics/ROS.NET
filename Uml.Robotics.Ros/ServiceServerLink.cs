@@ -218,6 +218,16 @@ namespace Uml.Robotics.Ros
                 connection.Socket.Shutdown(SocketShutdown.Send);
                 connection.Close(50);
             }
+            catch (System.IO.EndOfStreamException ex)
+            {
+                ROS.Debug()("EndOfStreamException during connection handling. Message: {0}, Stacktrace : {1}",
+                    ex.ToString(), ex.StackTrace);
+            }
+            catch (System.IO.IOException ex)
+            {
+                ROS.Debug()("IOException during connection handling. Message: {0}, Stacktrace : {1}",
+                    ex.ToString(), ex.StackTrace);
+            }
             catch (Exception e)
             {
                 if (!(e is OperationCanceledException))
@@ -232,7 +242,7 @@ namespace Uml.Robotics.Ros
             }
             finally
             {
-                logger.LogDebug($"Removing service client for [{name}] from ServiceManagare.");
+                logger.LogDebug($"Removing service client for [{name}] from ServiceManager.");
                 ServiceManager.Instance.RemoveServiceServerLinkAsync(this);
             }
         }
@@ -293,8 +303,7 @@ namespace Uml.Robotics.Ros
             }
             catch (Exception e)
             {
-                string message = $"Service call failed: service [{name}] responded with an error: {e.Message}";
-                ROS.Error()(message);
+                ROS.Error()($"Service call failed: service [{name}] responded with an error: {e}");
                 return (false, null);
             }
             finally

@@ -8,9 +8,12 @@ using Xamla.Robotics.Ros.Async;
 
 namespace Uml.Robotics.Ros
 {
+    /// <summary>
+    /// Connection to a Subscriber (used to publish messages to it)
+    /// </summary>
     internal class TransportSubscriberLink
         : SubscriberLink
-        , IDisposable
+            , IDisposable
     {
         private readonly ILogger logger = ApplicationLogging.CreateLogger<TransportSubscriberLink>();
         private readonly object gate = new object();
@@ -86,6 +89,7 @@ namespace Uml.Robotics.Ros
                         logger.LogWarning(e, e.Message);
                         await connection.SendHeaderError(e.Message, cancel).ConfigureAwait(false);
                     }
+
                     connection.Close(50);
 
                     throw;
@@ -97,7 +101,18 @@ namespace Uml.Robotics.Ros
                     cancel.ThrowIfCancellationRequested();
 
                     var current = outbox.Current;
-                    await WriteMessage(current).ConfigureAwait(false);
+                    try
+                    {
+                        await WriteMessage(current).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Catch exceptions and log them instead of just ignoring them...
+                        ROS.Error()("Error while writing message, not sending. Error: {0}, Stacktrace: {1}",
+                            ex.ToString(),
+                            ex.StackTrace);
+                        throw;
+                    }
                 }
             }
             finally
@@ -133,7 +148,8 @@ namespace Uml.Robotics.Ros
             Publication pt = TopicManager.Instance.LookupPublication(name);
             if (pt == null)
             {
-                throw new RosException($"Received a connection for a nonexistent topic [{name}] from [{connection.Socket.RemoteEndPoint}] [{clientCallerId}]");
+                throw new RosException(
+                    $"Received a connection for a nonexistent topic [{name}] from [{connection.Socket.RemoteEndPoint}] [{clientCallerId}]");
             }
 
             if (!pt.ValidateHeader(header, out string errorMessage))
@@ -164,7 +180,7 @@ namespace Uml.Robotics.Ros
 
         public override void EnqueueMessage(MessageAndSerializerFunc holder)
         {
-            outbox.TryOnNext(holder);       // queue will drop oldest messages when full
+            outbox.TryOnNext(holder); // queue will drop oldest messages when full
         }
 
         public override void GetPublishTypes(ref bool ser, ref bool nocopy, string type_info)

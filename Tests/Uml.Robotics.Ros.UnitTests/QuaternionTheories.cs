@@ -44,6 +44,13 @@ namespace Uml.Robotics.Ros.UnitTests
             }
         }
 
+        [Theory, MemberData(nameof(AngleShortestPathTestData))]
+        public void TestAngleShortestPath(tf.Quaternion quaternion1, tf.Quaternion quaternion2, double expectedAngleShortestPath)
+        {
+            var angleShortestPath = quaternion1.AngleShortestPath(quaternion2);
+            var tolerance = 0.00001;
+            Assert.InRange(Math.Abs(angleShortestPath-expectedAngleShortestPath), 0, tolerance);
+        }
         public static IEnumerable<object[]> QuaternionData
         {
             get
@@ -64,6 +71,23 @@ namespace Uml.Robotics.Ros.UnitTests
                     new object[] {new tf.Quaternion(0, -Math.Sqrt(2.0)/2.0, 0, Math.Sqrt(2.0)/2.0), new tf.Vector3(0, -Math.PI/2.0, 0)},
                     new object[] {new tf.Quaternion(-Math.Sqrt(2.0)/2.0, 0, 0, Math.Sqrt(2.0)/2.0), new tf.Vector3(-Math.PI/2.0, 0, 0)},
                     new object[] {new tf.Quaternion(0, 0, -Math.Sqrt(2.0)/2.0, Math.Sqrt(2.0)/2.0), new tf.Vector3(0, 0, -Math.PI/2.0)}
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> AngleShortestPathTestData
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] {new tf.Quaternion(1,0,0, 0), new tf.Quaternion(Math.Sqrt(2), 0, 0, Math.Sqrt(2)), Math.PI / 2},
+                    new object[] {new tf.Quaternion(1,0,0, 0), new tf.Quaternion(-Math.Sqrt(2), 0, 0, Math.Sqrt(2)), Math.PI / 2},
+                    new object[] {new tf.Quaternion(1,0,0, 0), new tf.Quaternion(0, 0, 0, 1), Math.PI},
+                    new object[] {new tf.Quaternion(1,0,0, 0), new tf.Quaternion(1, 0, 0, 0), 0},
+                    new object[] {new tf.Quaternion(1,0,0, 0), new tf.Quaternion(-1, 0, 0, 0), 0},
+                    new object[] {new tf.Quaternion(Math.Sqrt(2), 0, 0, Math.Sqrt(2)), new tf.Quaternion(Math.Sqrt(2), 0, 0, Math.Sqrt(2)), 0},
+                    new object[] {new tf.Quaternion(Math.Sqrt(2), 0, 0, Math.Sqrt(2)), new tf.Quaternion(-Math.Sqrt(2), 0, 0, -Math.Sqrt(2)), 0}
                 };
             }
         }

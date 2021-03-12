@@ -165,7 +165,7 @@ namespace Uml.Robotics.Ros
                 }
                 catch (Exception ex)
                 {
-                    ROS.Error()("Error during callback. Error: %s, Stacktrace: %s", ex.ToString(), ex.StackTrace);
+                    ROS.Error()("Error during callback. Error: {0}, Stacktrace: {1}", ex.ToString(), ex.StackTrace);
                 }
 
                 if (result == CallbackInterface.CallResult.TryAgain)
@@ -174,10 +174,16 @@ namespace Uml.Robotics.Ros
                     {
                         callbacks.PushBack(call);
                     }
+
                     return CallOneResult.TryAgain;
                 }
 
                 return CallOneResult.Called;
+            }
+            catch (Exception ex)
+            {
+                ROS.Error()("Error during callback. Error: {0}, Stacktrace: {1}", ex.ToString(), ex.StackTrace);
+                throw;
             }
             finally
             {
