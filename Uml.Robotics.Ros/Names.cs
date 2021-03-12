@@ -24,6 +24,12 @@ namespace Uml.Robotics.Ros
         public static bool Validate(string name, out string error)
         {
             error = null;
+            if (name == null)
+            {
+                error = "Name must not be null.";
+                return false;
+            }
+
             if (name == "" || name.StartsWith("__"))
                 return true;
             if (!char.IsLetter(name[0]) && name[0] != '/' && name[0] != '~')
