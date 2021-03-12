@@ -94,7 +94,7 @@ namespace Uml.Robotics.Ros
                     }
                     catch (Exception e)
                     {
-                        string errorMessage = "Exception thrown while processing service call: " + e.Message;
+                        var errorMessage = $"Error while processing a service call: {e.Message}, Stacktrace: {e.StackTrace}";
                         ROS.Error()(errorMessage);
                         await ProcessResponse(errorMessage, false).ConfigureAwait(false);
                     }
