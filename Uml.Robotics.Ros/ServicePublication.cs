@@ -54,7 +54,7 @@ namespace Uml.Robotics.Ros
             private readonly byte[] buffer;
             private ServicePublication<MReq, MRes> isp;
             private IServiceClientLink link;
-            private TaskCompletionSource<(RosMessage, bool)> resultTask = new TaskCompletionSource<(RosMessage, bool)>();
+            private TaskCompletionSource<(RosMessage, bool)> resultTask = new TaskCompletionSource<(RosMessage, bool)>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             public ServiceCallback(ServiceCallbackHelper<MReq, MRes> _helper, byte[] buf, IServiceClientLink link)
                 : this(null, _helper, buf, link)
