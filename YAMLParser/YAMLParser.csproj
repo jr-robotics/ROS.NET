@@ -35,11 +35,4 @@
     <ProjectReference Include="..\Uml.Robotics.Ros.MessageBase\Uml.Robotics.Ros.MessageBase.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="NuGet.config" />
-    <Content Include="NuGet.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>
