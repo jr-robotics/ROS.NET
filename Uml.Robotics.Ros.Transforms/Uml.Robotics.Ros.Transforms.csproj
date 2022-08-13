@@ -13,7 +13,7 @@
     <Authors>ROS.net Contributors</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
     <Description>Basic ROS TF implemenation for ROS.NET</Description>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

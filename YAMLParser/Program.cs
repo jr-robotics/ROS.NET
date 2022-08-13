@@ -33,7 +33,7 @@ namespace YAMLParser
 
         public static void Main(params string[] args)
         {
-            var app = new CommandLineApplication(throwOnUnexpectedArg: true);
+            var app = new CommandLineApplication();
 
             CommandOption projectName = app.Option("-n|--name", "Name of the generated project file. (required)", CommandOptionType.SingleValue);
             CommandOption messageDirectories = app.Option("-m|--message-dirs", "Directories where ROS message definitions are located. (required)", CommandOptionType.MultipleValue);
@@ -58,8 +58,8 @@ namespace YAMLParser
                 }
 
                 Program.Run(
-                    messageDirectories.HasValue() ? messageDirectories.Values : null,
-                    assemblies.HasValue() ? assemblies.Values : null,
+                    messageDirectories.HasValue() ? messageDirectories.Values.ToList() : null,
+                    assemblies.HasValue() ? assemblies.Values.ToList() : null,
                     nugetPackages.HasValue() ? nugetPackages.Values : null,
                     outputDirectory.HasValue() ? outputDirectory.Value() : null,
                     interactive.HasValue(),

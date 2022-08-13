@@ -1,41 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>
-    <Version>1.1.2</Version>
-    <PackageVersion>1.1.2</PackageVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageOutputPath>../nuget/</PackageOutputPath>
-    
-    <PackageProjectUrl>https://github.com/xamla/ROS.NET</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/LICENSE</PackageLicenseUrl>
-    <Authors>ROS.net Contributors</Authors>
-    <PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
-    <Description>ROS.NET is a CLR implementation of the ROS communication infratructure (topics, services, actions) that can communicate with standard ROS 1 nodes.</Description>
-    <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
+		<IncludeSymbols>true</IncludeSymbols>
+		<Version>1.1.2</Version>
+		<PackageVersion>1.1.2</PackageVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageOutputPath>../nuget/</PackageOutputPath>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
-    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-  </ItemGroup>
+		<PackageProjectUrl>https://github.com/xamla/ROS.NET</PackageProjectUrl>
+		<PackageLicenseUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/LICENSE</PackageLicenseUrl>
+		<Authors>ROS.net Contributors</Authors>
+		<PackageIconUrl>https://raw.githubusercontent.com/Xamla/ROS.NET/master/Icon.png</PackageIconUrl>
+		<Description>ROS.NET is a CLR implementation of the ROS communication infratructure (topics, services, actions) that can communicate with standard ROS 1 nodes.</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Uml.Robotics.Ros.MessageBase\Uml.Robotics.Ros.MessageBase.csproj" />
-    <ProjectReference Include="..\Uml.Robotics.XmlRpc\Uml.Robotics.XmlRpc.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Collections" Version="4.3.0" />
+		<PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
+		<PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
+		<PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
+		<PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Uml.Robotics.Ros.MessageBase\Uml.Robotics.Ros.MessageBase.csproj" />
+		<ProjectReference Include="..\Uml.Robotics.XmlRpc\Uml.Robotics.XmlRpc.csproj" />
+	</ItemGroup>
 
 </Project>
