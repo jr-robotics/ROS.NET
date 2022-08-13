@@ -3,7 +3,7 @@
     "Talker": {
       "commandName": "Project",
       "environmentVariables": {
-        "ROS_MASTER_URI": "http://192.168.1.115:11311"
+        "ROS_MASTER_URI": "http://localhost: 11311"
       }
     }
   }
